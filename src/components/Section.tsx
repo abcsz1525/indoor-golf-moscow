@@ -1,0 +1,56 @@
+import { motion } from 'framer-motion';
+import type { ReactNode } from 'react';
+
+interface SectionProps {
+  id?: string;
+  eyebrow?: string;
+  title?: string;
+  titleHighlight?: string;
+  children: ReactNode;
+  className?: string;
+  center?: boolean;
+}
+
+export function Section({
+  id,
+  eyebrow,
+  title,
+  titleHighlight,
+  children,
+  className = '',
+  center,
+}: SectionProps) {
+  return (
+    <section id={id} className={`relative py-24 md:py-32 ${className}`}>
+      <div className="container-x">
+        {(eyebrow || title) && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.7 }}
+            className={`mb-14 md:mb-20 ${center ? 'text-center' : ''}`}
+          >
+            {eyebrow && (
+              <div
+                className={`eyebrow mb-4 flex items-center gap-3 ${
+                  center ? 'justify-center' : ''
+                }`}
+              >
+                <span className="h-px w-8 bg-brand-orange" />
+                {eyebrow}
+              </div>
+            )}
+            {title && (
+              <h2 className="section-title text-brand-orange uppercase">
+                {title}
+                {titleHighlight && <span className="text-white">{titleHighlight}</span>}
+              </h2>
+            )}
+          </motion.div>
+        )}
+        {children}
+      </div>
+    </section>
+  );
+}

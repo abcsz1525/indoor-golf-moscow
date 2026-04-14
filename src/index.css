@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-bg-primary text-white font-sans antialiased;
+    margin: 0;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: #e8471a;
+    color: #000;
+  }
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #e8471a #0a0a0a;
+  }
+  /* Chromium */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #e8471a;
+    border-radius: 0;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-5 md:px-10;
+  }
+  .eyebrow {
+    @apply font-sans text-xs uppercase tracking-brand text-text;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif;
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 0.95;
+    letter-spacing: 0.01em;
+  }
+  .display {
+    font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-brand-orange text-black font-semibold uppercase tracking-widest px-7 py-4 transition-all duration-200 hover:bg-brand-orange-hover;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 border border-white/80 text-white uppercase tracking-widest px-7 py-4 transition-all duration-200 hover:border-brand-orange hover:text-brand-orange;
+  }
+  .hairline-top {
+    position: relative;
+  }
+  .hairline-top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 1px;
+    background: #e8471a;
+    transition: width 0.3s ease;
+  }
+  .hairline-top:hover::before {
+    width: 100%;
+  }
+}
+
+/* text-text util missing since renamed */
+.text-text {
+  color: #8a8a8a;
+}
