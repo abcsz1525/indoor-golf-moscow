@@ -30,7 +30,7 @@ export function Navbar() {
     >
       <div className="container-x flex items-center justify-between h-20">
         <a href="#top" className="flex items-center">
-          <Logo size={22} />
+          <Logo size={44} />
         </a>
 
         <nav className="hidden md:flex items-center gap-10">
