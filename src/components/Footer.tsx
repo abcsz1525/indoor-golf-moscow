@@ -49,7 +49,7 @@ export function Footer() {
             <div className="space-y-2 text-white/80 text-sm">
               <div>Москва, ул. Лужники 24, стр. 21</div>
               <div>Дворец тенниса · блок C</div>
-              <div>ПН–ПТ 9:00 – 21:00</div>
+              <div>Без выходных 7:00 – 23:00</div>
               <a href="tel:+74950000000" className="block hover:text-brand-orange">
                 +7 (495) 000-00-00
               </a>

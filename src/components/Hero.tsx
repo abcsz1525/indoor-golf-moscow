@@ -91,7 +91,7 @@ export function Hero() {
           <span className="hidden sm:inline text-brand-orange">·</span>
           <span>Лужники</span>
           <span className="hidden sm:inline text-brand-orange">·</span>
-          <span>Пн–Пт 9:00–21:00</span>
+          <span>Без выходных 7:00–23:00</span>
           <span className="hidden sm:inline text-brand-orange">·</span>
           <span>Pro Level</span>
         </div>

@@ -21,9 +21,7 @@ export function Location() {
             Дворец тенниса Лужники · блок C
           </InfoRow>
           <InfoRow icon={Clock} label="Режим работы">
-            ПН–ПТ · 9:00 – 21:00
-            <br />
-            СБ–ВС · по предварительной брони
+            Без выходных · 7:00 – 23:00
           </InfoRow>
           <InfoRow icon={Train} label="Метро">
             Спортивная · 10 минут пешком

@@ -189,7 +189,7 @@ export function BookingForm() {
             />
           </div>
           <p className="mt-8 text-sm text-white/55 leading-relaxed">
-            Мы отвечаем в течение 30 минут с 9:00 до 21:00. Бронирование
+            Мы отвечаем в течение 30 минут с 7:00 до 23:00. Бронирование
             симулятора возможно от 1 часа.
           </p>
         </motion.aside>
