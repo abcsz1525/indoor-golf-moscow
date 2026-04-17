@@ -6,27 +6,14 @@ interface LogoProps {
   className?: string;
 }
 
-export function Logo({ size = 32, withTagline = true, className = '' }: LogoProps) {
+export function Logo({ size = 32, className = '' }: LogoProps) {
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
-      <img src={logoSrc} alt="Indoor Golf Moscow" style={{ height: `${size}px`, width: `${size}px` }} className="object-contain" />
-      <div className="leading-none">
-        <div
-          className="display text-white"
-          style={{ fontSize: `${size * 0.95}px`, lineHeight: 0.9, letterSpacing: '0.02em' }}
-        >
-          <span className="text-brand-orange">Indoor</span> Golf
-        </div>
-        {withTagline && (
-          <div
-            className="font-sans uppercase text-text mt-1"
-            style={{ fontSize: `${size * 0.28}px`, letterSpacing: '0.28em' }}
-          >
-            Moscow
-          </div>
-        )}
-      </div>
-    </div>
+    <img
+      src={logoSrc}
+      alt="Indoor Golf Moscow"
+      className={`h-10 w-auto object-contain ${className}`}
+      style={{ height: `${size * 1.8}px` }}
+    />
   );
 }
 
