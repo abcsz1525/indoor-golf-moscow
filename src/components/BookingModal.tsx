@@ -1,22 +1,23 @@
-import { useState, type ChangeEvent } from 'react';
+import { useState, useRef, type KeyboardEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Check, X, Phone, MessageCircle, Send } from 'lucide-react';
 
-function formatPhone(value: string): string {
-  const digits = value.replace(/\D/g, '');
-  // Normalize: strip leading 8 or 7, always work with 10-digit core
-  let d = digits;
-  if (d.startsWith('8') && d.length > 1) d = d.slice(1);
-  else if (d.startsWith('7')) d = d.slice(1);
+function getDigits(value: string): string {
+  const all = value.replace(/\D/g, '');
+  if (all.startsWith('8') && all.length > 1) return all.slice(1);
+  if (all.startsWith('7')) return all.slice(1);
+  return all;
+}
 
-  let result = '+7';
-  if (d.length > 0) result += ' (' + d.slice(0, 3);
-  if (d.length >= 3) result += ') ';
-  if (d.length > 3) result += d.slice(3, 6);
-  if (d.length > 6) result += '-' + d.slice(6, 8);
-  if (d.length > 8) result += '-' + d.slice(8, 10);
-  return result;
+function formatFromDigits(d: string): string {
+  if (d.length === 0) return '';
+  let r = '+7 (' + d.slice(0, 3);
+  if (d.length >= 3) r += ') ';
+  if (d.length > 3) r += d.slice(3, 6);
+  if (d.length > 6) r += '-' + d.slice(6, 8);
+  if (d.length > 8) r += '-' + d.slice(8, 10);
+  return r;
 }
 
 type Channel = 'call' | 'telegram' | 'whatsapp';
@@ -179,22 +180,20 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                   </Field>
 
                   <Field label="Телефон" error={errors.phone?.message}>
+                    <PhoneInput
+                      value={watch('phone') || ''}
+                      onChange={(v) => setValue('phone', v, { shouldValidate: !!errors.phone })}
+                      error={!!errors.phone}
+                    />
                     <input
+                      type="hidden"
                       {...register('phone', {
                         required: 'Укажите контактный телефон',
                         validate: (v) => {
-                          const digits = v.replace(/\D/g, '');
-                          return digits.length === 11 || 'Введите 10 цифр номера';
-                        },
-                        onChange: (e: ChangeEvent<HTMLInputElement>) => {
-                          e.target.value = formatPhone(e.target.value);
+                          const d = getDigits(v);
+                          return d.length === 10 || 'Введите 10 цифр номера';
                         },
                       })}
-                      placeholder="+7 (___) ___-__-__"
-                      type="tel"
-                      inputMode="numeric"
-                      maxLength={18}
-                      className="modal-input"
                     />
                   </Field>
 
@@ -291,6 +290,48 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+function PhoneInput({ value, onChange }: { value: string; onChange: (v: string) => void; error?: boolean }) {
+  const ref = useRef<HTMLInputElement>(null);
+  const digitsRef = useRef(getDigits(value));
+
+  const handleInput = () => {
+    const input = ref.current;
+    if (!input) return;
+    const newDigits = getDigits(input.value).slice(0, 10);
+    digitsRef.current = newDigits;
+    const formatted = formatFromDigits(newDigits);
+    input.value = formatted;
+    onChange(formatted);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Backspace') {
+      e.preventDefault();
+      const d = digitsRef.current;
+      if (d.length > 0) {
+        const newDigits = d.slice(0, -1);
+        digitsRef.current = newDigits;
+        const formatted = formatFromDigits(newDigits);
+        if (ref.current) ref.current.value = formatted;
+        onChange(formatted);
+      }
+    }
+  };
+
+  return (
+    <input
+      ref={ref}
+      defaultValue={value}
+      onInput={handleInput}
+      onKeyDown={handleKeyDown}
+      placeholder="+7 (___) ___-__-__"
+      type="tel"
+      inputMode="numeric"
+      className="modal-input"
+    />
   );
 }
 
