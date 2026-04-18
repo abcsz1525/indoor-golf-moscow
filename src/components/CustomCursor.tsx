@@ -68,7 +68,6 @@ export function CustomCursor() {
         width: size,
         height: size,
         backgroundColor: '#E8471A',
-        mixBlendMode: 'difference',
         translateX: '-50%',
         translateY: '-50%',
         opacity: visible ? 1 : 0,
