@@ -34,7 +34,7 @@ export function CompassMark({ size = 32, color = '#E8471A' }: { size?: number; c
         d="M24 6 L26.2 21.8 L42 24 L26.2 26.2 L24 42 L21.8 26.2 L6 24 L21.8 21.8 Z"
         fill={color}
       />
-      <circle cx="24" cy="24" r="2" fill="#0A0A0A" />
+      <circle cx="24" cy="24" r="2" fill="#FAFAFA" />
     </svg>
   );
 }

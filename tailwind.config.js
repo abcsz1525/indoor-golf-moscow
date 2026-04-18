@@ -9,15 +9,15 @@ export default {
           'orange-hover': '#FF5A2C',
         },
         bg: {
-          primary: '#0A0A0A',
-          secondary: '#111111',
-          card: '#161616',
+          primary: '#FAFAFA',
+          secondary: '#F0F0F0',
+          card: '#FFFFFF',
         },
         metal: {
           silver: '#C0C0C0',
           graphite: '#4A4A4A',
         },
-        line: '#1E1E1E',
+        line: '#E0E0E0',
       },
       fontFamily: {
         display: ['"Bebas Neue"', '"Barlow Condensed"', 'sans-serif'],
@@ -31,7 +31,7 @@ export default {
         'brand-grid':
           'linear-gradient(rgba(232,71,26,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(232,71,26,0.08) 1px, transparent 1px)',
         'brand-grid-dark':
-          'linear-gradient(rgba(0,0,0,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.12) 1px, transparent 1px)',
+          'linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px)',
       },
       backgroundSize: {
         grid: '60px 60px',

@@ -49,14 +49,14 @@ export function Gallery() {
 
           <button
             onClick={prev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 h-12 w-12 flex items-center justify-center bg-black/50 border border-line hover:border-brand-orange text-white hover:text-brand-orange transition-colors"
+            className="absolute left-4 top-1/2 -translate-y-1/2 h-12 w-12 flex items-center justify-center bg-white/70 border border-line hover:border-brand-orange text-neutral-900 hover:text-brand-orange transition-colors"
             aria-label="Назад"
           >
             <ChevronLeft size={24} />
           </button>
           <button
             onClick={next}
-            className="absolute right-4 top-1/2 -translate-y-1/2 h-12 w-12 flex items-center justify-center bg-black/50 border border-line hover:border-brand-orange text-white hover:text-brand-orange transition-colors"
+            className="absolute right-4 top-1/2 -translate-y-1/2 h-12 w-12 flex items-center justify-center bg-white/70 border border-line hover:border-brand-orange text-neutral-900 hover:text-brand-orange transition-colors"
             aria-label="Вперёд"
           >
             <ChevronRight size={24} />
@@ -68,7 +68,7 @@ export function Gallery() {
                 key={i}
                 onClick={() => setCurrent(i)}
                 className={`h-1.5 transition-all duration-300 ${
-                  i === current ? 'w-8 bg-brand-orange' : 'w-4 bg-white/40 hover:bg-white/60'
+                  i === current ? 'w-8 bg-brand-orange' : 'w-4 bg-neutral-400 hover:bg-neutral-500'
                 }`}
                 aria-label={`Фото ${i + 1}`}
               />

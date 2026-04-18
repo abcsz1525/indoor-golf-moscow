@@ -14,7 +14,7 @@ export function About() {
           transition={{ duration: 0.8 }}
           className="lg:col-span-7 space-y-8"
         >
-          <p className="text-xl md:text-2xl text-white/90 leading-relaxed font-light">
+          <p className="text-xl md:text-2xl text-neutral-800 leading-relaxed font-light">
             Первое в России пространство гольфа в помещении, оснащённое передовыми
             симуляторами <span className="text-brand-orange">Trackman</span>.
             Технологии мирового уровня, профессиональное сообщество и атмосфера
@@ -25,13 +25,13 @@ export function About() {
 
           <div>
             <div className="eyebrow mb-3">Миссия</div>
-            <p className="text-lg text-white/75 leading-relaxed max-w-xl">
+            <p className="text-lg text-neutral-600 leading-relaxed max-w-xl">
               Мы делаем гольф доступным — позволяем каждому совершенствовать
               мастерство и открывать игру в любое время года.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 pt-4 text-sm text-white/70">
+          <div className="flex items-center gap-3 pt-4 text-sm text-neutral-500">
             <MapPin size={18} className="text-brand-orange" />
             <span className="uppercase tracking-widest">
               Москва, ул. Лужники 24, стр. 21
@@ -66,7 +66,7 @@ export function About() {
             <span className="absolute bottom-4 right-4 h-3 w-3 border-r border-b border-brand-orange" />
 
             <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between text-xs uppercase tracking-widest">
-              <span className="text-white/60">Est. 2025</span>
+              <span className="text-neutral-400">Est. 2025</span>
               <span className="text-brand-orange">№001 · RU</span>
             </div>
           </div>

@@ -7,18 +7,19 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-bg-primary text-white font-sans antialiased;
+    @apply bg-bg-primary font-sans antialiased;
+    color: #1A1A1A;
     margin: 0;
     overflow-x: hidden;
   }
   ::selection {
     background: #e8471a;
-    color: #000;
+    color: #fff;
   }
   /* Firefox */
   * {
     scrollbar-width: thin;
-    scrollbar-color: #e8471a #0a0a0a;
+    scrollbar-color: #e8471a #f0f0f0;
   }
   /* Chromium */
   ::-webkit-scrollbar {
@@ -26,7 +27,7 @@
     height: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: #0a0a0a;
+    background: #f0f0f0;
   }
   ::-webkit-scrollbar-thumb {
     background: #e8471a;
@@ -51,10 +52,11 @@
     font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-brand-orange text-black font-semibold uppercase tracking-widest px-7 py-4 transition-all duration-200 hover:bg-brand-orange-hover;
+    @apply inline-flex items-center justify-center gap-2 bg-brand-orange text-white font-semibold uppercase tracking-widest px-7 py-4 transition-all duration-200 hover:bg-brand-orange-hover;
   }
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 border border-white/80 text-white uppercase tracking-widest px-7 py-4 transition-all duration-200 hover:border-brand-orange hover:text-brand-orange;
+    @apply inline-flex items-center justify-center gap-2 border border-neutral-800 uppercase tracking-widest px-7 py-4 transition-all duration-200 hover:border-brand-orange hover:text-brand-orange;
+    color: #1A1A1A;
   }
   .hairline-top {
     position: relative;
@@ -74,7 +76,6 @@
   }
 }
 
-/* text-text util missing since renamed */
 .text-text {
-  color: #8a8a8a;
+  color: #6B6B6B;
 }

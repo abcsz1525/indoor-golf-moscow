@@ -80,7 +80,7 @@ function InfoRow({
       <Icon size={22} className="text-brand-orange flex-shrink-0 mt-1" strokeWidth={1.5} />
       <div>
         <div className="eyebrow mb-2">{label}</div>
-        <div className="text-white/85 leading-relaxed">{children}</div>
+        <div className="text-neutral-700 leading-relaxed">{children}</div>
       </div>
     </div>
   );

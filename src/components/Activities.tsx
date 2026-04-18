@@ -27,10 +27,10 @@ export function Activities() {
               {a.n}
             </div>
             <div className="flex-1">
-              <h3 className="text-xl md:text-2xl text-white uppercase tracking-wide font-medium mb-2 group-hover:text-brand-orange transition-colors">
+              <h3 className="text-xl md:text-2xl text-neutral-900 uppercase tracking-wide font-medium mb-2 group-hover:text-brand-orange transition-colors">
                 {a.title}
               </h3>
-              <p className="text-white/60 leading-relaxed">{a.desc}</p>
+              <p className="text-neutral-400 leading-relaxed">{a.desc}</p>
             </div>
           </motion.div>
         ))}

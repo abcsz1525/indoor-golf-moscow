@@ -32,7 +32,7 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-black/70 backdrop-blur-md border-b border-line'
+          ? 'bg-white/80 backdrop-blur-md border-b border-line'
           : 'bg-transparent'
       }`}
     >
@@ -49,7 +49,7 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
               className={`text-sm uppercase tracking-widest transition-colors ${
                 location.pathname === item.to
                   ? 'text-brand-orange'
-                  : 'text-white/80 hover:text-brand-orange'
+                  : 'text-neutral-600 hover:text-brand-orange'
               }`}
             >
               {item.label}
@@ -61,7 +61,7 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
         </nav>
 
         <button
-          className="lg:hidden text-white"
+          className="lg:hidden text-neutral-900"
           onClick={() => setOpen((v) => !v)}
           aria-label="Меню"
         >
@@ -70,7 +70,7 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
       </div>
 
       {open && (
-        <div className="lg:hidden bg-black/95 backdrop-blur-md border-t border-line">
+        <div className="lg:hidden bg-white/95 backdrop-blur-md border-t border-line">
           <nav className="container-x flex flex-col py-6 gap-5">
             {NAV_ITEMS.map((item) => (
               <Link
@@ -79,7 +79,7 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
                 className={`text-lg uppercase tracking-widest ${
                   location.pathname === item.to
                     ? 'text-brand-orange'
-                    : 'text-white/90 hover:text-brand-orange'
+                    : 'text-neutral-800 hover:text-brand-orange'
                 }`}
               >
                 {item.label}

@@ -15,7 +15,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-bg-primary text-white">
+      <div className="min-h-screen bg-bg-primary text-neutral-900">
         <Navbar onBooking={() => setBookingOpen(true)} />
         <main>
           <Routes>

@@ -22,7 +22,7 @@ export function ForWhom() {
             viewport={{ once: true, margin: '-40px' }}
             transition={{ duration: 0.5, delay: i * 0.06 }}
             whileHover={{ scale: 1.03 }}
-            className="inline-flex items-center px-6 py-4 border border-line text-white uppercase tracking-widest text-sm cursor-default transition-all duration-300 hover:border-brand-orange hover:text-brand-orange"
+            className="inline-flex items-center px-6 py-4 border border-line text-neutral-900 uppercase tracking-widest text-sm cursor-default transition-all duration-300 hover:border-brand-orange hover:text-brand-orange"
           >
             {tag}
           </motion.span>
@@ -43,7 +43,7 @@ export function ForWhom() {
             <div className="display text-6xl md:text-7xl text-brand-orange leading-none">
               {s.k}
             </div>
-            <div className="mt-3 text-xs uppercase tracking-widest text-white/60">
+            <div className="mt-3 text-xs uppercase tracking-widest text-neutral-400">
               {s.label}
             </div>
           </div>

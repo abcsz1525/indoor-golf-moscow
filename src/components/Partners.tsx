@@ -18,11 +18,11 @@ export function Partners() {
           >
             RNGC
           </div>
-          <div className="mt-3 text-sm uppercase tracking-widest text-white/60">
+          <div className="mt-3 text-sm uppercase tracking-widest text-neutral-400">
             Russian National Golf Center
           </div>
           <div className="mt-6 h-px w-16 bg-brand-orange" />
-          <p className="mt-6 text-white/55 text-sm leading-relaxed max-w-xs">
+          <p className="mt-6 text-neutral-400 text-sm leading-relaxed max-w-xs">
             Стратегический партнёр клуба. Совместные турниры, обмен опытом и развитие гольф-сообщества.
           </p>
         </motion.div>

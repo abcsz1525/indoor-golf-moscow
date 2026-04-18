@@ -65,13 +65,13 @@ export function Advantages() {
                 className="text-brand-orange mb-8"
                 strokeWidth={1.4}
               />
-              <h3 className="display text-3xl text-white uppercase mb-3 tracking-wide">
+              <h3 className="display text-3xl text-neutral-900 uppercase mb-3 tracking-wide">
                 {item.title}
               </h3>
-              <p className="text-white/65 leading-relaxed">{item.text}</p>
+              <p className="text-neutral-500 leading-relaxed">{item.text}</p>
 
               {/* index */}
-              <span className="absolute top-6 right-6 text-xs text-white/30 font-mono">
+              <span className="absolute top-6 right-6 text-xs text-neutral-300 font-mono">
                 0{i + 1}
               </span>
             </motion.div>

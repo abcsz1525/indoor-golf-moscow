@@ -56,7 +56,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
           className="fixed inset-0 z-[100] flex items-center justify-center p-4"
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={handleClose} />
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={handleClose} />
 
           {/* Modal */}
           <motion.div
@@ -68,7 +68,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
           >
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-neutral-400 hover:text-neutral-900 transition-colors"
               aria-label="Закрыть"
             >
               <X size={24} />
@@ -92,12 +92,12 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                   className="flex flex-col items-start gap-5"
                 >
                   <div className="h-14 w-14 rounded-full bg-brand-orange flex items-center justify-center">
-                    <Check size={28} className="text-black" strokeWidth={2.5} />
+                    <Check size={28} className="text-white" strokeWidth={2.5} />
                   </div>
-                  <h3 className="display text-3xl uppercase text-white">
+                  <h3 className="display text-3xl uppercase text-neutral-900">
                     Заявка отправлена
                   </h3>
-                  <p className="text-white/70">
+                  <p className="text-neutral-500">
                     Мы свяжемся с вами в течение 30 минут.
                     Спасибо, что выбрали Indoor Golf Moscow.
                   </p>
@@ -157,7 +157,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                             className={`px-5 py-3 text-sm uppercase tracking-widest border transition-all duration-200 ${
                               active
                                 ? 'border-brand-orange text-brand-orange bg-brand-orange/10'
-                                : 'border-line text-white/70 hover:border-white/60 hover:text-white'
+                                : 'border-line text-neutral-500 hover:border-neutral-400 hover:text-neutral-900'
                             }`}
                           >
                             {c.label}
@@ -188,7 +188,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                     />
                   </button>
 
-                  <p className="text-xs text-white/45">
+                  <p className="text-xs text-neutral-400">
                     Оставляя заявку, вы соглашаетесь с обработкой персональных данных.
                   </p>
                 </motion.form>
@@ -199,15 +199,15 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
             <div className="mt-8 pt-6 border-t border-line">
               <div className="eyebrow mb-3">Быстрые контакты</div>
               <div className="flex flex-wrap gap-4">
-                <a href="tel:+79260926919" className="flex items-center gap-2 text-sm text-white/70 hover:text-brand-orange transition-colors">
+                <a href="tel:+79260926919" className="flex items-center gap-2 text-sm text-neutral-500 hover:text-brand-orange transition-colors">
                   <Phone size={16} strokeWidth={1.5} className="text-brand-orange" />
                   8 (926) 092-69-19
                 </a>
-                <a href="https://t.me/indoorgolfmoscow" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-white/70 hover:text-brand-orange transition-colors">
+                <a href="https://t.me/indoorgolfmoscow" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-neutral-500 hover:text-brand-orange transition-colors">
                   <Send size={16} strokeWidth={1.5} className="text-brand-orange" />
                   Telegram
                 </a>
-                <a href="https://wa.me/79260926919" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-white/70 hover:text-brand-orange transition-colors">
+                <a href="https://wa.me/79260926919" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-neutral-500 hover:text-brand-orange transition-colors">
                   <MessageCircle size={16} strokeWidth={1.5} className="text-brand-orange" />
                   WhatsApp
                 </a>
@@ -219,15 +219,15 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                 width: 100%;
                 background: transparent;
                 border: none;
-                border-bottom: 1px solid #1E1E1E;
+                border-bottom: 1px solid #E0E0E0;
                 padding: 12px 0;
-                color: #fff;
+                color: #1a1a1a;
                 font-size: 16px;
                 outline: none;
                 transition: border-color 0.2s ease;
                 font-family: inherit;
               }
-              .modal-input::placeholder { color: rgba(255,255,255,0.35); }
+              .modal-input::placeholder { color: rgba(0,0,0,0.35); }
               .modal-input:focus { border-bottom-color: #E8471A; }
             `}</style>
           </motion.div>

@@ -44,7 +44,7 @@ export function Section({
             {title && (
               <h2 className="section-title text-brand-orange uppercase">
                 {title}
-                {titleHighlight && <span className="text-white">{titleHighlight}</span>}
+                {titleHighlight && <span className="text-neutral-900">{titleHighlight}</span>}
               </h2>
             )}
           </motion.div>
