@@ -2,7 +2,7 @@ import { Location } from '../components/Location';
 
 export function ContactsPage() {
   return (
-    <div className="pt-20">
+    <div className="page-content">
       <Location />
     </div>
   );

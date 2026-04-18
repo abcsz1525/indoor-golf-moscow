@@ -2,7 +2,7 @@ import { Formats } from '../components/Formats';
 
 export function ServicesPage() {
   return (
-    <div className="pt-20">
+    <div className="page-content">
       <Formats />
     </div>
   );

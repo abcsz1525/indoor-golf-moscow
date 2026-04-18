@@ -5,7 +5,7 @@ import { Activities } from '../components/Activities';
 
 export function AboutPage() {
   return (
-    <div className="pt-20">
+    <div className="page-content">
       <About />
       <Advantages />
       <ForWhom />

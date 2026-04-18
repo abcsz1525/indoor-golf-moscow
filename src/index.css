@@ -95,3 +95,11 @@
 .text-text {
   color: #6B6B6B;
 }
+
+/* Subpage wrapper: first section starts at same level as Hero text */
+.page-content {
+  padding-top: 5rem; /* h-20 navbar height */
+}
+.page-content > *:first-child {
+  padding-top: 0 !important;
+}

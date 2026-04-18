@@ -3,7 +3,7 @@ import { Events } from '../components/Events';
 
 export function GalleryPage() {
   return (
-    <div className="pt-20">
+    <div className="page-content">
       <Gallery />
       <Events />
     </div>

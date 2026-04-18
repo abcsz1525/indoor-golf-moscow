@@ -9,6 +9,7 @@ interface SectionProps {
   children: ReactNode;
   className?: string;
   center?: boolean;
+  first?: boolean;
 }
 
 export function Section({
@@ -19,9 +20,10 @@ export function Section({
   children,
   className = '',
   center,
+  first,
 }: SectionProps) {
   return (
-    <section id={id} className={`relative py-24 md:py-32 ${className}`}>
+    <section id={id} className={`relative ${first ? 'pt-0 pb-24 md:pb-32' : 'py-24 md:py-32'} ${className}`}>
       <div className="container-x">
         {(eyebrow || title) && (
           <motion.div

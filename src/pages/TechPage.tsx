@@ -2,7 +2,7 @@ import { TrackMan } from '../components/TrackMan';
 
 export function TechPage() {
   return (
-    <div className="pt-20">
+    <div className="page-content">
       <TrackMan />
     </div>
   );
