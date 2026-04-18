@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import CountUp from 'react-countup';
+import { AnimatedNumber } from './AnimatedNumber';
 
 const METRICS = [
   { label: 'Ball Speed', value: 285, unit: 'km/h', bar: '95%' },
@@ -72,7 +72,7 @@ export function TrackMan() {
                   <div className="text-[11px] uppercase tracking-brand">{m.label}</div>
                   <div>
                     <span className="display text-5xl md:text-6xl leading-none">
-                      <CountUp end={m.value} duration={2} enableScrollSpy scrollSpyOnce />
+                      <AnimatedNumber end={m.value} />
                     </span>
                     <span className="ml-2 text-sm font-medium uppercase">{m.unit}</span>
                   </div>

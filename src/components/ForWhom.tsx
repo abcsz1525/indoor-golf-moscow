@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import CountUp from 'react-countup';
 import { Section } from './Section';
+import { AnimatedNumber } from './AnimatedNumber';
 
 const TAGS = [
   'Начинающие',
@@ -34,7 +34,7 @@ export function ForWhom() {
         {[
           { k: 3, label: 'Симулятора' },
           { k: 365, label: 'Дней в году' },
-          { k: 16, label: 'Часов в день', suffix: '' },
+          { k: 16, label: 'Часов в день' },
           { k: 1, label: 'В России', prefix: '№' },
         ].map((s) => (
           <div
@@ -42,7 +42,7 @@ export function ForWhom() {
             className="bg-bg-primary p-8 flex flex-col items-start"
           >
             <div className="display text-6xl md:text-7xl text-brand-orange leading-none">
-              <CountUp end={s.k} duration={2} prefix={s.prefix || ''} suffix={s.suffix || ''} enableScrollSpy scrollSpyOnce />
+              <AnimatedNumber end={s.k} prefix={s.prefix || ''} />
             </div>
             <div className="mt-3 text-xs uppercase tracking-widest text-neutral-400">
               {s.label}
