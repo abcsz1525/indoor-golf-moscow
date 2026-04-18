@@ -119,7 +119,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
           >
             <button
               onClick={handleClose}
-              className="absolute top-3 right-3 text-neutral-400 hover:text-neutral-900 transition-colors"
+              className="absolute top-3 right-3 text-[var(--text-subtle)] hover:text-[var(--text-primary)] transition-colors"
               aria-label="Закрыть"
             >
               <X size={22} />
@@ -145,10 +145,10 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                   <div className="h-12 w-12 rounded-full bg-brand-orange flex items-center justify-center">
                     <Check size={24} className="text-white" strokeWidth={2.5} />
                   </div>
-                  <h3 className="display text-2xl uppercase text-neutral-900">
+                  <h3 className="display text-2xl uppercase text-[var(--text-primary)]">
                     Заявка отправлена
                   </h3>
-                  <p className="text-neutral-500 text-sm">
+                  <p className="text-[var(--text-muted)] text-sm">
                     Мы свяжемся с вами в течение 30 минут.
                   </p>
                   <button
@@ -210,7 +210,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                             className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-200 ${
                               active
                                 ? 'border-brand-orange text-brand-orange bg-brand-orange/10'
-                                : 'border-line text-neutral-500 hover:border-neutral-400 hover:text-neutral-900'
+                                : 'border-line text-[var(--text-muted)] hover:border-neutral-400 hover:text-[var(--text-primary)]'
                             }`}
                           >
                             {c.label}
@@ -245,7 +245,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                     />
                   </button>
 
-                  <p className="text-[11px] text-neutral-400">
+                  <p className="text-[11px] text-[var(--text-subtle)]">
                     Оставляя заявку, вы соглашаетесь с обработкой персональных данных.
                   </p>
                 </motion.form>
@@ -255,15 +255,15 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
             {/* Quick contacts */}
             <div className="mt-5 pt-4 border-t border-line">
               <div className="flex flex-wrap gap-4">
-                <a href="tel:+79260926919" className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-brand-orange transition-colors">
+                <a href="tel:+79260926919" className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-brand-orange transition-colors">
                   <Phone size={14} strokeWidth={1.5} className="text-brand-orange" />
                   8 (926) 092-69-19
                 </a>
-                <a href="https://t.me/+79260926919" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-brand-orange transition-colors">
+                <a href="https://t.me/+79260926919" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-brand-orange transition-colors">
                   <Send size={14} strokeWidth={1.5} className="text-brand-orange" />
                   Telegram
                 </a>
-                <a href="https://wa.me/79260926919" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-brand-orange transition-colors">
+                <a href="https://wa.me/79260926919" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-brand-orange transition-colors">
                   <MessageCircle size={14} strokeWidth={1.5} className="text-brand-orange" />
                   WhatsApp
                 </a>
@@ -275,15 +275,15 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                 width: 100%;
                 background: transparent;
                 border: none;
-                border-bottom: 1px solid #E0E0E0;
+                border-bottom: 1px solid var(--line);
                 padding: 10px 0;
-                color: #1a1a1a;
+                color: var(--text-primary);
                 font-size: 15px;
                 outline: none;
                 transition: border-color 0.2s ease;
                 font-family: inherit;
               }
-              .modal-input::placeholder { color: rgba(0,0,0,0.3); }
+              .modal-input::placeholder { color: var(--input-placeholder); }
               .modal-input:focus { border-bottom-color: #E8471A; }
             `}</style>
           </motion.div>

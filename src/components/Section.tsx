@@ -46,7 +46,7 @@ export function Section({
             {title && (
               <h2 className="section-title text-brand-orange uppercase">
                 {title}
-                {titleHighlight && <span className="text-neutral-900">{titleHighlight}</span>}
+                {titleHighlight && <span className="text-[var(--text-primary)]">{titleHighlight}</span>}
               </h2>
             )}
           </motion.div>

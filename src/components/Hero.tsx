@@ -28,7 +28,7 @@ export function Hero({ onBooking }: { onBooking: () => void }) {
       <GridOverlay variant="orange" />
 
       {/* Soft vignette */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#FAFAFA_90%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,var(--vignette-color)_90%)]" />
 
       <motion.div
         style={{ opacity: fade }}
@@ -48,7 +48,7 @@ export function Hero({ onBooking }: { onBooking: () => void }) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.05 }}
-          className="display text-neutral-900 font-normal"
+          className="display text-[var(--text-primary)] font-normal"
           style={{
             fontSize: 'clamp(56px, 10vw, 160px)',
             lineHeight: 0.9,
@@ -63,10 +63,10 @@ export function Hero({ onBooking }: { onBooking: () => void }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-8 max-w-2xl text-lg md:text-xl text-neutral-500 font-light leading-relaxed"
+          className="mt-8 max-w-2xl text-lg md:text-xl text-[var(--text-muted)] font-light leading-relaxed"
         >
           Тренируйся, играй и проводи время в комфортном пространстве в{' '}
-          <span className="text-neutral-900">Лужниках</span>
+          <span className="text-[var(--text-primary)]">Лужниках</span>
         </motion.p>
 
         <motion.div
@@ -87,7 +87,7 @@ export function Hero({ onBooking }: { onBooking: () => void }) {
 
       {/* Bottom info bar */}
       <div className="absolute bottom-0 inset-x-0 border-t border-brand-orange">
-        <div className="container-x py-5 flex flex-wrap items-center justify-between gap-x-10 gap-y-2 text-[11px] md:text-xs uppercase tracking-brand text-neutral-500">
+        <div className="container-x py-5 flex flex-wrap items-center justify-between gap-x-10 gap-y-2 text-[11px] md:text-xs uppercase tracking-brand text-[var(--text-muted)]">
           <span>Trackman</span>
           <span className="hidden sm:inline text-brand-orange">·</span>
           <span>Лужники</span>

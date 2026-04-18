@@ -30,7 +30,7 @@ export function Footer() {
             <Link to="/">
               <Logo size={66} />
             </Link>
-            <p className="mt-6 text-sm text-neutral-400 max-w-xs leading-relaxed">
+            <p className="mt-6 text-sm text-[var(--text-subtle)] max-w-xs leading-relaxed">
               Первое в России пространство гольфа в помещении. Симуляторы
               Trackman. Лужники, Москва.
             </p>
@@ -38,7 +38,7 @@ export function Footer() {
 
           <div className="md:col-span-3">
             <div className="eyebrow mb-4">Навигация</div>
-            <ul className="space-y-2 text-neutral-600">
+            <ul className="space-y-2 text-[var(--text-muted)]">
               <li><Link to="/about" className="hover:text-brand-orange">О нас</Link></li>
               <li><Link to="/tech" className="hover:text-brand-orange">Технологии</Link></li>
               <li><Link to="/gallery" className="hover:text-brand-orange">Галерея</Link></li>
@@ -49,7 +49,7 @@ export function Footer() {
 
           <div className="md:col-span-4">
             <div className="eyebrow mb-4">Контакты</div>
-            <div className="space-y-2 text-neutral-600 text-sm">
+            <div className="space-y-2 text-[var(--text-muted)] text-sm">
               <div>Москва, ул. Лужники 24, стр. 21</div>
               <div>Дворец тенниса · блок C</div>
               <div>Без выходных 7:00 – 23:00</div>
@@ -69,7 +69,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 pt-8 border-t border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs uppercase tracking-widest text-neutral-400">
+        <div className="mt-14 pt-8 border-t border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs uppercase tracking-widest text-[var(--text-subtle)]">
           <div>© 2025 Indoor Golf Moscow. Первое в России.</div>
           <div className="flex items-center gap-2">
             <span className="h-px w-8 bg-brand-orange" />
@@ -96,7 +96,7 @@ function SocialLink({
       target="_blank"
       rel="noreferrer"
       aria-label={label}
-      className="h-11 w-11 inline-flex items-center justify-center border border-line text-neutral-900 hover:border-brand-orange hover:text-brand-orange transition-colors"
+      className="h-11 w-11 inline-flex items-center justify-center border border-line text-[var(--text-primary)] hover:border-brand-orange hover:text-brand-orange transition-colors"
     >
       {children}
     </a>

@@ -37,10 +37,10 @@ export function WhyUs() {
             >
               <span className="absolute top-0 left-0 h-px w-10 bg-brand-orange transition-all duration-500 group-hover:w-full" />
               <Icon size={36} className="text-brand-orange mb-8" strokeWidth={1.4} />
-              <h3 className="display text-3xl text-neutral-900 uppercase mb-4 tracking-wide">
+              <h3 className="display text-3xl text-[var(--text-primary)] uppercase mb-4 tracking-wide">
                 {item.title}
               </h3>
-              <p className="text-neutral-500 leading-relaxed">{item.text}</p>
+              <p className="text-[var(--text-muted)] leading-relaxed">{item.text}</p>
             </motion.div>
           );
         })}
@@ -51,7 +51,7 @@ export function WhyUs() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
-        className="mt-16 text-center text-xl md:text-2xl text-neutral-500 font-light leading-relaxed max-w-3xl mx-auto"
+        className="mt-16 text-center text-xl md:text-2xl text-[var(--text-muted)] font-light leading-relaxed max-w-3xl mx-auto"
       >
         Первое в России пространство гольфа в помещении, оснащённое передовыми
         симуляторами <span className="text-brand-orange">Trackman</span>.

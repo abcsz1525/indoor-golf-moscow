@@ -41,14 +41,14 @@ export function Formats() {
           className="bg-bg-primary p-8 md:p-10 flex items-center justify-between"
         >
           <div>
-            <h3 className="display text-2xl md:text-3xl text-neutral-900 uppercase tracking-wide">
+            <h3 className="display text-2xl md:text-3xl text-[var(--text-primary)] uppercase tracking-wide">
               Аренда гольф-симулятора
             </h3>
-            <p className="text-sm text-neutral-400 mt-2">Самостоятельная игра или тренировка</p>
+            <p className="text-sm text-[var(--text-subtle)] mt-2">Самостоятельная игра или тренировка</p>
           </div>
           <div className="text-right flex-shrink-0 ml-6">
             <div className="display text-3xl md:text-4xl text-brand-orange">6 000</div>
-            <div className="text-xs uppercase tracking-widest text-neutral-400">руб./час</div>
+            <div className="text-xs uppercase tracking-widest text-[var(--text-subtle)]">руб./час</div>
           </div>
         </motion.div>
 
@@ -60,14 +60,14 @@ export function Formats() {
           className="bg-bg-primary p-8 md:p-10 flex items-center justify-between"
         >
           <div>
-            <h3 className="display text-2xl md:text-3xl text-neutral-900 uppercase tracking-wide">
+            <h3 className="display text-2xl md:text-3xl text-[var(--text-primary)] uppercase tracking-wide">
               Аренда набора клюшек
             </h3>
-            <p className="text-sm text-neutral-400 mt-2">Полный набор для комфортной игры</p>
+            <p className="text-sm text-[var(--text-subtle)] mt-2">Полный набор для комфортной игры</p>
           </div>
           <div className="text-right flex-shrink-0 ml-6">
             <div className="display text-3xl md:text-4xl text-brand-orange">3 000</div>
-            <div className="text-xs uppercase tracking-widest text-neutral-400">руб./час</div>
+            <div className="text-xs uppercase tracking-widest text-[var(--text-subtle)]">руб./час</div>
           </div>
         </motion.div>
       </div>
@@ -80,13 +80,13 @@ export function Formats() {
               <span className="h-px w-8 bg-brand-orange" />
               Абонемент
             </div>
-            <h3 className="display text-3xl md:text-4xl text-neutral-900 uppercase tracking-wide">
+            <h3 className="display text-3xl md:text-4xl text-[var(--text-primary)] uppercase tracking-wide">
               Аренда гольф-симулятора
             </h3>
           </div>
 
           {/* Table header */}
-          <div className="grid grid-cols-3 gap-px bg-line text-xs uppercase tracking-widest text-neutral-400">
+          <div className="grid grid-cols-3 gap-px bg-line text-xs uppercase tracking-widest text-[var(--text-subtle)]">
             <div className="bg-bg-primary p-4 md:p-5">Кол-во часов</div>
             <div className="bg-bg-primary p-4 md:p-5">Стоимость</div>
             <div className="bg-bg-primary p-4 md:p-5">Период</div>
@@ -106,10 +106,10 @@ export function Formats() {
                 <span className="display text-2xl md:text-3xl text-brand-orange">{plan.hours}</span>
               </div>
               <div className="bg-bg-primary p-4 md:p-5 flex items-center group-hover:bg-bg-card transition-colors">
-                <span className="text-neutral-900 text-lg md:text-xl font-light">{plan.price} <span className="text-neutral-400 text-sm">руб.</span></span>
+                <span className="text-[var(--text-primary)] text-lg md:text-xl font-light">{plan.price} <span className="text-[var(--text-subtle)] text-sm">руб.</span></span>
               </div>
               <div className="bg-bg-primary p-4 md:p-5 flex items-center group-hover:bg-bg-card transition-colors">
-                <span className="text-neutral-500">{plan.period}</span>
+                <span className="text-[var(--text-muted)]">{plan.period}</span>
               </div>
             </motion.div>
           ))}
@@ -124,13 +124,13 @@ export function Formats() {
               <span className="h-px w-8 bg-brand-orange" />
               Абонемент
             </div>
-            <h3 className="display text-3xl md:text-4xl text-neutral-900 uppercase tracking-wide">
+            <h3 className="display text-3xl md:text-4xl text-[var(--text-primary)] uppercase tracking-wide">
               Индивидуальные тренировки с ПРО
             </h3>
           </div>
 
           {/* Table header */}
-          <div className="grid grid-cols-2 gap-px bg-line text-xs uppercase tracking-widest text-neutral-400">
+          <div className="grid grid-cols-2 gap-px bg-line text-xs uppercase tracking-widest text-[var(--text-subtle)]">
             <div className="bg-bg-primary p-4 md:p-5">Кол-во часов</div>
             <div className="bg-bg-primary p-4 md:p-5">Стоимость</div>
           </div>
@@ -149,7 +149,7 @@ export function Formats() {
                 <span className="display text-2xl md:text-3xl text-brand-orange">{plan.hours}</span>
               </div>
               <div className="bg-bg-primary p-4 md:p-5 flex items-center group-hover:bg-bg-card transition-colors">
-                <span className="text-neutral-900 text-lg md:text-xl font-light">{plan.price} <span className="text-neutral-400 text-sm">руб.</span></span>
+                <span className="text-[var(--text-primary)] text-lg md:text-xl font-light">{plan.price} <span className="text-[var(--text-subtle)] text-sm">руб.</span></span>
               </div>
             </motion.div>
           ))}
@@ -160,27 +160,27 @@ export function Formats() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-line">
         <FadeIn className="bg-bg-primary p-8 md:p-10 flex items-center justify-between group hover:bg-bg-card transition-colors">
           <div>
-            <h3 className="display text-2xl md:text-3xl text-neutral-900 uppercase tracking-wide">
+            <h3 className="display text-2xl md:text-3xl text-[var(--text-primary)] uppercase tracking-wide">
               Групповое занятие
             </h3>
-            <p className="text-sm text-neutral-400 mt-2">Мини группа 2–3 человека</p>
+            <p className="text-sm text-[var(--text-subtle)] mt-2">Мини группа 2–3 человека</p>
           </div>
           <div className="text-right flex-shrink-0 ml-6">
             <div className="display text-3xl md:text-4xl text-brand-orange">15 000</div>
-            <div className="text-xs uppercase tracking-widest text-neutral-400">руб./час</div>
+            <div className="text-xs uppercase tracking-widest text-[var(--text-subtle)]">руб./час</div>
           </div>
         </FadeIn>
 
         <FadeIn delay={0.08} className="bg-bg-primary p-8 md:p-10 flex items-center justify-between group hover:bg-bg-card transition-colors">
           <div>
-            <h3 className="display text-2xl md:text-3xl text-neutral-900 uppercase tracking-wide">
+            <h3 className="display text-2xl md:text-3xl text-[var(--text-primary)] uppercase tracking-wide">
               Индивидуальное занятие
             </h3>
-            <p className="text-sm text-neutral-400 mt-2">Персональная тренировка с ПРО</p>
+            <p className="text-sm text-[var(--text-subtle)] mt-2">Персональная тренировка с ПРО</p>
           </div>
           <div className="text-right flex-shrink-0 ml-6">
             <div className="display text-3xl md:text-4xl text-brand-orange">10 000</div>
-            <div className="text-xs uppercase tracking-widest text-neutral-400">руб./час</div>
+            <div className="text-xs uppercase tracking-widest text-[var(--text-subtle)]">руб./час</div>
           </div>
         </FadeIn>
       </div>

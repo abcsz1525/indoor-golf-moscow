@@ -9,15 +9,20 @@ export default {
           'orange-hover': '#FF5A2C',
         },
         bg: {
-          primary: '#FAFAFA',
-          secondary: '#F0F0F0',
-          card: '#FFFFFF',
+          primary: 'var(--bg-primary)',
+          secondary: 'var(--bg-secondary)',
+          card: 'var(--bg-card)',
+        },
+        line: 'var(--line)',
+        surface: {
+          text: 'var(--text-primary)',
+          muted: 'var(--text-muted)',
+          subtle: 'var(--text-subtle)',
         },
         metal: {
           silver: '#C0C0C0',
           graphite: '#4A4A4A',
         },
-        line: '#E0E0E0',
       },
       fontFamily: {
         display: ['"Bebas Neue"', '"Barlow Condensed"', 'sans-serif'],

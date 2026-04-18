@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Logo } from './Logo';
+import { ThemeToggle } from './ThemeToggle';
 
 const NAV_ITEMS = [
   { to: '/about', label: 'О нас' },
@@ -32,9 +33,10 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/80 backdrop-blur-md border-b border-line'
+          ? 'backdrop-blur-md border-b border-line'
           : 'bg-transparent'
       }`}
+      style={scrolled ? { backgroundColor: 'var(--nav-bg)' } : undefined}
     >
       <div className="container-x flex items-center justify-between h-20">
         <Link to="/" className="flex items-center">
@@ -49,28 +51,36 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
               className={`text-sm uppercase tracking-widest transition-colors ${
                 location.pathname === item.to
                   ? 'text-brand-orange'
-                  : 'text-neutral-600 hover:text-brand-orange'
+                  : 'hover:text-brand-orange'
               }`}
+              style={location.pathname !== item.to ? { color: 'var(--text-muted)' } : undefined}
             >
               {item.label}
             </Link>
           ))}
+          <ThemeToggle />
           <button onClick={onBooking} data-booking-trigger className="btn-primary text-sm py-3 px-6">
             Записаться
           </button>
         </nav>
 
-        <button
-          className="lg:hidden text-neutral-900"
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Меню"
-        >
-          {open ? <X size={26} /> : <Menu size={26} />}
-        </button>
+        <div className="lg:hidden flex items-center gap-4">
+          <ThemeToggle />
+          <button
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Меню"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            {open ? <X size={26} /> : <Menu size={26} />}
+          </button>
+        </div>
       </div>
 
       {open && (
-        <div className="lg:hidden bg-white/95 backdrop-blur-md border-t border-line">
+        <div
+          className="lg:hidden backdrop-blur-md border-t border-line"
+          style={{ backgroundColor: 'var(--nav-mobile-bg)' }}
+        >
           <nav className="container-x flex flex-col py-6 gap-5">
             {NAV_ITEMS.map((item) => (
               <Link
@@ -79,8 +89,9 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
                 className={`text-lg uppercase tracking-widest ${
                   location.pathname === item.to
                     ? 'text-brand-orange'
-                    : 'text-neutral-800 hover:text-brand-orange'
+                    : 'hover:text-brand-orange'
                 }`}
+                style={location.pathname !== item.to ? { color: 'var(--text-primary)' } : undefined}
               >
                 {item.label}
               </Link>

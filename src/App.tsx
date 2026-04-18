@@ -19,7 +19,7 @@ function App() {
     <BrowserRouter>
       <Preloader />
       <CustomCursor />
-      <div className="min-h-screen bg-bg-primary text-neutral-900">
+      <div className="min-h-screen bg-bg-primary" style={{ color: 'var(--text-primary)' }}>
         <Navbar onBooking={() => setBookingOpen(true)} />
         <main>
           <Routes>

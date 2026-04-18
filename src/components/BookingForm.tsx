@@ -58,10 +58,10 @@ export function BookingForm() {
                 <div className="h-14 w-14 rounded-full bg-brand-orange flex items-center justify-center">
                   <Check size={28} className="text-white" strokeWidth={2.5} />
                 </div>
-                <h3 className="display text-4xl md:text-5xl uppercase text-neutral-900">
+                <h3 className="display text-4xl md:text-5xl uppercase text-[var(--text-primary)]">
                   Заявка отправлена
                 </h3>
-                <p className="text-neutral-500 max-w-md">
+                <p className="text-[var(--text-muted)] max-w-md">
                   Мы свяжемся с вами в течение 30 минут в рабочее время.
                   Спасибо, что выбрали Indoor Golf Moscow.
                 </p>
@@ -121,7 +121,7 @@ export function BookingForm() {
                           className={`px-5 py-3 text-sm uppercase tracking-widest border transition-all duration-200 ${
                             active
                               ? 'border-brand-orange text-brand-orange bg-brand-orange/10'
-                              : 'border-line text-neutral-500 hover:border-neutral-400 hover:text-neutral-900'
+                              : 'border-line text-[var(--text-muted)] hover:border-neutral-400 hover:text-[var(--text-primary)]'
                           }`}
                         >
                           {c.label}
@@ -152,7 +152,7 @@ export function BookingForm() {
                   />
                 </button>
 
-                <p className="text-xs text-neutral-400 max-w-md">
+                <p className="text-xs text-[var(--text-subtle)] max-w-md">
                   Оставляя заявку, вы соглашаетесь с обработкой персональных данных.
                 </p>
               </motion.form>
@@ -188,7 +188,7 @@ export function BookingForm() {
               href="https://wa.me/79260926919"
             />
           </div>
-          <p className="mt-8 text-sm text-neutral-400 leading-relaxed">
+          <p className="mt-8 text-sm text-[var(--text-subtle)] leading-relaxed">
             Мы отвечаем в течение 30 минут с 7:00 до 23:00. Бронирование
             симулятора возможно от 1 часа.
           </p>
@@ -200,15 +200,15 @@ export function BookingForm() {
           width: 100%;
           background: transparent;
           border: none;
-          border-bottom: 1px solid #E0E0E0;
+          border-bottom: 1px solid var(--line);
           padding: 14px 0;
-          color: #1a1a1a;
+          color: var(--text-primary);
           font-size: 16px;
           outline: none;
           transition: border-color 0.2s ease;
           font-family: inherit;
         }
-        .input::placeholder { color: rgba(0,0,0,0.35); }
+        .input::placeholder { color: var(--input-placeholder); }
         .input:focus { border-bottom-color: #E8471A; }
       `}</style>
     </Section>
@@ -256,13 +256,13 @@ function QuickContact({
       </span>
       <div className="flex-1">
         <div className="eyebrow mb-0.5">{label}</div>
-        <div className="text-neutral-900 group-hover:text-brand-orange transition-colors">
+        <div className="text-[var(--text-primary)] group-hover:text-brand-orange transition-colors">
           {value}
         </div>
       </div>
       <ArrowRight
         size={18}
-        className="text-neutral-300 group-hover:text-brand-orange group-hover:translate-x-1 transition-all"
+        className="text-[var(--text-subtle)] group-hover:text-brand-orange group-hover:translate-x-1 transition-all"
       />
     </a>
   );

@@ -1,15 +1,28 @@
-import logoSrc from '../assets/logo.png';
+import { useEffect, useState } from 'react';
+import logoLight from '../assets/logo.png';
+import logoDark from '../assets/logo-dark.png';
 
 interface LogoProps {
   size?: number;
-  withTagline?: boolean;
   className?: string;
 }
 
 export function Logo({ size = 32, className = '' }: LogoProps) {
+  const [dark, setDark] = useState(() =>
+    document.documentElement.getAttribute('data-theme') === 'dark'
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setDark(document.documentElement.getAttribute('data-theme') === 'dark');
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <img
-      src={logoSrc}
+      src={dark ? logoDark : logoLight}
       alt="Indoor Golf Moscow"
       className={`h-10 w-auto object-contain ${className}`}
       style={{ height: `${size * 1.8}px` }}
@@ -34,7 +47,7 @@ export function CompassMark({ size = 32, color = '#E8471A' }: { size?: number; c
         d="M24 6 L26.2 21.8 L42 24 L26.2 26.2 L24 42 L21.8 26.2 L6 24 L21.8 21.8 Z"
         fill={color}
       />
-      <circle cx="24" cy="24" r="2" fill="#FAFAFA" />
+      <circle cx="24" cy="24" r="2" fill="var(--compass-center)" />
     </svg>
   );
 }

@@ -12,10 +12,10 @@ export function ServicesCTA() {
           transition={{ duration: 0.7 }}
           className="border border-line bg-bg-card p-10 md:p-16 text-center"
         >
-          <h3 className="display text-4xl md:text-5xl text-neutral-900 uppercase mb-4">
+          <h3 className="display text-4xl md:text-5xl text-[var(--text-primary)] uppercase mb-4">
             Остались вопросы?
           </h3>
-          <p className="text-neutral-500 text-lg mb-8 max-w-md mx-auto">
+          <p className="text-[var(--text-muted)] text-lg mb-8 max-w-md mx-auto">
             Свяжитесь с нами — подберём формат под вас
           </p>
           <button
