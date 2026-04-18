@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-import logoLight from '../assets/logo.png';
-import logoDark from '../assets/logo-dark.png';
+import logoSrc from '../assets/logo.png';
 
 interface LogoProps {
   size?: number;
@@ -8,21 +6,9 @@ interface LogoProps {
 }
 
 export function Logo({ size = 32, className = '' }: LogoProps) {
-  const [dark, setDark] = useState(() =>
-    document.documentElement.getAttribute('data-theme') === 'dark'
-  );
-
-  useEffect(() => {
-    const observer = new MutationObserver(() => {
-      setDark(document.documentElement.getAttribute('data-theme') === 'dark');
-    });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <img
-      src={dark ? logoDark : logoLight}
+      src={logoSrc}
       alt="Indoor Golf Moscow"
       className={`h-10 w-auto object-contain ${className}`}
       style={{ height: `${size * 1.8}px` }}
