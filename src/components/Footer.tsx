@@ -26,7 +26,7 @@ export function Footer() {
       <div className="container-x py-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
           <div className="md:col-span-5">
-            <Logo size={22} />
+            <Logo size={66} />
             <p className="mt-6 text-sm text-white/55 max-w-xs leading-relaxed">
               Первое в России пространство гольфа в помещении. Симуляторы
               Trackman. Лужники, Москва.
