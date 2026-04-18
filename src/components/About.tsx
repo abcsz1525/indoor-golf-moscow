@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { MapPin } from 'lucide-react';
 import { Section } from './Section';
-import { CompassMark } from './Logo';
+import logoIcon from '../assets/logo-icon.png';
 
 export function About() {
   return (
@@ -57,7 +57,7 @@ export function About() {
               }}
             />
             <div className="absolute inset-0 flex items-center justify-center">
-              <CompassMark size={180} />
+              <img src={logoIcon} alt="Indoor Golf Moscow" className="w-40 h-40 object-contain" />
             </div>
             {/* corner ticks */}
             <span className="absolute top-4 left-4 h-3 w-3 border-l border-t border-brand-orange" />
