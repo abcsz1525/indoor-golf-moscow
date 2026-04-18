@@ -179,7 +179,7 @@ export function BookingForm() {
               icon={Send}
               label="Telegram"
               value="@indoorgolfmoscow"
-              href="https://t.me/indoorgolfmoscow"
+              href="https://t.me/+79260926919"
             />
             <QuickContact
               icon={MessageCircle}

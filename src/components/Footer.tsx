@@ -62,7 +62,7 @@ export function Footer() {
               <SocialLink href="https://instagram.com/" label="Instagram">
                 <InstagramIcon />
               </SocialLink>
-              <SocialLink href="https://t.me/indoorgolfmoscow" label="Telegram">
+              <SocialLink href="https://t.me/+79260926919" label="Telegram">
                 <Send size={18} strokeWidth={1.5} />
               </SocialLink>
             </div>
