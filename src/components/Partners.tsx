@@ -19,7 +19,7 @@ export function Partners() {
             RNGC
           </div>
           <div className="mt-3 text-sm uppercase tracking-widest text-white/60">
-            Royal Nicholas Golf Club
+            Russian National Golf Center
           </div>
           <div className="mt-6 h-px w-16 bg-brand-orange" />
           <p className="mt-6 text-white/55 text-sm leading-relaxed max-w-xs">
