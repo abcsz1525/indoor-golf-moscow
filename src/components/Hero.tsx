@@ -14,7 +14,7 @@ export function Hero({ onBooking }: { onBooking: () => void }) {
     <section
       id="top"
       ref={ref}
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-start md:justify-center overflow-hidden"
     >
       {/* Parallax background layers */}
       <motion.div
@@ -32,7 +32,7 @@ export function Hero({ onBooking }: { onBooking: () => void }) {
 
       <motion.div
         style={{ opacity: fade }}
-        className="container-x relative z-10 pt-32 pb-24"
+        className="container-x relative z-10 pt-24 md:pt-32 pb-24"
       >
         <motion.div
           initial={{ opacity: 0, y: 12 }}
