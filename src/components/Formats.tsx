@@ -1,60 +1,176 @@
 import { motion } from 'framer-motion';
-import {
-  User,
-  UserCheck,
-  Users,
-  Users2,
-  Briefcase,
-  GraduationCap,
-  Baby,
-  PartyPopper,
-  Trophy,
-  Target,
-  Heart,
-} from 'lucide-react';
 import { Section } from './Section';
 
-const SERVICES = [
-  { icon: User, title: 'Индивидуальная тренировка', desc: '1 человек на симуляторе — ваше поле, ваш темп.' },
-  { icon: Users, title: 'Групповая тренировка', desc: 'До 4 человек на одном симуляторе — играйте вместе.' },
-  { icon: UserCheck, title: 'Индивидуальные уроки с тренером', desc: 'Персональная работа над техникой с PRO-тренером.' },
-  { icon: Users2, title: 'Групповые уроки', desc: '2–3 человека — обучение в мини-группе.' },
-  { icon: Heart, title: 'Семейные уроки', desc: 'Гольф для всей семьи — отличный формат совместного отдыха.' },
-  { icon: Briefcase, title: 'Корпоративы и мероприятия', desc: 'Приватная аренда для команды и гостей.' },
-  { icon: PartyPopper, title: 'Дни рождения', desc: 'Уникальный праздник в атмосфере премиального клуба.' },
-  { icon: Baby, title: 'Детские праздники', desc: 'Весёлый и безопасный формат для юных гольфистов.' },
-  { icon: GraduationCap, title: 'Введение в гольф', desc: 'Для начинающих — первые шаги в мире гольфа.' },
-  { icon: Target, title: 'Тренировки для продвинутых', desc: 'Углублённая работа над техникой и стратегией.' },
-  { icon: Trophy, title: 'Турниры и челленджи', desc: 'Регулярные клубные соревнования и состязания.' },
+const SIMULATOR_PLANS = [
+  { hours: '10', price: '55 000', period: '1 месяц' },
+  { hours: '20', price: '100 000', period: '1 месяц' },
+  { hours: '40', price: '200 000', period: '3 месяца' },
+  { hours: '60', price: '270 000', period: '6 месяцев' },
 ];
+
+const PRO_PLANS = [
+  { hours: '5', price: '45 000' },
+  { hours: '10', price: '85 000' },
+  { hours: '25', price: '195 000' },
+];
+
+function FadeIn({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.6, delay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export function Formats() {
   return (
-    <Section id="formats" eyebrow="Услуги" title="Что мы предлагаем">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-line">
-        {SERVICES.map((f, i) => {
-          const Icon = f.icon;
-          return (
+    <Section id="formats" eyebrow="Стоимость" title="Услуги">
+      {/* Hourly rates */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-line mb-16">
+        <FadeIn className="bg-bg-primary p-8 md:p-10 flex items-center justify-between">
+          <div>
+            <h3 className="display text-2xl md:text-3xl text-white uppercase tracking-wide">
+              Аренда гольф-симулятора
+            </h3>
+            <p className="text-sm text-white/50 mt-2">Самостоятельная игра или тренировка</p>
+          </div>
+          <div className="text-right flex-shrink-0 ml-6">
+            <div className="display text-3xl md:text-4xl text-brand-orange">6 000</div>
+            <div className="text-xs uppercase tracking-widest text-white/50">руб./час</div>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.08} className="bg-bg-primary p-8 md:p-10 flex items-center justify-between">
+          <div>
+            <h3 className="display text-2xl md:text-3xl text-white uppercase tracking-wide">
+              Аренда набора клюшек
+            </h3>
+            <p className="text-sm text-white/50 mt-2">Полный набор для комфортной игры</p>
+          </div>
+          <div className="text-right flex-shrink-0 ml-6">
+            <div className="display text-3xl md:text-4xl text-brand-orange">3 000</div>
+            <div className="text-xs uppercase tracking-widest text-white/50">руб./час</div>
+          </div>
+        </FadeIn>
+      </div>
+
+      {/* Simulator subscription */}
+      <FadeIn className="mb-16">
+        <div className="border border-line">
+          <div className="bg-bg-card p-6 md:p-8 border-b border-line">
+            <div className="eyebrow mb-2 flex items-center gap-3">
+              <span className="h-px w-8 bg-brand-orange" />
+              Абонемент
+            </div>
+            <h3 className="display text-3xl md:text-4xl text-white uppercase tracking-wide">
+              Аренда гольф-симулятора
+            </h3>
+          </div>
+
+          {/* Table header */}
+          <div className="grid grid-cols-3 gap-px bg-line text-xs uppercase tracking-widest text-white/50">
+            <div className="bg-bg-primary p-4 md:p-5">Кол-во часов</div>
+            <div className="bg-bg-primary p-4 md:p-5">Стоимость</div>
+            <div className="bg-bg-primary p-4 md:p-5">Период</div>
+          </div>
+
+          {/* Table rows */}
+          {SIMULATOR_PLANS.map((plan, i) => (
             <motion.div
-              key={f.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.6, delay: (i % 3) * 0.08 }}
-              className="group relative bg-bg-primary p-8 min-h-[200px] flex flex-col transition-colors hover:bg-bg-card"
+              key={plan.hours}
+              initial={{ opacity: 0, x: -12 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.06 }}
+              className="grid grid-cols-3 gap-px bg-line group"
             >
-              <span className="absolute top-0 left-0 h-px w-10 bg-brand-orange transition-all duration-500 group-hover:w-full" />
-              <Icon size={28} className="text-brand-orange mb-5" strokeWidth={1.4} />
-              <h3 className="display uppercase text-white text-xl tracking-wide mb-2">
-                {f.title}
-              </h3>
-              <p className="text-sm text-white/60 leading-relaxed">{f.desc}</p>
-              <span className="absolute top-6 right-6 text-xs text-white/20 font-mono">
-                {String(i + 1).padStart(2, '0')}
-              </span>
+              <div className="bg-bg-primary p-4 md:p-5 flex items-center group-hover:bg-bg-card transition-colors">
+                <span className="display text-2xl md:text-3xl text-brand-orange">{plan.hours}</span>
+              </div>
+              <div className="bg-bg-primary p-4 md:p-5 flex items-center group-hover:bg-bg-card transition-colors">
+                <span className="text-white text-lg md:text-xl font-light">{plan.price} <span className="text-white/50 text-sm">руб.</span></span>
+              </div>
+              <div className="bg-bg-primary p-4 md:p-5 flex items-center group-hover:bg-bg-card transition-colors">
+                <span className="text-white/70">{plan.period}</span>
+              </div>
             </motion.div>
-          );
-        })}
+          ))}
+        </div>
+      </FadeIn>
+
+      {/* PRO training subscription */}
+      <FadeIn className="mb-16">
+        <div className="border border-line">
+          <div className="bg-bg-card p-6 md:p-8 border-b border-line">
+            <div className="eyebrow mb-2 flex items-center gap-3">
+              <span className="h-px w-8 bg-brand-orange" />
+              Абонемент
+            </div>
+            <h3 className="display text-3xl md:text-4xl text-white uppercase tracking-wide">
+              Индивидуальные тренировки с ПРО
+            </h3>
+          </div>
+
+          {/* Table header */}
+          <div className="grid grid-cols-2 gap-px bg-line text-xs uppercase tracking-widest text-white/50">
+            <div className="bg-bg-primary p-4 md:p-5">Кол-во часов</div>
+            <div className="bg-bg-primary p-4 md:p-5">Стоимость</div>
+          </div>
+
+          {/* Table rows */}
+          {PRO_PLANS.map((plan, i) => (
+            <motion.div
+              key={plan.hours}
+              initial={{ opacity: 0, x: -12 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.06 }}
+              className="grid grid-cols-2 gap-px bg-line group"
+            >
+              <div className="bg-bg-primary p-4 md:p-5 flex items-center group-hover:bg-bg-card transition-colors">
+                <span className="display text-2xl md:text-3xl text-brand-orange">{plan.hours}</span>
+              </div>
+              <div className="bg-bg-primary p-4 md:p-5 flex items-center group-hover:bg-bg-card transition-colors">
+                <span className="text-white text-lg md:text-xl font-light">{plan.price} <span className="text-white/50 text-sm">руб.</span></span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </FadeIn>
+
+      {/* Per-hour lessons */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-line">
+        <FadeIn className="bg-bg-primary p-8 md:p-10 flex items-center justify-between group hover:bg-bg-card transition-colors">
+          <div>
+            <h3 className="display text-2xl md:text-3xl text-white uppercase tracking-wide">
+              Групповое занятие
+            </h3>
+            <p className="text-sm text-white/50 mt-2">Мини группа 2–3 человека</p>
+          </div>
+          <div className="text-right flex-shrink-0 ml-6">
+            <div className="display text-3xl md:text-4xl text-brand-orange">15 000</div>
+            <div className="text-xs uppercase tracking-widest text-white/50">руб./час</div>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.08} className="bg-bg-primary p-8 md:p-10 flex items-center justify-between group hover:bg-bg-card transition-colors">
+          <div>
+            <h3 className="display text-2xl md:text-3xl text-white uppercase tracking-wide">
+              Индивидуальное занятие
+            </h3>
+            <p className="text-sm text-white/50 mt-2">Персональная тренировка с ПРО</p>
+          </div>
+          <div className="text-right flex-shrink-0 ml-6">
+            <div className="display text-3xl md:text-4xl text-brand-orange">10 000</div>
+            <div className="text-xs uppercase tracking-widest text-white/50">руб./час</div>
+          </div>
+        </FadeIn>
       </div>
     </Section>
   );

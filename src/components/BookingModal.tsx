@@ -199,15 +199,15 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
             <div className="mt-8 pt-6 border-t border-line">
               <div className="eyebrow mb-3">Быстрые контакты</div>
               <div className="flex flex-wrap gap-4">
-                <a href="tel:+74950000000" className="flex items-center gap-2 text-sm text-white/70 hover:text-brand-orange transition-colors">
+                <a href="tel:+79260926919" className="flex items-center gap-2 text-sm text-white/70 hover:text-brand-orange transition-colors">
                   <Phone size={16} strokeWidth={1.5} className="text-brand-orange" />
-                  +7 (495) 000-00-00
+                  8 (926) 092-69-19
                 </a>
                 <a href="https://t.me/indoorgolfmoscow" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-white/70 hover:text-brand-orange transition-colors">
                   <Send size={16} strokeWidth={1.5} className="text-brand-orange" />
                   Telegram
                 </a>
-                <a href="https://wa.me/74950000000" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-white/70 hover:text-brand-orange transition-colors">
+                <a href="https://wa.me/79260926919" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-white/70 hover:text-brand-orange transition-colors">
                   <MessageCircle size={16} strokeWidth={1.5} className="text-brand-orange" />
                   WhatsApp
                 </a>

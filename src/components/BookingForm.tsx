@@ -172,8 +172,8 @@ export function BookingForm() {
             <QuickContact
               icon={Phone}
               label="Позвонить"
-              value="+7 (495) 000-00-00"
-              href="tel:+74950000000"
+              value="8 (926) 092-69-19"
+              href="tel:+79260926919"
             />
             <QuickContact
               icon={Send}
@@ -184,8 +184,8 @@ export function BookingForm() {
             <QuickContact
               icon={MessageCircle}
               label="WhatsApp"
-              value="+7 (495) 000-00-00"
-              href="https://wa.me/74950000000"
+              value="8 (926) 092-69-19"
+              href="https://wa.me/79260926919"
             />
           </div>
           <p className="mt-8 text-sm text-white/55 leading-relaxed">
