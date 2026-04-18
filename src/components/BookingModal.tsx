@@ -18,8 +18,15 @@ const CHANNELS: { id: Channel; label: string }[] = [
   { id: 'whatsapp', label: 'WhatsApp' },
 ];
 
+const CHANNEL_LABELS: Record<Channel, string> = {
+  call: 'Звонок',
+  telegram: 'Telegram',
+  whatsapp: 'WhatsApp',
+};
+
 export function BookingModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const {
     register,
@@ -35,14 +42,41 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
   const selected = watch('channel');
 
   const onSubmit = async (data: FormValues) => {
-    await new Promise((r) => setTimeout(r, 800));
-    console.info('Booking submitted', data);
-    setSubmitted(true);
-    reset({ channel: 'call' });
+    setError('');
+    const text = [
+      '🏌️ Новая заявка с сайта Indoor Golf Moscow',
+      '',
+      `👤 Имя: ${data.name}`,
+      `📱 Телефон: ${data.phone}`,
+      `💬 Способ связи: ${CHANNEL_LABELS[data.channel]}`,
+      data.comment ? `📝 Комментарий: ${data.comment}` : '',
+    ].filter(Boolean).join('\n');
+
+    try {
+      const botToken = import.meta.env.VITE_TG_BOT_TOKEN;
+      const chatId = import.meta.env.VITE_TG_CHAT_ID;
+
+      if (botToken && chatId) {
+        const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' }),
+        });
+        if (!res.ok) throw new Error('Telegram API error');
+      } else {
+        console.info('Telegram not configured, logging:', text);
+      }
+
+      setSubmitted(true);
+      reset({ channel: 'call' });
+    } catch {
+      setError('Не удалось отправить заявку. Позвоните нам: 8 (926) 092-69-19');
+    }
   };
 
   const handleClose = () => {
     setSubmitted(false);
+    setError('');
     onClose();
   };
 
@@ -53,10 +87,10 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto py-8 px-4"
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={handleClose} />
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={handleClose} />
 
           {/* Modal */}
           <motion.div
@@ -64,21 +98,21 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
             transition={{ duration: 0.3 }}
-            className="relative w-full max-w-lg bg-bg-primary border border-line p-8 md:p-10 max-h-[90vh] overflow-y-auto"
+            className="relative w-full max-w-md bg-bg-primary border border-line p-6 md:p-8 my-auto"
           >
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 text-neutral-400 hover:text-neutral-900 transition-colors"
+              className="absolute top-3 right-3 text-neutral-400 hover:text-neutral-900 transition-colors"
               aria-label="Закрыть"
             >
-              <X size={24} />
+              <X size={22} />
             </button>
 
-            <div className="eyebrow mb-2 flex items-center gap-3">
+            <div className="eyebrow mb-1 flex items-center gap-3">
               <span className="h-px w-8 bg-brand-orange" />
               Заявка
             </div>
-            <h2 className="display text-4xl md:text-5xl text-brand-orange uppercase mb-8">
+            <h2 className="display text-3xl text-brand-orange uppercase mb-5">
               Записаться
             </h2>
 
@@ -89,21 +123,20 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className="flex flex-col items-start gap-5"
+                  className="flex flex-col items-start gap-4"
                 >
-                  <div className="h-14 w-14 rounded-full bg-brand-orange flex items-center justify-center">
-                    <Check size={28} className="text-white" strokeWidth={2.5} />
+                  <div className="h-12 w-12 rounded-full bg-brand-orange flex items-center justify-center">
+                    <Check size={24} className="text-white" strokeWidth={2.5} />
                   </div>
-                  <h3 className="display text-3xl uppercase text-neutral-900">
+                  <h3 className="display text-2xl uppercase text-neutral-900">
                     Заявка отправлена
                   </h3>
-                  <p className="text-neutral-500">
+                  <p className="text-neutral-500 text-sm">
                     Мы свяжемся с вами в течение 30 минут.
-                    Спасибо, что выбрали Indoor Golf Moscow.
                   </p>
                   <button
                     onClick={() => setSubmitted(false)}
-                    className="mt-2 text-sm uppercase tracking-widest text-brand-orange hover:text-brand-orange-hover"
+                    className="text-sm uppercase tracking-widest text-brand-orange hover:text-brand-orange-hover"
                   >
                     Отправить ещё одну →
                   </button>
@@ -115,7 +148,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className="space-y-6"
+                  className="space-y-4"
                   noValidate
                 >
                   <Field label="Имя" error={errors.name?.message}>
@@ -145,8 +178,8 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                   </Field>
 
                   <div>
-                    <div className="eyebrow mb-3">Способ связи</div>
-                    <div className="flex flex-wrap gap-3">
+                    <div className="eyebrow mb-2">Способ связи</div>
+                    <div className="flex flex-wrap gap-2">
                       {CHANNELS.map((c) => {
                         const active = selected === c.id;
                         return (
@@ -154,7 +187,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                             type="button"
                             key={c.id}
                             onClick={() => setValue('channel', c.id)}
-                            className={`px-5 py-3 text-sm uppercase tracking-widest border transition-all duration-200 ${
+                            className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-200 ${
                               active
                                 ? 'border-brand-orange text-brand-orange bg-brand-orange/10'
                                 : 'border-line text-neutral-500 hover:border-neutral-400 hover:text-neutral-900'
@@ -170,11 +203,15 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                   <Field label="Комментарий">
                     <textarea
                       {...register('comment')}
-                      placeholder="Желаемая дата, формат, количество человек…"
-                      rows={3}
+                      placeholder="Желаемая дата, формат…"
+                      rows={2}
                       className="modal-input resize-none"
                     />
                   </Field>
+
+                  {error && (
+                    <p className="text-sm text-red-600">{error}</p>
+                  )}
 
                   <button
                     type="submit"
@@ -188,7 +225,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                     />
                   </button>
 
-                  <p className="text-xs text-neutral-400">
+                  <p className="text-[11px] text-neutral-400">
                     Оставляя заявку, вы соглашаетесь с обработкой персональных данных.
                   </p>
                 </motion.form>
@@ -196,19 +233,18 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
             </AnimatePresence>
 
             {/* Quick contacts */}
-            <div className="mt-8 pt-6 border-t border-line">
-              <div className="eyebrow mb-3">Быстрые контакты</div>
+            <div className="mt-5 pt-4 border-t border-line">
               <div className="flex flex-wrap gap-4">
-                <a href="tel:+79260926919" className="flex items-center gap-2 text-sm text-neutral-500 hover:text-brand-orange transition-colors">
-                  <Phone size={16} strokeWidth={1.5} className="text-brand-orange" />
+                <a href="tel:+79260926919" className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-brand-orange transition-colors">
+                  <Phone size={14} strokeWidth={1.5} className="text-brand-orange" />
                   8 (926) 092-69-19
                 </a>
-                <a href="https://t.me/indoorgolfmoscow" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-neutral-500 hover:text-brand-orange transition-colors">
-                  <Send size={16} strokeWidth={1.5} className="text-brand-orange" />
+                <a href="https://t.me/indoorgolfmoscow" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-brand-orange transition-colors">
+                  <Send size={14} strokeWidth={1.5} className="text-brand-orange" />
                   Telegram
                 </a>
-                <a href="https://wa.me/79260926919" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-neutral-500 hover:text-brand-orange transition-colors">
-                  <MessageCircle size={16} strokeWidth={1.5} className="text-brand-orange" />
+                <a href="https://wa.me/79260926919" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-brand-orange transition-colors">
+                  <MessageCircle size={14} strokeWidth={1.5} className="text-brand-orange" />
                   WhatsApp
                 </a>
               </div>
@@ -220,14 +256,14 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                 background: transparent;
                 border: none;
                 border-bottom: 1px solid #E0E0E0;
-                padding: 12px 0;
+                padding: 10px 0;
                 color: #1a1a1a;
-                font-size: 16px;
+                font-size: 15px;
                 outline: none;
                 transition: border-color 0.2s ease;
                 font-family: inherit;
               }
-              .modal-input::placeholder { color: rgba(0,0,0,0.35); }
+              .modal-input::placeholder { color: rgba(0,0,0,0.3); }
               .modal-input:focus { border-bottom-color: #E8471A; }
             `}</style>
           </motion.div>
@@ -248,9 +284,9 @@ function Field({
 }) {
   return (
     <div>
-      <label className="eyebrow block mb-1">{label}</label>
+      <label className="eyebrow block mb-0.5">{label}</label>
       {children}
-      {error && <p className="mt-2 text-xs text-brand-orange">{error}</p>}
+      {error && <p className="mt-1 text-xs text-brand-orange">{error}</p>}
     </div>
   );
 }
