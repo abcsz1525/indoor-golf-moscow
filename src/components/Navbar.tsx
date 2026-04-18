@@ -55,7 +55,7 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
               {item.label}
             </Link>
           ))}
-          <button onClick={onBooking} className="btn-primary text-sm py-3 px-6">
+          <button onClick={onBooking} data-booking-trigger className="btn-primary text-sm py-3 px-6">
             Записаться
           </button>
         </nav>

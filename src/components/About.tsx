@@ -57,7 +57,7 @@ export function About() {
               }}
             />
             <div className="absolute inset-0 flex items-center justify-center">
-              <img src={logoIcon} alt="Indoor Golf Moscow" className="w-40 h-40 object-contain" />
+              <img src={logoIcon} alt="Indoor Golf Moscow" className="w-48 h-48 object-contain" />
             </div>
             {/* corner ticks */}
             <span className="absolute top-4 left-4 h-3 w-3 border-l border-t border-brand-orange" />

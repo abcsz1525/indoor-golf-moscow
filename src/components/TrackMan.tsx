@@ -23,7 +23,7 @@ export function TrackMan() {
       {/* diagonal light streak */}
       <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rotate-45 bg-gradient-to-b from-white/20 to-transparent blur-3xl" />
 
-      <div className="container-x relative z-10 pt-10 md:pt-16 pb-24 md:pb-32">
+      <div className="container-x relative z-10 pt-10 md:pt-16 pb-12 md:pb-16">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}

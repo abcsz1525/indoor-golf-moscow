@@ -23,7 +23,7 @@ export function Section({
   first,
 }: SectionProps) {
   return (
-    <section id={id} className={`relative ${first ? 'pt-0 pb-24 md:pb-32' : 'py-24 md:py-32'} ${className}`}>
+    <section id={id} className={`relative ${first ? 'pt-0 pb-12 md:pb-16' : 'py-12 md:py-16'} ${className}`}>
       <div className="container-x">
         {(eyebrow || title) && (
           <motion.div
@@ -31,7 +31,7 @@ export function Section({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.7 }}
-            className={`mb-14 md:mb-20 ${center ? 'text-center' : ''}`}
+            className={`mb-10 md:mb-14 ${center ? 'text-center' : ''}`}
           >
             {eyebrow && (
               <div
