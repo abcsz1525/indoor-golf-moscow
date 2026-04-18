@@ -1,9 +1,10 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { GridOverlay } from './GridOverlay';
 
-export function Hero() {
+export function Hero({ onBooking }: { onBooking: () => void }) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '40%']);
@@ -74,13 +75,13 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-12 flex flex-wrap gap-4"
         >
-          <a href="#booking" className="btn-primary group">
+          <button onClick={onBooking} className="btn-primary group">
             Записаться
             <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-          </a>
-          <a href="#about" className="btn-outline">
+          </button>
+          <Link to="/about" className="btn-outline">
             Узнать подробнее
-          </a>
+          </Link>
         </motion.div>
       </motion.div>
 

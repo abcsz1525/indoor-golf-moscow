@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Send } from 'lucide-react';
 import { Logo } from './Logo';
 
@@ -26,7 +27,9 @@ export function Footer() {
       <div className="container-x py-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
           <div className="md:col-span-5">
-            <Logo size={66} />
+            <Link to="/">
+              <Logo size={66} />
+            </Link>
             <p className="mt-6 text-sm text-white/55 max-w-xs leading-relaxed">
               Первое в России пространство гольфа в помещении. Симуляторы
               Trackman. Лужники, Москва.
@@ -36,11 +39,11 @@ export function Footer() {
           <div className="md:col-span-3">
             <div className="eyebrow mb-4">Навигация</div>
             <ul className="space-y-2 text-white/80">
-              <li><a href="#about" className="hover:text-brand-orange">О нас</a></li>
-              <li><a href="#trackman" className="hover:text-brand-orange">Технологии</a></li>
-              <li><a href="#formats" className="hover:text-brand-orange">Форматы</a></li>
-              <li><a href="#location" className="hover:text-brand-orange">Локация</a></li>
-              <li><a href="#booking" className="hover:text-brand-orange">Записаться</a></li>
+              <li><Link to="/about" className="hover:text-brand-orange">О нас</Link></li>
+              <li><Link to="/tech" className="hover:text-brand-orange">Технологии</Link></li>
+              <li><Link to="/gallery" className="hover:text-brand-orange">Галерея</Link></li>
+              <li><Link to="/services" className="hover:text-brand-orange">Услуги</Link></li>
+              <li><Link to="/contacts" className="hover:text-brand-orange">Контакты</Link></li>
             </ul>
           </div>
 
