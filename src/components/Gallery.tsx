@@ -32,7 +32,7 @@ export function Gallery() {
 
   return (
     <Section id="gallery" eyebrow="Атмосфера" title="Галерея">
-      <div className="relative overflow-hidden border border-line">
+      <div className="relative overflow-hidden border border-line" data-cursor="grow">
         <div className="relative aspect-[16/9] md:aspect-[21/9] bg-bg-card">
           {IMAGES.map((img, i) => (
             <motion.img
@@ -84,15 +84,22 @@ export function Gallery() {
 
       <div className="grid grid-cols-6 gap-2 mt-3">
         {IMAGES.map((img, i) => (
-          <button
+          <motion.div
             key={i}
-            onClick={() => setCurrent(i)}
-            className={`relative aspect-[4/3] overflow-hidden border transition-all duration-300 ${
-              i === current ? 'border-brand-orange' : 'border-line opacity-60 hover:opacity-100'
-            }`}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: i * 0.1 }}
           >
-            <img src={img.src} alt={img.alt} className="h-full w-full object-cover" />
-          </button>
+            <button
+              onClick={() => setCurrent(i)}
+              className={`relative aspect-[4/3] w-full overflow-hidden border transition-all duration-300 ${
+                i === current ? 'border-brand-orange' : 'border-line opacity-60 hover:opacity-100'
+              }`}
+            >
+              <img src={img.src} alt={img.alt} className="h-full w-full object-cover" />
+            </button>
+          </motion.div>
         ))}
       </div>
     </Section>

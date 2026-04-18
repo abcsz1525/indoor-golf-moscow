@@ -7,6 +7,7 @@ import {
   CircleParking,
   UtensilsCrossed,
 } from 'lucide-react';
+import { MagneticCard } from './MagneticCard';
 import { Section } from './Section';
 
 const ITEMS = [
@@ -57,23 +58,25 @@ export function Advantages() {
               transition={{ duration: 0.6, delay: i * 0.08 }}
               className="group relative bg-bg-primary p-8 md:p-10 min-h-[260px] flex flex-col transition-colors hover:bg-bg-card"
             >
-              {/* top line */}
-              <span className="absolute top-0 left-0 h-px w-10 bg-brand-orange transition-all duration-500 group-hover:w-full" />
+              <MagneticCard className="w-full h-full">
+                {/* top line */}
+                <span className="absolute top-0 left-0 h-px w-10 bg-brand-orange transition-all duration-500 group-hover:w-full" />
 
-              <Icon
-                size={32}
-                className="text-brand-orange mb-8"
-                strokeWidth={1.4}
-              />
-              <h3 className="display text-3xl text-neutral-900 uppercase mb-3 tracking-wide">
-                {item.title}
-              </h3>
-              <p className="text-neutral-500 leading-relaxed">{item.text}</p>
+                <Icon
+                  size={32}
+                  className="text-brand-orange mb-8"
+                  strokeWidth={1.4}
+                />
+                <h3 className="display text-3xl text-neutral-900 uppercase mb-3 tracking-wide">
+                  {item.title}
+                </h3>
+                <p className="text-neutral-500 leading-relaxed">{item.text}</p>
 
-              {/* index */}
-              <span className="absolute top-6 right-6 text-xs text-neutral-300 font-mono">
-                0{i + 1}
-              </span>
+                {/* index */}
+                <span className="absolute top-6 right-6 text-xs text-neutral-300 font-mono">
+                  0{i + 1}
+                </span>
+              </MagneticCard>
             </motion.div>
           );
         })}

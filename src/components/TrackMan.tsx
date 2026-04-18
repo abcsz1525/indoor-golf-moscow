@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
+import CountUp from 'react-countup';
 
 const METRICS = [
-  { label: 'Ball Speed', value: '182', unit: 'mph' },
-  { label: 'Launch Angle', value: '14.2', unit: '°' },
-  { label: 'Carry Distance', value: '287', unit: 'yd' },
-  { label: 'Spin Rate', value: '2 480', unit: 'rpm' },
+  { label: 'Ball Speed', value: 285, unit: 'km/h', bar: '95%' },
+  { label: 'Launch Angle', value: 12, unit: '°', bar: '60%' },
+  { label: 'Carry Distance', value: 245, unit: 'm', bar: '85%' },
+  { label: 'Spin Rate', value: 2800, unit: 'rpm', bar: '70%' },
 ];
 
 export function TrackMan() {
@@ -71,9 +72,18 @@ export function TrackMan() {
                   <div className="text-[11px] uppercase tracking-brand">{m.label}</div>
                   <div>
                     <span className="display text-5xl md:text-6xl leading-none">
-                      {m.value}
+                      <CountUp end={m.value} duration={2} enableScrollSpy scrollSpyOnce />
                     </span>
                     <span className="ml-2 text-sm font-medium uppercase">{m.unit}</span>
+                  </div>
+                  <div className="mt-2 h-0.5 bg-black/20 overflow-hidden">
+                    <motion.div
+                      className="h-full bg-black/60"
+                      initial={{ width: '0%' }}
+                      whileInView={{ width: m.bar }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 2 }}
+                    />
                   </div>
                 </motion.div>
               ))}

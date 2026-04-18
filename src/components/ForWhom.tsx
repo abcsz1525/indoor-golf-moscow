@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import CountUp from 'react-countup';
 import { Section } from './Section';
 
 const TAGS = [
@@ -31,17 +32,17 @@ export function ForWhom() {
 
       <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-px bg-line">
         {[
-          { k: '3', label: 'Симулятора' },
-          { k: '365', label: 'Дней в году' },
-          { k: '12', label: 'Часов в день' },
-          { k: '№1', label: 'В России' },
+          { k: 3, label: 'Симулятора' },
+          { k: 365, label: 'Дней в году' },
+          { k: 16, label: 'Часов в день', suffix: '' },
+          { k: 1, label: 'В России', prefix: '№' },
         ].map((s) => (
           <div
             key={s.label}
             className="bg-bg-primary p-8 flex flex-col items-start"
           >
             <div className="display text-6xl md:text-7xl text-brand-orange leading-none">
-              {s.k}
+              <CountUp end={s.k} duration={2} prefix={s.prefix || ''} suffix={s.suffix || ''} enableScrollSpy scrollSpyOnce />
             </div>
             <div className="mt-3 text-xs uppercase tracking-widest text-neutral-400">
               {s.label}

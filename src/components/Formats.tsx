@@ -33,7 +33,13 @@ export function Formats() {
     <Section id="formats" eyebrow="Стоимость" title="Услуги">
       {/* Hourly rates */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-line mb-16">
-        <FadeIn className="bg-bg-primary p-8 md:p-10 flex items-center justify-between">
+        <motion.div
+          initial={{ opacity: 0, x: -60 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6 }}
+          className="bg-bg-primary p-8 md:p-10 flex items-center justify-between"
+        >
           <div>
             <h3 className="display text-2xl md:text-3xl text-neutral-900 uppercase tracking-wide">
               Аренда гольф-симулятора
@@ -44,9 +50,15 @@ export function Formats() {
             <div className="display text-3xl md:text-4xl text-brand-orange">6 000</div>
             <div className="text-xs uppercase tracking-widest text-neutral-400">руб./час</div>
           </div>
-        </FadeIn>
+        </motion.div>
 
-        <FadeIn delay={0.08} className="bg-bg-primary p-8 md:p-10 flex items-center justify-between">
+        <motion.div
+          initial={{ opacity: 0, x: 60 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, delay: 0.08 }}
+          className="bg-bg-primary p-8 md:p-10 flex items-center justify-between"
+        >
           <div>
             <h3 className="display text-2xl md:text-3xl text-neutral-900 uppercase tracking-wide">
               Аренда набора клюшек
@@ -57,7 +69,7 @@ export function Formats() {
             <div className="display text-3xl md:text-4xl text-brand-orange">3 000</div>
             <div className="text-xs uppercase tracking-widest text-neutral-400">руб./час</div>
           </div>
-        </FadeIn>
+        </motion.div>
       </div>
 
       {/* Simulator subscription */}

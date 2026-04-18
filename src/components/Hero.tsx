@@ -75,11 +75,11 @@ export function Hero({ onBooking }: { onBooking: () => void }) {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-12 flex flex-wrap gap-4"
         >
-          <button onClick={onBooking} className="btn-primary group">
+          <button onClick={onBooking} className="btn-primary group" data-cursor="grow">
             Записаться
             <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
           </button>
-          <Link to="/about" className="btn-outline">
+          <Link to="/about" className="btn-outline" data-cursor="grow">
             Узнать подробнее
           </Link>
         </motion.div>

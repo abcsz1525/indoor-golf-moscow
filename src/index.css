@@ -53,6 +53,22 @@
   }
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 bg-brand-orange text-white font-semibold uppercase tracking-widest px-7 py-4 transition-all duration-200 hover:bg-brand-orange-hover;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { left: -100%; }
+    50% { left: 150%; }
   }
   .btn-outline {
     @apply inline-flex items-center justify-center gap-2 border border-neutral-800 uppercase tracking-widest px-7 py-4 transition-all duration-200 hover:border-brand-orange hover:text-brand-orange;

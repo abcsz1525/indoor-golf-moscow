@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { BookingModal } from './components/BookingModal';
+import { CustomCursor } from './components/CustomCursor';
+import { Preloader } from './components/Preloader';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { TechPage } from './pages/TechPage';
@@ -15,6 +17,8 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Preloader />
+      <CustomCursor />
       <div className="min-h-screen bg-bg-primary text-neutral-900">
         <Navbar onBooking={() => setBookingOpen(true)} />
         <main>
