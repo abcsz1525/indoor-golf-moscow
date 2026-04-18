@@ -24,7 +24,7 @@ export function Preloader() {
         <motion.div
           key="preloader"
           className="fixed inset-0 z-[200] flex items-center justify-center"
-          style={{ backgroundColor: '#0A0A0A' }}
+          style={{ backgroundColor: '#FAFAFA' }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
