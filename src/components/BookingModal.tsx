@@ -20,7 +20,7 @@ function formatFromDigits(d: string): string {
   return r;
 }
 
-type Channel = 'call' | 'telegram' | 'whatsapp';
+type Channel = 'call' | 'telegram' | 'max';
 
 interface FormValues {
   name: string;
@@ -32,13 +32,13 @@ interface FormValues {
 const CHANNELS: { id: Channel; label: string }[] = [
   { id: 'call', label: 'Звонок' },
   { id: 'telegram', label: 'Telegram' },
-  { id: 'whatsapp', label: 'WhatsApp' },
+  { id: 'max', label: 'Макс' },
 ];
 
 const CHANNEL_LABELS: Record<Channel, string> = {
   call: 'Звонок',
   telegram: 'Telegram',
-  whatsapp: 'WhatsApp',
+  max: 'Макс',
 };
 
 export function BookingModal({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -259,14 +259,14 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                   <Phone size={14} strokeWidth={1.5} className="text-brand-orange" />
                   8 (926) 092-69-19
                 </a>
-                <a href="https://t.me/+79260926919" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-brand-orange transition-colors">
+                <a href="https://t.me/indoorgolf" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-brand-orange transition-colors">
                   <Send size={14} strokeWidth={1.5} className="text-brand-orange" />
                   Telegram
                 </a>
-                <a href="https://wa.me/79260926919" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-brand-orange transition-colors">
+                <span className="flex items-center gap-1.5 text-xs text-[var(--text-muted)]">
                   <MessageCircle size={14} strokeWidth={1.5} className="text-brand-orange" />
-                  WhatsApp
-                </a>
+                  Макс
+                </span>
               </div>
             </div>
 

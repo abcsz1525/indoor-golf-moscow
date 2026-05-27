@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Check, Phone, MessageCircle, Send } from 'lucide-react';
 import { Section } from './Section';
 
-type Channel = 'call' | 'telegram' | 'whatsapp';
+type Channel = 'call' | 'telegram' | 'max';
 
 interface FormValues {
   name: string;
@@ -16,7 +16,7 @@ interface FormValues {
 const CHANNELS: { id: Channel; label: string }[] = [
   { id: 'call', label: 'Звонок' },
   { id: 'telegram', label: 'Telegram' },
-  { id: 'whatsapp', label: 'WhatsApp' },
+  { id: 'max', label: 'Макс' },
 ];
 
 export function BookingForm() {
@@ -178,14 +178,13 @@ export function BookingForm() {
             <QuickContact
               icon={Send}
               label="Telegram"
-              value="@indoorgolfmoscow"
-              href="https://t.me/+79260926919"
+              value="@indoorgolf"
+              href="https://t.me/indoorgolf"
             />
             <QuickContact
               icon={MessageCircle}
-              label="WhatsApp"
+              label="Макс"
               value="8 (926) 092-69-19"
-              href="https://wa.me/79260926919"
             />
           </div>
           <p className="mt-8 text-sm text-[var(--text-subtle)] leading-relaxed">
@@ -242,15 +241,10 @@ function QuickContact({
   icon: typeof Phone;
   label: string;
   value: string;
-  href: string;
+  href?: string;
 }) {
-  return (
-    <a
-      href={href}
-      target={href.startsWith('http') ? '_blank' : undefined}
-      rel="noreferrer"
-      className="group flex items-center gap-5 bg-bg-primary p-5 hover:bg-bg-card transition-colors"
-    >
+  const inner = (
+    <>
       <span className="h-11 w-11 flex items-center justify-center border border-line group-hover:border-brand-orange transition-colors">
         <Icon size={18} className="text-brand-orange" strokeWidth={1.5} />
       </span>
@@ -260,10 +254,31 @@ function QuickContact({
           {value}
         </div>
       </div>
-      <ArrowRight
-        size={18}
-        className="text-[var(--text-subtle)] group-hover:text-brand-orange group-hover:translate-x-1 transition-all"
-      />
+      {href && (
+        <ArrowRight
+          size={18}
+          className="text-[var(--text-subtle)] group-hover:text-brand-orange group-hover:translate-x-1 transition-all"
+        />
+      )}
+    </>
+  );
+
+  if (!href) {
+    return (
+      <div className="group flex items-center gap-5 bg-bg-primary p-5 transition-colors">
+        {inner}
+      </div>
+    );
+  }
+
+  return (
+    <a
+      href={href}
+      target={href.startsWith('http') ? '_blank' : undefined}
+      rel="noreferrer"
+      className="group flex items-center gap-5 bg-bg-primary p-5 hover:bg-bg-card transition-colors"
+    >
+      {inner}
     </a>
   );
 }
