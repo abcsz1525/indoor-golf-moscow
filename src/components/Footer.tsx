@@ -59,7 +59,7 @@ export function Footer() {
             </div>
 
             <div className="mt-6 flex gap-3">
-              <SocialLink href="https://instagram.com/" label="Instagram">
+              <SocialLink href="https://www.instagram.com/indoorgolfmoscow" label="Instagram">
                 <InstagramIcon />
               </SocialLink>
               <SocialLink href="https://t.me/indoorgolf" label="Telegram">
