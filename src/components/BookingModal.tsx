@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, type KeyboardEvent } from 'react';
 import { useForm } from 'react-hook-form';
+import { sendLead } from '../lib/sendLead';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Check, X, Phone, MessageCircle, Send } from 'lucide-react';
 
@@ -81,31 +82,15 @@ export function BookingModal({
 
   const onSubmit = async (data: FormValues) => {
     setError('');
-    const text = [
-      '🏌️ Новая заявка с сайта Indoor Golf Moscow',
-      '',
-      `👤 Имя: ${data.name}`,
-      `📱 Телефон: ${data.phone}`,
-      selectedInterest ? `🎯 Интересует: ${selectedInterest}` : '',
-      `💬 Способ связи: ${CHANNEL_LABELS[data.channel]}`,
-      data.comment ? `📝 Комментарий: ${data.comment}` : '',
-    ].filter(Boolean).join('\n');
-
     try {
-      const botToken = import.meta.env.VITE_TG_BOT_TOKEN;
-      const chatId = import.meta.env.VITE_TG_CHAT_ID;
-
-      if (botToken && chatId) {
-        const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' }),
-        });
-        if (!res.ok) throw new Error('Telegram API error');
-      } else {
-        console.info('Telegram not configured, logging:', text);
-      }
-
+      await sendLead({
+        name: data.name,
+        phone: data.phone,
+        interest: selectedInterest || undefined,
+        channel: CHANNEL_LABELS[data.channel],
+        comment: data.comment,
+        page: window.location.pathname,
+      });
       setSubmitted(true);
       reset({ channel: 'call' });
     } catch {
