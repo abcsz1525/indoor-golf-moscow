@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 import { Logo } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -58,6 +58,14 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
               {item.label}
             </Link>
           ))}
+          <a
+            href="tel:+79260926919"
+            className="flex items-center gap-2 text-sm tracking-wider transition-colors hover:text-brand-orange"
+            style={{ color: 'var(--text-muted)' }}
+          >
+            <Phone size={15} className="text-brand-orange" />
+            8 926 092-69-19
+          </a>
           <ThemeToggle />
           <button onClick={onBooking} data-booking-trigger className="btn-primary text-sm py-3 px-6">
             Записаться
@@ -96,6 +104,14 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
                 {item.label}
               </Link>
             ))}
+            <a
+              href="tel:+79260926919"
+              className="flex items-center gap-2 text-lg tracking-wider"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              <Phone size={17} className="text-brand-orange" />
+              8 926 092-69-19
+            </a>
             <button
               onClick={onBooking}
               className="text-lg uppercase tracking-widest text-brand-orange text-left"

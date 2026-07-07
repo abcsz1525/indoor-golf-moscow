@@ -1,9 +1,21 @@
 import { Hero } from '../components/Hero';
 import { Marquee } from '../components/Marquee';
+import { StartHere } from '../components/StartHere';
 import { WhyUs } from '../components/WhyUs';
+import { TrackMan } from '../components/TrackMan';
+import { PricingTeaser } from '../components/PricingTeaser';
+import { PhotoStrip } from '../components/PhotoStrip';
 import { Partners } from '../components/Partners';
+import { FAQ } from '../components/FAQ';
+import { FinalCTA } from '../components/FinalCTA';
+import { usePageMeta } from '../hooks/usePageMeta';
 
-export function HomePage({ onBooking }: { onBooking: () => void }) {
+export function HomePage({ onBooking }: { onBooking: (interest?: string) => void }) {
+  usePageMeta(
+    'Гольф-симулятор Trackman в Москве — Indoor Golf Moscow, Лужники',
+    'Первое в России пространство indoor-гольфа. Симулятор Trackman в Лужниках: игра от 6 000 ₽/час на компанию до 6 человек, тренировки с PRO, абонементы. Без выходных 7:00–23:00. Запись онлайн.'
+  );
+
   return (
     <>
       <Hero onBooking={onBooking} />
@@ -21,8 +33,14 @@ export function HomePage({ onBooking }: { onBooking: () => void }) {
         <span className="display">СИМУЛЯТОРЫ</span>
         <span className="text-brand-orange">·</span>
       </Marquee>
+      <StartHere onBooking={onBooking} />
       <WhyUs />
+      <TrackMan />
+      <PricingTeaser onBooking={onBooking} />
+      <PhotoStrip />
       <Partners />
+      <FAQ />
+      <FinalCTA onBooking={onBooking} />
     </>
   );
 }

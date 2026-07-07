@@ -16,7 +16,7 @@ const ITEMS = [
   {
     icon: MapPin,
     title: 'Лужники',
-    text: 'Премиальное расположение в самом сердце Москвы — 10 минут от метро Спортивная.',
+    text: 'Премиальное расположение в сердце Москвы — Дворец тенниса, бесплатная парковка на территории.',
   },
 ];
 
@@ -46,18 +46,6 @@ export function WhyUs() {
         })}
       </div>
 
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-        className="mt-16 text-center text-xl md:text-2xl text-[var(--text-muted)] font-light leading-relaxed max-w-3xl mx-auto"
-      >
-        Первое в России пространство гольфа в помещении, оснащённое передовыми
-        симуляторами <span className="text-brand-orange">Trackman</span>.
-        Технологии мирового уровня, профессиональное сообщество и атмосфера
-        премиального клуба.
-      </motion.p>
     </Section>
   );
 }

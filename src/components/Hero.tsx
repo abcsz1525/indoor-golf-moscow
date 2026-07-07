@@ -1,14 +1,17 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { GridOverlay } from './GridOverlay';
+import heroPhoto from '../assets/gallery/4.jpeg';
 
-export function Hero({ onBooking }: { onBooking: () => void }) {
+export function Hero({ onBooking }: { onBooking: (interest?: string) => void }) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '40%']);
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
   const fade = useTransform(scrollYProgress, [0, 1], [1, 0.2]);
+
+  const scrollToPricing = () => {
+    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <section
@@ -16,29 +19,26 @@ export function Hero({ onBooking }: { onBooking: () => void }) {
       ref={ref}
       className="relative min-h-screen flex flex-col justify-start md:justify-center overflow-hidden"
     >
-      {/* Parallax background layers */}
-      <motion.div
-        style={{ y: bgY }}
-        className="absolute inset-0 -z-10"
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-bg-primary via-bg-secondary to-bg-primary" />
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-orange/20 via-transparent to-transparent opacity-60" />
+      {/* Photo background with parallax */}
+      <motion.div style={{ y: bgY }} className="absolute inset-0">
+        <img
+          src={heroPhoto}
+          alt="Тренировка на симуляторе Trackman в Indoor Golf Moscow"
+          className="h-full w-full object-cover scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
       </motion.div>
-
-      <GridOverlay variant="orange" />
-
-      {/* Soft vignette */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,var(--vignette-color)_90%)]" />
 
       <motion.div
         style={{ opacity: fade }}
-        className="container-x relative z-10 pt-24 md:pt-32 pb-24"
+        className="container-x relative z-10 pt-32 md:pt-32 pb-32"
       >
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="eyebrow mb-6 flex items-center gap-3"
+          className="eyebrow mb-6 flex items-center gap-3 !text-white/70"
         >
           <span className="h-px w-10 bg-brand-orange" />
           Trackman · Лужники · Pro Level
@@ -48,7 +48,7 @@ export function Hero({ onBooking }: { onBooking: () => void }) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.05 }}
-          className="display text-[var(--text-primary)] font-normal"
+          className="display text-white font-normal"
           style={{
             fontSize: 'clamp(56px, 10vw, 160px)',
             lineHeight: 0.9,
@@ -63,10 +63,10 @@ export function Hero({ onBooking }: { onBooking: () => void }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-8 max-w-2xl text-lg md:text-xl text-[var(--text-muted)] font-light leading-relaxed"
+          className="mt-8 max-w-2xl text-lg md:text-xl text-white/80 font-light leading-relaxed"
         >
-          Тренируйся, играй и проводи время в комфортном пространстве в{' '}
-          <span className="text-[var(--text-primary)]">Лужниках</span>
+          Симуляторы Trackman в Лужниках. От 6 000 ₽/час на компанию
+          до 6 человек — новичкам поможем с клюшками и первым ударом.
         </motion.p>
 
         <motion.div
@@ -75,22 +75,26 @@ export function Hero({ onBooking }: { onBooking: () => void }) {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-12 flex flex-wrap gap-4"
         >
-          <button onClick={onBooking} className="btn-primary group" data-cursor="grow">
+          <button onClick={() => onBooking()} className="btn-primary group" data-cursor="grow">
             Записаться
             <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
           </button>
-          <Link to="/about" className="btn-outline" data-cursor="grow">
-            Узнать подробнее
-          </Link>
+          <button
+            onClick={scrollToPricing}
+            className="inline-flex items-center justify-center gap-2 uppercase tracking-widest px-7 py-4 border border-white/70 text-white transition-all duration-200 hover:border-brand-orange hover:text-brand-orange"
+            data-cursor="grow"
+          >
+            Смотреть цены
+          </button>
         </motion.div>
       </motion.div>
 
       {/* Bottom info bar */}
-      <div className="absolute bottom-0 inset-x-0 border-t border-brand-orange">
-        <div className="container-x py-5 flex flex-wrap items-center justify-between gap-x-10 gap-y-2 text-[11px] md:text-xs uppercase tracking-brand text-[var(--text-muted)]">
+      <div className="absolute bottom-0 inset-x-0 border-t border-brand-orange bg-black/40 backdrop-blur-sm">
+        <div className="container-x py-5 flex flex-wrap items-center justify-between gap-x-10 gap-y-2 text-[11px] md:text-xs uppercase tracking-brand text-white/70">
           <span>Trackman</span>
           <span className="hidden sm:inline text-brand-orange">·</span>
-          <span>Лужники</span>
+          <span>Лужники · бесплатная парковка</span>
           <span className="hidden sm:inline text-brand-orange">·</span>
           <span>Без выходных 7:00–23:00</span>
           <span className="hidden sm:inline text-brand-orange">·</span>

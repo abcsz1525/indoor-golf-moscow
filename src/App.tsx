@@ -14,25 +14,35 @@ import { ContactsPage } from './pages/ContactsPage';
 
 function App() {
   const [bookingOpen, setBookingOpen] = useState(false);
+  const [bookingInterest, setBookingInterest] = useState<string | undefined>(undefined);
+
+  const openBooking = (interest?: string) => {
+    setBookingInterest(interest);
+    setBookingOpen(true);
+  };
 
   return (
     <BrowserRouter>
       <Preloader />
       <CustomCursor />
       <div className="min-h-screen bg-bg-primary" style={{ color: 'var(--text-primary)' }}>
-        <Navbar onBooking={() => setBookingOpen(true)} />
+        <Navbar onBooking={() => openBooking()} />
         <main>
           <Routes>
-            <Route path="/" element={<HomePage onBooking={() => setBookingOpen(true)} />} />
+            <Route path="/" element={<HomePage onBooking={openBooking} />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/tech" element={<TechPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
-            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/services" element={<ServicesPage onBooking={openBooking} />} />
             <Route path="/contacts" element={<ContactsPage />} />
           </Routes>
         </main>
         <Footer />
-        <BookingModal open={bookingOpen} onClose={() => setBookingOpen(false)} />
+        <BookingModal
+          open={bookingOpen}
+          interest={bookingInterest}
+          onClose={() => setBookingOpen(false)}
+        />
       </div>
     </BrowserRouter>
   );

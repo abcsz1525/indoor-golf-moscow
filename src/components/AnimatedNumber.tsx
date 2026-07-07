@@ -8,6 +8,13 @@ interface AnimatedNumberProps {
 }
 
 export function AnimatedNumber({ end, duration = 2, prefix = '', suffix = '' }: AnimatedNumberProps) {
+  if (end <= 3) {
+    return <span>{prefix}{end}{suffix}</span>;
+  }
+  return <CountUp end={end} duration={duration} prefix={prefix} suffix={suffix} />;
+}
+
+function CountUp({ end, duration = 2, prefix = '', suffix = '' }: AnimatedNumberProps) {
   const [value, setValue] = useState(0);
   const [started, setStarted] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);

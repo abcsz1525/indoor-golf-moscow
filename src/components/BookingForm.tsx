@@ -21,6 +21,7 @@ const CHANNELS: { id: Channel; label: string }[] = [
 
 export function BookingForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const {
     register,
@@ -36,10 +37,36 @@ export function BookingForm() {
   const selected = watch('channel');
 
   const onSubmit = async (data: FormValues) => {
-    await new Promise((r) => setTimeout(r, 800));
-    console.info('Booking submitted', data);
-    setSubmitted(true);
-    reset({ channel: 'call' });
+    setError('');
+    const text = [
+      '🏌️ Новая заявка с сайта Indoor Golf Moscow (страница «Контакты»)',
+      '',
+      `👤 Имя: ${data.name}`,
+      `📱 Телефон: ${data.phone}`,
+      `💬 Способ связи: ${CHANNELS.find((c) => c.id === data.channel)?.label ?? data.channel}`,
+      data.comment ? `📝 Комментарий: ${data.comment}` : '',
+    ].filter(Boolean).join('\n');
+
+    try {
+      const botToken = import.meta.env.VITE_TG_BOT_TOKEN;
+      const chatId = import.meta.env.VITE_TG_CHAT_ID;
+
+      if (botToken && chatId) {
+        const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text }),
+        });
+        if (!res.ok) throw new Error('Telegram API error');
+      } else {
+        console.info('Telegram not configured, logging:', text);
+      }
+
+      setSubmitted(true);
+      reset({ channel: 'call' });
+    } catch {
+      setError('Не удалось отправить заявку. Позвоните нам: 8 (926) 092-69-19');
+    }
   };
 
   return (
@@ -139,6 +166,8 @@ export function BookingForm() {
                     className="input resize-none"
                   />
                 </Field>
+
+                {error && <p className="text-sm text-brand-orange">{error}</p>}
 
                 <button
                   type="submit"

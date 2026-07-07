@@ -70,7 +70,7 @@ export function Footer() {
         </div>
 
         <div className="mt-14 pt-8 border-t border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs uppercase tracking-widest text-[var(--text-subtle)]">
-          <div>© 2025 Indoor Golf Moscow. Первое в России.</div>
+          <div>© {new Date().getFullYear()} Indoor Golf Moscow. Первое в России.</div>
           <div className="flex items-center gap-2">
             <span className="h-px w-8 bg-brand-orange" />
             We make golf accessible

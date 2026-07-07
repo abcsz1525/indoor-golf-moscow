@@ -93,9 +93,9 @@ export function TrackMan() {
 
         {/* marquee */}
         <div className="mt-20 relative overflow-hidden border-y border-black/30 py-4">
-          <div className="flex gap-16 whitespace-nowrap animate-scroll-x w-max">
+          <div className="flex whitespace-nowrap animate-scroll-x w-max">
             {[...Array(2)].map((_, i) => (
-              <div key={i} className="flex gap-16 items-center display uppercase text-4xl md:text-6xl">
+              <div key={i} className="flex gap-16 items-center pr-16 display uppercase text-4xl md:text-6xl">
                 <span>Precision</span>
                 <span className="text-black/40">×</span>
                 <span>Data</span>

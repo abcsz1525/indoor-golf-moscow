@@ -11,12 +11,12 @@ import img5 from '../assets/gallery/5.jpg';
 import img6 from '../assets/gallery/6.jpg';
 
 const IMAGES = [
+  { src: img4, alt: 'Indoor Golf — тренировка с PRO на симуляторе' },
+  { src: img3, alt: 'Indoor Golf — клюшки и симулятор' },
+  { src: img2, alt: 'Indoor Golf — отработка паттинга' },
+  { src: img5, alt: 'Indoor Golf — экран симулятора Trackman' },
+  { src: img6, alt: 'Indoor Golf — брендинг клуба' },
   { src: img1, alt: 'Indoor Golf — мячи и ти' },
-  { src: img2, alt: 'Indoor Golf — пространство' },
-  { src: img3, alt: 'Indoor Golf — интерьер' },
-  { src: img4, alt: 'Indoor Golf — симулятор' },
-  { src: img5, alt: 'Indoor Golf — зона отдыха' },
-  { src: img6, alt: 'Indoor Golf — клуб' },
 ];
 
 export function Gallery() {
@@ -82,7 +82,7 @@ export function Gallery() {
         </div>
       </div>
 
-      <div className="grid grid-cols-6 gap-2 mt-3">
+      <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mt-3">
         {IMAGES.map((img, i) => (
           <motion.div
             key={i}

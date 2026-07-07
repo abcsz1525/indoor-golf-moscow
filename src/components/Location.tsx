@@ -24,7 +24,7 @@ export function Location() {
             Без выходных · 7:00 – 23:00
           </InfoRow>
           <InfoRow icon={Train} label="Метро">
-            Спортивная · 10 минут пешком
+            Воробьёвы горы · МЦК Лужники
           </InfoRow>
           <InfoRow icon={CircleParking} label="Парковка">
             Бесплатно на территории спорткомплекса

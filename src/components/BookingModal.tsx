@@ -1,4 +1,4 @@
-import { useState, useRef, type KeyboardEvent } from 'react';
+import { useState, useRef, useEffect, type KeyboardEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Check, X, Phone, MessageCircle, Send } from 'lucide-react';
@@ -41,9 +41,30 @@ const CHANNEL_LABELS: Record<Channel, string> = {
   max: 'Макс',
 };
 
-export function BookingModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+export const INTERESTS = [
+  'Первый раз',
+  'Игра на симуляторе',
+  'Тренировка с PRO',
+  'Корпоратив',
+  'Абонемент',
+] as const;
+
+export function BookingModal({
+  open,
+  interest,
+  onClose,
+}: {
+  open: boolean;
+  interest?: string;
+  onClose: () => void;
+}) {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
+  const [selectedInterest, setSelectedInterest] = useState<string>('');
+
+  useEffect(() => {
+    if (open) setSelectedInterest(interest ?? '');
+  }, [open, interest]);
 
   const {
     register,
@@ -65,6 +86,7 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
       '',
       `👤 Имя: ${data.name}`,
       `📱 Телефон: ${data.phone}`,
+      selectedInterest ? `🎯 Интересует: ${selectedInterest}` : '',
       `💬 Способ связи: ${CHANNEL_LABELS[data.channel]}`,
       data.comment ? `📝 Комментарий: ${data.comment}` : '',
     ].filter(Boolean).join('\n');
@@ -196,6 +218,29 @@ export function BookingModal({ open, onClose }: { open: boolean; onClose: () => 
                       })}
                     />
                   </Field>
+
+                  <div>
+                    <div className="eyebrow mb-2">Что вас интересует</div>
+                    <div className="flex flex-wrap gap-2">
+                      {INTERESTS.map((item) => {
+                        const active = selectedInterest === item;
+                        return (
+                          <button
+                            type="button"
+                            key={item}
+                            onClick={() => setSelectedInterest(active ? '' : item)}
+                            className={`px-3 py-2 text-xs uppercase tracking-wider border transition-all duration-200 ${
+                              active
+                                ? 'border-brand-orange text-brand-orange bg-brand-orange/10'
+                                : 'border-line text-[var(--text-muted)] hover:border-neutral-400 hover:text-[var(--text-primary)]'
+                            }`}
+                          >
+                            {item}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
 
                   <div>
                     <div className="eyebrow mb-2">Способ связи</div>

@@ -114,7 +114,9 @@
     width: 60%;
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-    animation: shimmer 3s ease-in-out infinite;
+  }
+  .btn-primary:hover::after {
+    animation: shimmer 1.2s ease-in-out;
   }
   @keyframes shimmer {
     0%, 100% { left: -100%; }
@@ -149,7 +151,7 @@
 
 /* Subpage wrapper */
 .page-content {
-  padding-top: 5rem;
+  padding-top: 7.5rem;
 }
 .page-content > *:first-child {
   padding-top: 0 !important;
