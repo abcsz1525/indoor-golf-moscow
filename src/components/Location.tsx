@@ -27,7 +27,7 @@ export function Location() {
             Воробьёвы горы · МЦК Лужники
           </InfoRow>
           <InfoRow icon={CircleParking} label="Парковка">
-            Бесплатно на территории спорткомплекса
+            Охраняемая, на территории спорткомплекса
           </InfoRow>
 
           <a

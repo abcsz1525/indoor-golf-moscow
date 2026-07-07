@@ -27,3 +27,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.claude/
+.gstack/
+node_modules/
+.next/
+.venv/
+venv/
+dist/
+.vercel
+
+# Build archives for hosting upload
+*.zip

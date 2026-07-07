@@ -31,7 +31,7 @@ export function FinalCTA({ onBooking }: { onBooking: (interest?: string) => void
           transition={{ duration: 0.7, delay: 0.1 }}
           className="mt-6 max-w-xl text-lg font-light leading-relaxed"
         >
-          Лужники · без выходных 7:00–23:00 · бесплатная парковка.
+          Лужники · без выходных 7:00–23:00 · парковка на территории.
           Ответим в течение 30 минут в рабочее время.
         </motion.p>
 

@@ -94,7 +94,7 @@ export function Hero({ onBooking }: { onBooking: (interest?: string) => void }) 
         <div className="container-x py-5 flex flex-wrap items-center justify-between gap-x-10 gap-y-2 text-[11px] md:text-xs uppercase tracking-brand text-white/70">
           <span>Trackman</span>
           <span className="hidden sm:inline text-brand-orange">·</span>
-          <span>Лужники · бесплатная парковка</span>
+          <span>Лужники · парковка на территории</span>
           <span className="hidden sm:inline text-brand-orange">·</span>
           <span>Без выходных 7:00–23:00</span>
           <span className="hidden sm:inline text-brand-orange">·</span>
