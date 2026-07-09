@@ -22,7 +22,7 @@ const ITEMS = [
 
 export function WhyUs() {
   return (
-    <Section eyebrow="Почему Indoor Golf" title="Первый в России indoor-гольф клуб">
+    <Section eyebrow="Почему Indoor Golf" title="Первый в России">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-line">
         {ITEMS.map((item, i) => {
           const Icon = item.icon;

@@ -29,7 +29,7 @@ const PLANS = [
 
 export function PricingTeaser({ onBooking }: { onBooking: (interest?: string) => void }) {
   return (
-    <Section id="pricing" eyebrow="Стоимость" title="Игра, тренировки, абонементы" className="bg-bg-secondary">
+    <Section id="pricing" eyebrow="Стоимость" title="Форматы" className="bg-bg-secondary">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-line">
         {PLANS.map((p, i) => (
           <motion.div
