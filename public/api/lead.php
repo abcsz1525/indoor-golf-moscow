@@ -2,7 +2,7 @@
 // Прокси заявок в Telegram. Токен хранится только на сервере —
 // в клиентский код он не попадает, и api.telegram.org дёргает хостинг, а не браузер.
 $BOT_TOKEN = '__PASTE_BOT_TOKEN__';
-$CHAT_ID   = '__PASTE_CHAT_ID__';
+$CHAT_ID   = '-5229487803'; // группа «Indoor golf записи»
 
 header('Content-Type: application/json; charset=utf-8');
 
