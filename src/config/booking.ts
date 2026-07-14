@@ -5,12 +5,9 @@
 //   или короткая  https://yclients.com/company/1234567/booking
 //
 // Ссылка публичная (не секрет), поэтому хранится прямо в коде.
-// Пока стоит плейсхолдер — сайт использует Telegram-форму (см. BookingModal).
-//
-// Компания в YClients: 1466424 (форма: https://n1466424.yclients.com/company/1466424/).
-// Онлайн-запись пока НЕ активирована в кабинете (форма отдаёт «contact receptionist»).
-// Когда включат услуги + график — подставить рабочую ссылку сюда.
-export const YCLIENTS_URL = '__PASTE_YCLIENTS_URL__';
+// Компания в YClients: 1466424, форма на поддомене n1632762.
+// Базовый адрес редиректит на выбор услуг с брендингом Indoor Golf.
+export const YCLIENTS_URL = 'https://n1632762.yclients.com/';
 
 // YClients включён, если ссылка реально проставлена.
 export const yclientsEnabled = (): boolean => YCLIENTS_URL.startsWith('http');
