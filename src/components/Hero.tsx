@@ -66,7 +66,7 @@ export function Hero({ onBooking }: { onBooking: (interest?: string) => void }) 
           className="mt-8 max-w-2xl text-lg md:text-xl text-white/80 font-light leading-relaxed"
         >
           Симуляторы Trackman в Лужниках. От 6 000 ₽/час на компанию
-          до 6 человек — новичкам поможем с клюшками и первым ударом.
+          до 4 человек — новичкам поможем с клюшками и первым ударом.
         </motion.p>
 
         <motion.div

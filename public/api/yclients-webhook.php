@@ -57,6 +57,7 @@ function fmt_when($s) {
 }
 
 $sent = 0;
+$errors = [];
 
 foreach ($events as $event) {
   if (!is_array($event)) continue;
@@ -135,10 +136,18 @@ foreach ($events as $event) {
     CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
     CURLOPT_POSTFIELDS => json_encode(['chat_id' => $CHAT_ID, 'text' => $text], JSON_UNESCAPED_UNICODE),
   ]);
-  curl_exec($ch);
+  $tgResp = curl_exec($ch);
+  $tgErr  = curl_error($ch);
   curl_close($ch);
-  $sent++;
+
+  // Проверяем реальный ответ Telegram, а не молча считаем успехом.
+  $tgData = is_string($tgResp) ? json_decode($tgResp, true) : null;
+  if (is_array($tgData) && !empty($tgData['ok'])) {
+    $sent++;
+  } else {
+    $errors[] = $tgErr !== '' ? $tgErr : ($tgData['description'] ?? 'unknown');
+  }
 }
 
 // Всегда отвечаем 200, чтобы YClients не считал вебхук упавшим и не отключил его.
-echo json_encode(['ok' => true, 'sent' => $sent]);
+echo json_encode(['ok' => true, 'sent' => $sent, 'errors' => $errors], JSON_UNESCAPED_UNICODE);

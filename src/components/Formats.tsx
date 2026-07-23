@@ -55,7 +55,7 @@ export function Formats({ onBooking }: { onBooking: (interest?: string) => void 
             <h3 className="display text-2xl md:text-3xl text-[var(--text-primary)] uppercase tracking-wide">
               Аренда гольф-симулятора
             </h3>
-            <p className="text-sm text-[var(--text-subtle)] mt-2">До 6 человек на симуляторе — от 1 000 ₽ с человека</p>
+            <p className="text-sm text-[var(--text-subtle)] mt-2">До 4 человек на симуляторе — от 1 500 ₽ с человека</p>
             <BookBtn onClick={() => onBooking('Игра на симуляторе')} />
           </div>
           <div className="text-right flex-shrink-0 ml-6">
