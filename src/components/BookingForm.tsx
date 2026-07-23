@@ -222,7 +222,7 @@ export function BookingForm() {
           font-family: inherit;
         }
         .input::placeholder { color: var(--input-placeholder); }
-        .input:focus { border-bottom-color: #E8471A; }
+        .input:focus { border-bottom-color: #E35B27; }
       `}</style>
     </Section>
   );

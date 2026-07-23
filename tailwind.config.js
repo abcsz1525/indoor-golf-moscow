@@ -5,8 +5,8 @@ export default {
     extend: {
       colors: {
         brand: {
-          orange: '#E8471A',
-          'orange-hover': '#FF5A2C',
+          orange: '#E35B27',
+          'orange-hover': '#F0713D',
         },
         bg: {
           primary: 'var(--bg-primary)',
@@ -34,7 +34,7 @@ export default {
       },
       backgroundImage: {
         'brand-grid':
-          'linear-gradient(rgba(232,71,26,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(232,71,26,0.08) 1px, transparent 1px)',
+          'linear-gradient(rgba(227,91,39,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(227,91,39,0.08) 1px, transparent 1px)',
         'brand-grid-dark':
           'linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px)',
       },

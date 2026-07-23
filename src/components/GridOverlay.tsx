@@ -12,7 +12,7 @@ export function GridOverlay({
   className = '',
 }: GridOverlayProps) {
   const lineColor =
-    variant === 'orange' ? 'rgba(232,71,26,0.08)' : 'rgba(0,0,0,0.08)';
+    variant === 'orange' ? 'rgba(227,91,39,0.08)' : 'rgba(0,0,0,0.08)';
   return (
     <div
       className={`pointer-events-none absolute inset-0 ${className}`}

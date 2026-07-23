@@ -61,12 +61,12 @@
     overflow-x: hidden;
   }
   ::selection {
-    background: #e8471a;
+    background: #e35b27;
     color: var(--selection-text);
   }
   * {
     scrollbar-width: thin;
-    scrollbar-color: #e8471a var(--scrollbar-track);
+    scrollbar-color: #e35b27 var(--scrollbar-track);
   }
   ::-webkit-scrollbar {
     width: 8px;
@@ -76,7 +76,7 @@
     background: var(--scrollbar-track);
   }
   ::-webkit-scrollbar-thumb {
-    background: #e8471a;
+    background: #e35b27;
     border-radius: 0;
   }
 }
@@ -137,7 +137,7 @@
     left: 0;
     width: 40px;
     height: 1px;
-    background: #e8471a;
+    background: #e35b27;
     transition: width 0.3s ease;
   }
   .hairline-top:hover::before {

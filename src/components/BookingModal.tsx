@@ -314,7 +314,7 @@ export function BookingModal({
                 font-family: inherit;
               }
               .modal-input::placeholder { color: var(--input-placeholder); }
-              .modal-input:focus { border-bottom-color: #E8471A; }
+              .modal-input:focus { border-bottom-color: #E35B27; }
             `}</style>
           </motion.div>
         </motion.div>

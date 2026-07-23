@@ -16,7 +16,7 @@ export function Logo({ size = 32, className = '' }: LogoProps) {
   );
 }
 
-export function CompassMark({ size = 32, color = '#E8471A' }: { size?: number; color?: string }) {
+export function CompassMark({ size = 32, color = '#E35B27' }: { size?: number; color?: string }) {
   const s = size;
   return (
     <svg

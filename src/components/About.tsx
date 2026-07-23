@@ -52,7 +52,7 @@ export function About() {
               className="absolute inset-0"
               style={{
                 backgroundImage:
-                  'linear-gradient(rgba(232,71,26,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(232,71,26,0.12) 1px, transparent 1px)',
+                  'linear-gradient(rgba(227,91,39,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(227,91,39,0.12) 1px, transparent 1px)',
                 backgroundSize: '40px 40px',
               }}
             />
