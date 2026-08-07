@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, CalendarDays, MapPin, Users } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Section } from '../components/Section';
 import { usePageMeta } from '../hooks/usePageMeta';
 
@@ -114,10 +115,15 @@ export function EventsPage() {
           ))}
         </div>
 
-        <p className="mt-10 text-sm text-[var(--text-subtle)]">
+        <div className="mt-10 flex flex-wrap items-center gap-4 text-sm text-[var(--text-subtle)]">
+          <p>
           Хотите провести своё мероприятие на нашей площадке — корпоратив, день рождения или
-          турнир? Напишите нам, соберём программу под задачу.
-        </p>
+          турнир? Соберём программу под задачу.
+          </p>
+          <Link to="/contacts#booking" className="inline-flex items-center gap-2 uppercase tracking-widest text-brand-orange hover:gap-3 transition-all">
+            Оставить заявку <ArrowRight size={15} />
+          </Link>
+        </div>
       </Section>
     </div>
   );
