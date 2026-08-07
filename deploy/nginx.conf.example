@@ -1,0 +1,49 @@
+server {
+    listen 80;
+    server_name indoor-golf.ru www.indoor-golf.ru;
+
+    root /var/www/indoor-golf/dist;
+    index index.html;
+
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
+
+    location = /api/lead.php {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass unix:/run/php/php-fpm.sock;
+    }
+
+    location = /api/yclients-webhook.php {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass unix:/run/php/php-fpm.sock;
+    }
+
+    # Запрещает исполнение и скачивание любых других PHP-файлов.
+    location ~ \.php$ {
+        return 404;
+    }
+
+    location @not_found {
+        return 404;
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+        internal;
+    }
+
+    # Route-specific .html создаются scripts/postbuild.mjs.
+    location / {
+        try_files $uri $uri.html $uri/ @not_found;
+    }
+
+    location ~* \.(?:css|js|webp|png|jpg|jpeg|svg|woff2)$ {
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+        try_files $uri =404;
+    }
+}
