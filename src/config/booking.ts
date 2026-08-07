@@ -9,8 +9,11 @@
 // Базовый адрес редиректит на выбор услуг с брендингом Indoor Golf.
 export const YCLIENTS_URL = 'https://n1632762.yclients.com/';
 
-// YClients включён, если ссылка реально проставлена.
-export const yclientsEnabled = (): boolean => YCLIENTS_URL.startsWith('http');
+// Встраивание выключено по умолчанию: текущая форма YClients возвращает 403 для
+// части iframe-запросов. Включайте только после проверки всей записи на desktop
+// и mobile, задав публичный флаг VITE_YCLIENTS_EMBED_ENABLED=true.
+export const yclientsEnabled = (): boolean =>
+  import.meta.env.VITE_YCLIENTS_EMBED_ENABLED === 'true' && YCLIENTS_URL.startsWith('http');
 
 // Сценарии, которые всегда идут в Telegram-форму (нужен живой разговор,
 // а не выбор слота): корпоратив и т.п.
