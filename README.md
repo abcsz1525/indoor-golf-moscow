@@ -19,7 +19,7 @@ Vite не исполняет PHP. В локальном dev/preview формы �
 npm run check
 ```
 
-Команда последовательно запускает lint, восемь регрессионных тестов, TypeScript-проверку, production build и генерацию route-specific HTML. Подробности находятся в [TESTING.md](TESTING.md).
+Команда последовательно запускает lint, девять регрессионных тестов, TypeScript-проверку, production build и генерацию route-specific HTML. Подробности находятся в [TESTING.md](TESTING.md).
 
 ## Сборка
 
@@ -31,9 +31,9 @@ npm run build
 
 ## Production
 
-Сайт требует nginx и PHP-FPM. Статический Vercel deployment не поддерживается: он либо сломает PHP API, либо может выдать PHP-файлы как текст. Пример конфигурации находится в [deploy/nginx.conf.example](deploy/nginx.conf.example).
+Сайт требует веб-сервер с PHP. Для VPS подготовлен [пример nginx/PHP-FPM](deploy/nginx.conf.example), для текущего виртуального хостинга REG.RU — [пошаговая инструкция ISPmanager](deploy/REG-RU.md) и `.htaccess`, который автоматически попадает в сборку. Статический Vercel deployment не поддерживается: он сломает PHP API или может выдать PHP-файлы как текст.
 
-Секреты задаются только в окружении PHP-FPM:
+На VPS секреты задаются в окружении PHP-FPM:
 
 ```ini
 env[TG_BOT_TOKEN] = "..."
@@ -41,7 +41,9 @@ env[TG_CHAT_ID] = "..."
 env[YCLIENTS_WEBHOOK_KEY] = "новый-длинный-случайный-секрет"
 ```
 
-Никогда не добавляйте эти значения в `.env` Vite и не используйте префикс `VITE_`. После изменения PHP-FPM pool перезапустите PHP-FPM и проверьте endpoints.
+На виртуальном хостинге REG.RU они записываются в `/var/www/<логин>/data/indoor-golf-secrets.php`, то есть вне публичной директории `data/www/indoor-golf.ru`. Шаблон находится в [deploy/indoor-golf-secrets.php.example](deploy/indoor-golf-secrets.php.example).
+
+Никогда не добавляйте эти значения в Git, `dist/`, архив сайта или `.env` Vite и не используйте префикс `VITE_`.
 
 YClients webhook настраивается на адрес:
 
@@ -66,7 +68,7 @@ VITE_YCLIENTS_EMBED_ENABLED=true npm run build
 ## Перед публикацией
 
 1. Выполнить `npm ci && npm run check && npm audit --omit=dev`.
-2. Развернуть содержимое `dist/` с nginx/PHP-FPM конфигурацией.
+2. Для REG.RU выполнить `npm run package:reg-ru` и развернуть созданный `artifacts/indoor-golf-reg-ru.tar.gz` по инструкции ISPmanager. Для VPS развернуть `dist/` с nginx/PHP-FPM конфигурацией.
 3. Проверить `GET /robots.txt`, `GET /sitemap.xml` и неизвестный URL со статусом 404.
 4. Отправить тестовую заявку и подтвердить её появление в Telegram.
 5. Отправить тестовый YClients webhook с корректным `company_id` из кабинета сервиса.

@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/_server-config.php';
+
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 header('Cache-Control: no-store');
@@ -45,8 +47,8 @@ if (mb_strlen($name) < 2 || strlen($phoneDigits) < 10 || strlen($phoneDigits) > 
   json_response(422, ['ok' => false, 'error' => 'validation_failed']);
 }
 
-$botToken = trim((string)getenv('TG_BOT_TOKEN'));
-$chatId = trim((string)getenv('TG_CHAT_ID'));
+$botToken = server_secret('TG_BOT_TOKEN');
+$chatId = server_secret('TG_CHAT_ID');
 if ($botToken === '' || $chatId === '') {
   error_log('lead.php: Telegram environment is not configured');
   json_response(503, ['ok' => false, 'error' => 'service_unavailable']);

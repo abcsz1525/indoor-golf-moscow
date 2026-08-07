@@ -38,3 +38,4 @@ dist/
 
 # Build archives for hosting upload
 *.zip
+artifacts/

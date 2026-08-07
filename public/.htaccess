@@ -1,38 +1,54 @@
-# SPA fallback + HTTPS для хостинга reg.ru (nginx-прокси перед Apache).
+DirectoryIndex index.html
 
-# Принудительный HTTPS. За прокси Apache не видит TLS, поэтому проверяем
-# заголовок X-Forwarded-Proto, а не %{HTTPS} — иначе петля редиректов.
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # REG.RU ставит nginx-прокси перед Apache: HTTPS определяем по forwarded header.
+  RewriteCond %{HTTP_HOST} !^indoor-golf\.ru$ [NC,OR]
   RewriteCond %{HTTP:X-Forwarded-Proto} !=https
-  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  RewriteRule ^ https://indoor-golf.ru%{REQUEST_URI} [R=301,L,NE]
+
+  # В браузере доступны только два публичных PHP endpoint.
+  RewriteRule ^api/_server-config\.php$ - [R=404,L,NC]
+
+  # Существующие файлы и каталоги, включая assets и /invitational/, отдаём как есть.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Для основных маршрутов postbuild создаёт HTML с уникальными SEO-метаданными.
+  RewriteRule ^(about|tech|gallery|services|events|contacts|privacy)/?$ $1.html [L,NC]
+
+  # Любой неизвестный адрес получает настоящий HTTP 404 и нашу страницу ошибки.
+  RewriteRule ^ - [R=404,L]
 </IfModule>
 
-# SPA fallback: отдавать index.html для любого пути, который не указывает на
-# существующий файл/папку (BrowserRouter, F5 на /about).
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteBase /
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+ErrorDocument 404 /404.html
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+  <FilesMatch "\.(?:css|js|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  <FilesMatch "\.(?:webp|png|jpe?g|svg)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
 </IfModule>
 
-# Кэширование статики — JS/CSS с хэшем в имени можно кэшировать надолго.
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/html "access plus 0 seconds"
-  ExpiresByType text/css "access plus 1 year"
-  ExpiresByType application/javascript "access plus 1 year"
-  ExpiresByType image/svg+xml "access plus 1 month"
-  ExpiresByType image/png "access plus 1 month"
-  ExpiresByType image/jpeg "access plus 1 month"
-  ExpiresByType image/webp "access plus 1 month"
-  ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>
 
-# Gzip-сжатие текстовых ресурсов.
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
 </IfModule>

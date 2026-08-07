@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/_server-config.php';
+
 const COMPANY_ID = 1466424;
 
 header('Content-Type: application/json; charset=utf-8');
@@ -54,9 +56,9 @@ function send_telegram(string $botToken, string $chatId, string $text): bool {
   return false;
 }
 
-$botToken = trim((string)getenv('TG_BOT_TOKEN'));
-$chatId = trim((string)getenv('TG_CHAT_ID'));
-$webhookKey = trim((string)getenv('YCLIENTS_WEBHOOK_KEY'));
+$botToken = server_secret('TG_BOT_TOKEN');
+$chatId = server_secret('TG_CHAT_ID');
+$webhookKey = server_secret('YCLIENTS_WEBHOOK_KEY');
 $configured = $botToken !== '' && $chatId !== '' && $webhookKey !== '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {

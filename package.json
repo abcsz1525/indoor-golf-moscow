@@ -10,6 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "check": "npm run lint && npm run test && npm run build",
+    "package:reg-ru": "npm run build && node scripts/package-reg-ru.mjs",
     "preview": "vite preview",
     "start": "serve dist -s -l ${PORT:-3000}"
   },
