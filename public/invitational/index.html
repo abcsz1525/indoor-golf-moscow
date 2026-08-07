@@ -391,7 +391,12 @@
     fetch('/api/lead.php',{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({name:name,phone:phone,interest:'ID Golf Invitational — '+f.tariff.value,comment:f.comment.value.trim()})
-    }).then(function(r){return r.json().catch(function(){return{}})})
+    }).then(function(r){
+      return r.json().catch(function(){return null;}).then(function(data){
+        if(!r.ok||!data||data.ok!==true)throw new Error(data&&data.error||'delivery_failed');
+        return data;
+      });
+    })
      .then(function(){m.textContent='Заявка отправлена. Свяжемся с вами сегодня.';m.className='msg ok';f.reset();})
      .catch(function(){m.textContent='Не удалось отправить. Позвоните нам: +7 (926) 092-69-19';m.className='msg err';})
      .finally(function(){sb.disabled=false;sb.textContent='Отправить заявку';});
