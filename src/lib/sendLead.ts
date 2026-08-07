@@ -5,6 +5,7 @@ export interface Lead {
   channel?: string;
   comment?: string;
   page?: string;
+  website?: string;
 }
 
 export async function sendLead(lead: Lead): Promise<void> {

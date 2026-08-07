@@ -130,6 +130,10 @@
   .msg{margin-top:16px;font-size:15px;font-weight:600;display:none}
   .msg.ok{display:block;color:#6ede8a}
   .msg.err{display:block;color:#ff8a6b}
+  .consent{display:flex;align-items:flex-start;gap:10px;color:var(--mut);font-size:12px;line-height:1.5;text-transform:none;letter-spacing:0;cursor:pointer}
+  .consent input{width:18px;height:18px;margin-top:1px;accent-color:var(--orange);flex:0 0 auto}
+  .consent a{color:var(--orange-l);text-decoration:underline;text-underline-offset:2px}
+  .hp{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
 
   /* ---------- ФУТЕР ---------- */
   footer{border-top:1px solid var(--line);padding:38px 0}
@@ -348,10 +352,11 @@
         </select>
       </div>
       <div class="full"><label for="c">Комментарий</label><textarea id="c" name="comment" placeholder="Сколько человек, есть ли команда, вопросы"></textarea></div>
+      <div class="hp" aria-hidden="true"><label for="w">Не заполняйте это поле</label><input id="w" name="website" type="text" tabindex="-1" autocomplete="off"></div>
       <div class="full">
+        <label class="consent" for="consent"><input id="consent" name="consent" type="checkbox" required><span>Я принимаю <a href="/privacy" target="_blank" rel="noreferrer">политику конфиденциальности</a> и даю согласие на обработку данных для ответа на заявку.</span></label>
         <button class="btn" type="submit" id="sb" style="margin-top:4px">Отправить заявку</button>
-        <div class="note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</div>
-        <div class="msg" id="m"></div>
+        <div class="msg" id="m" role="status" aria-live="polite"></div>
       </div>
     </form>
   </div>
@@ -367,6 +372,7 @@
       <div class="fmut">ID Golf Invitational · 4 сентября 2026</div>
       <div class="fmut">Moscow Country Club, Нахабино</div>
       <div style="margin-top:8px"><a href="https://indoor-golf.ru">indoor-golf.ru</a> · <a href="https://t.me/indoorgolf">@indoorgolf</a></div>
+      <div style="margin-top:8px"><a href="/privacy">Политика конфиденциальности</a></div>
     </div>
   </div>
 </footer>
@@ -387,10 +393,11 @@
     m.className='msg';
     if(!name){m.textContent='Укажите имя.';m.className='msg err';return;}
     if(d.length!==10){m.textContent='Введите 10 цифр номера после +7.';m.className='msg err';return;}
+    if(!f.consent.checked){m.textContent='Подтвердите согласие на обработку данных.';m.className='msg err';return;}
     sb.disabled=true;sb.textContent='Отправляем…';
     fetch('/api/lead.php',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({name:name,phone:phone,interest:'ID Golf Invitational — '+f.tariff.value,comment:f.comment.value.trim()})
+      body:JSON.stringify({name:name,phone:phone,interest:'ID Golf Invitational — '+f.tariff.value,comment:f.comment.value.trim(),website:f.website.value})
     }).then(function(r){
       return r.json().catch(function(){return null;}).then(function(data){
         if(!r.ok||!data||data.ok!==true)throw new Error(data&&data.error||'delivery_failed');

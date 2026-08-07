@@ -6,7 +6,6 @@ import { BookingModal } from './components/BookingModal';
 import { YClientsModal } from './components/YClientsModal';
 import { yclientsEnabled, LEAD_ONLY_INTERESTS } from './config/booking';
 import { CustomCursor } from './components/CustomCursor';
-import { Preloader } from './components/Preloader';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { TechPage } from './pages/TechPage';
@@ -39,9 +38,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Preloader />
       <CustomCursor />
-      <div className="min-h-screen bg-bg-primary" style={{ color: 'var(--text-primary)' }}>
+      <div id="app-shell" className="min-h-screen bg-bg-primary" style={{ color: 'var(--text-primary)' }}>
         <Navbar onBooking={() => openBooking()} />
         <main>
           <Routes>
@@ -57,20 +55,21 @@ function App() {
           </Routes>
         </main>
         <Footer />
-        <BookingModal
-          open={bookingOpen}
-          interest={bookingInterest}
-          onClose={() => setBookingOpen(false)}
-        />
-        <YClientsModal
-          open={yclientsOpen}
-          onClose={() => setYclientsOpen(false)}
-          onLeadFallback={() => {
-            setYclientsOpen(false);
-            openLeadForm('Корпоратив');
-          }}
-        />
       </div>
+      <BookingModal
+        key={`lead-${bookingOpen ? 'open' : 'closed'}-${bookingInterest ?? ''}`}
+        open={bookingOpen}
+        interest={bookingInterest}
+        onClose={() => setBookingOpen(false)}
+      />
+      <YClientsModal
+        open={yclientsOpen}
+        onClose={() => setYclientsOpen(false)}
+        onLeadFallback={() => {
+          setYclientsOpen(false);
+          openLeadForm('Корпоратив');
+        }}
+      />
     </BrowserRouter>
   );
 }

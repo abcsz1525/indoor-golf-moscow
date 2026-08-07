@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useId, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Phone } from 'lucide-react';
 import { YCLIENTS_URL } from '../config/booking';
+import { useDialog } from '../hooks/useDialog';
 
 // Модалка онлайн-записи YClients: показывает виджет с выбором свободных окон
 // прямо на сайте (iframe). Если виджет не загрузился — есть кнопка открыть в
@@ -16,17 +17,9 @@ export function YClientsModal({
   onLeadFallback: () => void;
 }) {
   const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    if (open) setLoaded(false);
-  }, [open]);
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [open, onClose]);
+  const titleId = useId();
+  const descriptionId = useId();
+  const dialogRef = useDialog(open, onClose);
 
   return (
     <AnimatePresence>
@@ -40,6 +33,12 @@ export function YClientsModal({
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
           <motion.div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+            aria-describedby={descriptionId}
+            tabIndex={-1}
             initial={{ opacity: 0, y: 30, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.97 }}
@@ -53,7 +52,7 @@ export function YClientsModal({
                   <span className="h-px w-8 bg-brand-orange" />
                   Онлайн-запись
                 </div>
-                <h2 className="display text-xl md:text-2xl text-brand-orange uppercase leading-none">
+                <h2 id={titleId} className="display text-xl md:text-2xl text-brand-orange uppercase leading-none">
                   Выберите время
                 </h2>
               </div>
@@ -79,7 +78,7 @@ export function YClientsModal({
             </div>
 
             {/* Widget */}
-            <div className="relative flex-1 bg-white">
+            <div className="relative flex-1 bg-white" aria-busy={!loaded}>
               {!loaded && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-neutral-500">
                   <span className="h-8 w-8 rounded-full border-2 border-brand-orange border-t-transparent animate-spin" />
@@ -96,7 +95,7 @@ export function YClientsModal({
             </div>
 
             {/* Footer: fallbacks */}
-            <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-5 py-3 border-t border-line text-xs text-[var(--text-muted)]">
+            <div id={descriptionId} className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-5 py-3 border-t border-line text-xs text-[var(--text-muted)]">
               <a
                 href="tel:+79260926919"
                 className="flex items-center gap-1.5 hover:text-brand-orange transition-colors"

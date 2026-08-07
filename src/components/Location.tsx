@@ -54,6 +54,7 @@ export function Location({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
             width="100%"
             height="100%"
             frameBorder={0}
+            loading="lazy"
             className="absolute inset-0 grayscale contrast-125 opacity-90 hover:opacity-100 transition-opacity"
           />
           <span className="absolute top-4 left-4 h-3 w-3 border-l border-t border-brand-orange" />

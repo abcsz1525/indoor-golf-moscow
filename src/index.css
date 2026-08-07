@@ -58,7 +58,6 @@
     font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     margin: 0;
-    overflow-x: hidden;
   }
   ::selection {
     background: #e35b27;
@@ -147,6 +146,19 @@
 
 .text-text {
   color: var(--text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Subpage wrapper */

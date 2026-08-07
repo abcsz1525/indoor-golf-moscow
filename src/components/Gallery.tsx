@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Section } from './Section';
 
@@ -21,14 +21,16 @@ const IMAGES = [
 
 export function Gallery({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   const [current, setCurrent] = useState(0);
+  const reduceMotion = useReducedMotion();
 
   const next = useCallback(() => setCurrent((i) => (i + 1) % IMAGES.length), []);
   const prev = useCallback(() => setCurrent((i) => (i - 1 + IMAGES.length) % IMAGES.length), []);
 
   useEffect(() => {
+    if (reduceMotion) return;
     const timer = setInterval(next, 4000);
     return () => clearInterval(timer);
-  }, [next]);
+  }, [next, reduceMotion]);
 
   return (
     <Section id="gallery" eyebrow="Атмосфера" title="Галерея" headingLevel={headingLevel}>
@@ -39,6 +41,8 @@ export function Gallery({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
               key={i}
               src={img.src}
               alt={img.alt}
+              loading={i === 0 ? 'eager' : 'lazy'}
+              decoding="async"
               initial={false}
               animate={{ opacity: i === current ? 1 : 0 }}
               transition={{ duration: 0.6 }}
@@ -97,7 +101,7 @@ export function Gallery({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
                 i === current ? 'border-brand-orange' : 'border-line opacity-60 hover:opacity-100'
               }`}
             >
-              <img src={img.src} alt={img.alt} className="h-full w-full object-cover" />
+              <img src={img.src} alt={img.alt} loading="lazy" decoding="async" className="h-full w-full object-cover" />
             </button>
           </motion.div>
         ))}

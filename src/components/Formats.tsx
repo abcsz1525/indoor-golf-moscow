@@ -55,7 +55,7 @@ export function Formats({
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6 }}
-          className="bg-bg-primary p-8 md:p-10 flex items-center justify-between"
+          className="bg-bg-primary p-8 md:p-10 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
             <h3 className="display text-2xl md:text-3xl text-[var(--text-primary)] uppercase tracking-wide">
@@ -64,7 +64,7 @@ export function Formats({
             <p className="text-sm text-[var(--text-subtle)] mt-2">До 4 человек на симуляторе — от 1 500 ₽ с человека</p>
             <BookBtn onClick={() => onBooking('Игра на симуляторе')} />
           </div>
-          <div className="text-right flex-shrink-0 ml-6">
+          <div className="text-left sm:text-right flex-shrink-0 sm:ml-6">
             <div className="display text-3xl md:text-4xl text-brand-orange">6 000</div>
             <div className="text-xs uppercase tracking-widest text-[var(--text-subtle)]">руб./час</div>
           </div>
@@ -75,7 +75,7 @@ export function Formats({
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, delay: 0.08 }}
-          className="bg-bg-primary p-8 md:p-10 flex items-center justify-between"
+          className="bg-bg-primary p-8 md:p-10 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
             <h3 className="display text-2xl md:text-3xl text-[var(--text-primary)] uppercase tracking-wide">
@@ -84,7 +84,7 @@ export function Formats({
             <p className="text-sm text-[var(--text-subtle)] mt-2">Полный набор для комфортной игры</p>
             <BookBtn onClick={() => onBooking('Игра на симуляторе')} />
           </div>
-          <div className="text-right flex-shrink-0 ml-6">
+          <div className="text-left sm:text-right flex-shrink-0 sm:ml-6">
             <div className="display text-3xl md:text-4xl text-brand-orange">3 000</div>
             <div className="text-xs uppercase tracking-widest text-[var(--text-subtle)]">руб./час</div>
           </div>
@@ -185,7 +185,7 @@ export function Formats({
 
       {/* Per-hour lessons */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-line">
-        <FadeIn className="bg-bg-primary p-8 md:p-10 flex items-center justify-between group hover:bg-bg-card transition-colors">
+        <FadeIn className="bg-bg-primary p-8 md:p-10 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between group hover:bg-bg-card transition-colors">
           <div>
             <h3 className="display text-2xl md:text-3xl text-[var(--text-primary)] uppercase tracking-wide">
               Групповое занятие
@@ -193,13 +193,13 @@ export function Formats({
             <p className="text-sm text-[var(--text-subtle)] mt-2">За группу 2–3 человека — от 5 000 ₽ с человека</p>
             <BookBtn onClick={() => onBooking('Тренировка с PRO')} />
           </div>
-          <div className="text-right flex-shrink-0 ml-6">
+          <div className="text-left sm:text-right flex-shrink-0 sm:ml-6">
             <div className="display text-3xl md:text-4xl text-brand-orange">15 000</div>
             <div className="text-xs uppercase tracking-widest text-[var(--text-subtle)]">руб./час</div>
           </div>
         </FadeIn>
 
-        <FadeIn delay={0.08} className="bg-bg-primary p-8 md:p-10 flex items-center justify-between group hover:bg-bg-card transition-colors">
+        <FadeIn delay={0.08} className="bg-bg-primary p-8 md:p-10 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between group hover:bg-bg-card transition-colors">
           <div>
             <h3 className="display text-2xl md:text-3xl text-[var(--text-primary)] uppercase tracking-wide">
               Индивидуальное занятие
@@ -207,7 +207,7 @@ export function Formats({
             <p className="text-sm text-[var(--text-subtle)] mt-2">Персональная тренировка с PRO</p>
             <BookBtn onClick={() => onBooking('Тренировка с PRO')} />
           </div>
-          <div className="text-right flex-shrink-0 ml-6">
+          <div className="text-left sm:text-right flex-shrink-0 sm:ml-6">
             <div className="display text-3xl md:text-4xl text-brand-orange">10 000</div>
             <div className="text-xs uppercase tracking-widest text-[var(--text-subtle)]">руб./час</div>
           </div>

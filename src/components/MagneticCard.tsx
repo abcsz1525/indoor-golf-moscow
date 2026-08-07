@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { motion, useSpring } from 'framer-motion';
 
 interface MagneticCardProps {
@@ -11,14 +11,12 @@ const SPRING_CONFIG = { stiffness: 300, damping: 20 };
 
 export function MagneticCard({ children, className = '' }: MagneticCardProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [enabled, setEnabled] = useState(false);
+  const [enabled] = useState(
+    () => window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)').matches,
+  );
 
   const x = useSpring(0, SPRING_CONFIG);
   const y = useSpring(0, SPRING_CONFIG);
-
-  useEffect(() => {
-    setEnabled(window.matchMedia('(pointer: fine)').matches);
-  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!enabled || !ref.current) return;

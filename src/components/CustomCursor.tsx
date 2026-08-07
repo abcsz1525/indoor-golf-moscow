@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
-const TRAIL_COUNT = 8;
+const TRAIL_COUNT = 4;
 
 function TrailDot({ index }: { index: number }) {
   const x = useMotionValue(-100);
@@ -46,7 +46,9 @@ function TrailDot({ index }: { index: number }) {
 export function CustomCursor() {
   const [visible, setVisible] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const [isFinePointer, setIsFinePointer] = useState(false);
+  const [isFinePointer, setIsFinePointer] = useState(
+    () => window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)').matches,
+  );
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -55,8 +57,7 @@ export function CustomCursor() {
   const springY = useSpring(cursorY, { stiffness: 500, damping: 30 });
 
   useEffect(() => {
-    const mq = window.matchMedia('(pointer: fine)');
-    setIsFinePointer(mq.matches);
+    const mq = window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)');
     const handleChange = (e: MediaQueryListEvent) => setIsFinePointer(e.matches);
     mq.addEventListener('change', handleChange);
     return () => mq.removeEventListener('change', handleChange);

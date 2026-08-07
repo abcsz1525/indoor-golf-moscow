@@ -14,19 +14,17 @@ const NAV_ITEMS = [
 ];
 
 export function Navbar({ onBooking }: { onBooking: () => void }) {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState(() => window.scrollY > 24);
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
-    setOpen(false);
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
@@ -49,6 +47,7 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
             <Link
               key={item.to}
               to={item.to}
+              onClick={() => setOpen(false)}
               className={`text-sm uppercase tracking-widest whitespace-nowrap transition-colors ${
                 location.pathname === item.to
                   ? 'text-brand-orange'
@@ -96,6 +95,7 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
               <Link
                 key={item.to}
                 to={item.to}
+                onClick={() => setOpen(false)}
                 className={`text-lg uppercase tracking-widest ${
                   location.pathname === item.to
                     ? 'text-brand-orange'
@@ -108,6 +108,7 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
             ))}
             <a
               href="tel:+79260926919"
+              onClick={() => setOpen(false)}
               className="flex items-center gap-2 text-lg tracking-wider"
               style={{ color: 'var(--text-primary)' }}
             >
@@ -115,7 +116,10 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
               8 926 092-69-19
             </a>
             <button
-              onClick={onBooking}
+              onClick={() => {
+                setOpen(false);
+                onBooking();
+              }}
               className="text-lg uppercase tracking-widest text-brand-orange text-left"
             >
               Записаться

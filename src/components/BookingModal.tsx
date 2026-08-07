@@ -1,25 +1,9 @@
-import { useState, useRef, useEffect, type KeyboardEvent } from 'react';
+import { useId, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { sendLead } from '../lib/sendLead';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Check, X, Phone, MessageCircle, Send } from 'lucide-react';
-
-function getDigits(value: string): string {
-  const all = value.replace(/\D/g, '');
-  if (all.startsWith('8') && all.length > 1) return all.slice(1);
-  if (all.startsWith('7')) return all.slice(1);
-  return all;
-}
-
-function formatFromDigits(d: string): string {
-  if (d.length === 0) return '';
-  let r = '+7 (' + d.slice(0, 3);
-  if (d.length >= 3) r += ') ';
-  if (d.length > 3) r += d.slice(3, 6);
-  if (d.length > 6) r += '-' + d.slice(6, 8);
-  if (d.length > 8) r += '-' + d.slice(8, 10);
-  return r;
-}
+import { useDialog } from '../hooks/useDialog';
 
 type Channel = 'call' | 'telegram' | 'max';
 
@@ -28,6 +12,8 @@ interface FormValues {
   phone: string;
   channel: Channel;
   comment?: string;
+  consent: boolean;
+  website?: string;
 }
 
 const CHANNELS: { id: Channel; label: string }[] = [
@@ -42,7 +28,7 @@ const CHANNEL_LABELS: Record<Channel, string> = {
   max: 'Макс',
 };
 
-export const INTERESTS = [
+const INTERESTS = [
   'Первый раз',
   'Игра на симуляторе',
   'Тренировка с PRO',
@@ -61,24 +47,25 @@ export function BookingModal({
 }) {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
-  const [selectedInterest, setSelectedInterest] = useState<string>('');
-
-  useEffect(() => {
-    if (open) setSelectedInterest(interest ?? '');
-  }, [open, interest]);
+  const [selectedInterest, setSelectedInterest] = useState(interest ?? '');
+  const [selectedChannel, setSelectedChannel] = useState<Channel>('call');
+  const titleId = useId();
+  const descriptionId = useId();
+  const nameId = useId();
+  const phoneId = useId();
+  const commentId = useId();
+  const consentId = useId();
+  const dialogRef = useDialog(open, onClose);
 
   const {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors, isSubmitting },
     reset,
   } = useForm<FormValues>({
     defaultValues: { channel: 'call' },
   });
-
-  const selected = watch('channel');
 
   const onSubmit = async (data: FormValues) => {
     setError('');
@@ -90,8 +77,10 @@ export function BookingModal({
         channel: CHANNEL_LABELS[data.channel],
         comment: data.comment,
         page: window.location.pathname,
+        website: data.website,
       });
       setSubmitted(true);
+      setSelectedChannel('call');
       reset({ channel: 'call' });
     } catch {
       setError('Не удалось отправить заявку. Позвоните нам: 8 (926) 092-69-19');
@@ -118,6 +107,12 @@ export function BookingModal({
 
           {/* Modal */}
           <motion.div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+            aria-describedby={descriptionId}
+            tabIndex={-1}
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
@@ -136,9 +131,12 @@ export function BookingModal({
               <span className="h-px w-8 bg-brand-orange" />
               Заявка
             </div>
-            <h2 className="display text-3xl text-brand-orange uppercase mb-5">
+            <h2 id={titleId} className="display text-3xl text-brand-orange uppercase mb-2">
               Записаться
             </h2>
+            <p id={descriptionId} className="mb-5 text-sm text-[var(--text-muted)]">
+              Оставьте контакты, и администратор поможет подобрать время и формат.
+            </p>
 
             <AnimatePresence mode="wait">
               {submitted ? (
@@ -148,6 +146,7 @@ export function BookingModal({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                   className="flex flex-col items-start gap-4"
+                  role="status"
                 >
                   <div className="h-12 w-12 rounded-full bg-brand-orange flex items-center justify-center">
                     <Check size={24} className="text-white" strokeWidth={2.5} />
@@ -175,8 +174,11 @@ export function BookingModal({
                   className="space-y-4"
                   noValidate
                 >
-                  <Field label="Имя" error={errors.name?.message}>
+                  <Field id={nameId} label="Имя" error={errors.name?.message}>
                     <input
+                      id={nameId}
+                      aria-describedby={errors.name ? `${nameId}-error` : undefined}
+                      autoComplete="name"
                       {...register('name', {
                         required: 'Укажите ваше имя',
                         minLength: { value: 2, message: 'Слишком короткое имя' },
@@ -186,19 +188,20 @@ export function BookingModal({
                     />
                   </Field>
 
-                  <Field label="Телефон" error={errors.phone?.message}>
-                    <PhoneInput
-                      value={watch('phone') || ''}
-                      onChange={(v) => setValue('phone', v, { shouldValidate: !!errors.phone })}
-                      error={!!errors.phone}
-                    />
+                  <Field id={phoneId} label="Телефон" error={errors.phone?.message}>
                     <input
-                      type="hidden"
+                      id={phoneId}
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      placeholder="+7 (___) ___-__-__"
+                      aria-describedby={errors.phone ? `${phoneId}-error` : undefined}
+                      className="modal-input"
                       {...register('phone', {
                         required: 'Укажите контактный телефон',
                         validate: (v) => {
-                          const d = getDigits(v);
-                          return d.length === 10 || 'Введите 10 цифр номера';
+                          const digits = v.replace(/\D/g, '');
+                          return (digits.length === 10 || digits.length === 11) || 'Введите корректный номер';
                         },
                       })}
                     />
@@ -219,6 +222,7 @@ export function BookingModal({
                                 ? 'border-brand-orange text-brand-orange bg-brand-orange/10'
                                 : 'border-line text-[var(--text-muted)] hover:border-neutral-400 hover:text-[var(--text-primary)]'
                             }`}
+                            aria-pressed={active}
                           >
                             {item}
                           </button>
@@ -231,17 +235,21 @@ export function BookingModal({
                     <div className="eyebrow mb-2">Способ связи</div>
                     <div className="flex flex-wrap gap-2">
                       {CHANNELS.map((c) => {
-                        const active = selected === c.id;
+                        const active = selectedChannel === c.id;
                         return (
                           <button
                             type="button"
                             key={c.id}
-                            onClick={() => setValue('channel', c.id)}
+                            onClick={() => {
+                              setSelectedChannel(c.id);
+                              setValue('channel', c.id);
+                            }}
                             className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-200 ${
                               active
                                 ? 'border-brand-orange text-brand-orange bg-brand-orange/10'
                                 : 'border-line text-[var(--text-muted)] hover:border-neutral-400 hover:text-[var(--text-primary)]'
                             }`}
+                            aria-pressed={active}
                           >
                             {c.label}
                           </button>
@@ -250,8 +258,9 @@ export function BookingModal({
                     </div>
                   </div>
 
-                  <Field label="Комментарий">
+                  <Field id={commentId} label="Комментарий">
                     <textarea
+                      id={commentId}
                       {...register('comment')}
                       placeholder="Желаемая дата, формат…"
                       rows={2}
@@ -259,8 +268,34 @@ export function BookingModal({
                     />
                   </Field>
 
+                  <div className="sr-only" aria-hidden="true">
+                    <label htmlFor={`${nameId}-website`}>Не заполняйте это поле</label>
+                    <input
+                      id={`${nameId}-website`}
+                      tabIndex={-1}
+                      autoComplete="off"
+                      {...register('website')}
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor={consentId} className="flex items-start gap-3 text-xs text-[var(--text-muted)] cursor-pointer">
+                      <input
+                        id={consentId}
+                        type="checkbox"
+                        className="mt-0.5 accent-[#E35B27]"
+                        aria-describedby={errors.consent ? `${consentId}-error` : undefined}
+                        {...register('consent', { required: 'Подтвердите согласие на обработку данных' })}
+                      />
+                      <span>
+                        Я принимаю <a href="/privacy" target="_blank" rel="noreferrer" className="text-brand-orange underline underline-offset-2">политику конфиденциальности</a> и даю согласие на обработку данных для ответа на заявку.
+                      </span>
+                    </label>
+                    {errors.consent && <p id={`${consentId}-error`} role="alert" className="mt-2 text-xs text-brand-orange">{errors.consent.message}</p>}
+                  </div>
+
                   {error && (
-                    <p className="text-sm text-red-600">{error}</p>
+                    <p className="text-sm text-red-600" role="alert">{error}</p>
                   )}
 
                   <button
@@ -275,9 +310,6 @@ export function BookingModal({
                     />
                   </button>
 
-                  <p className="text-[11px] text-[var(--text-subtle)]">
-                    Оставляя заявку, вы соглашаетесь с обработкой персональных данных.
-                  </p>
                 </motion.form>
               )}
             </AnimatePresence>
@@ -323,62 +355,22 @@ export function BookingModal({
   );
 }
 
-function PhoneInput({ value, onChange }: { value: string; onChange: (v: string) => void; error?: boolean }) {
-  const ref = useRef<HTMLInputElement>(null);
-  const digitsRef = useRef(getDigits(value));
-
-  const handleInput = () => {
-    const input = ref.current;
-    if (!input) return;
-    const newDigits = getDigits(input.value).slice(0, 10);
-    digitsRef.current = newDigits;
-    const formatted = formatFromDigits(newDigits);
-    input.value = formatted;
-    onChange(formatted);
-  };
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace') {
-      e.preventDefault();
-      const d = digitsRef.current;
-      if (d.length > 0) {
-        const newDigits = d.slice(0, -1);
-        digitsRef.current = newDigits;
-        const formatted = formatFromDigits(newDigits);
-        if (ref.current) ref.current.value = formatted;
-        onChange(formatted);
-      }
-    }
-  };
-
-  return (
-    <input
-      ref={ref}
-      defaultValue={value}
-      onInput={handleInput}
-      onKeyDown={handleKeyDown}
-      placeholder="+7 (___) ___-__-__"
-      type="tel"
-      inputMode="numeric"
-      className="modal-input"
-    />
-  );
-}
-
 function Field({
+  id,
   label,
   error,
   children,
 }: {
+  id: string;
   label: string;
   error?: string;
   children: React.ReactNode;
 }) {
   return (
     <div>
-      <label className="eyebrow block mb-0.5">{label}</label>
+      <label htmlFor={id} className="eyebrow block mb-0.5">{label}</label>
       {children}
-      {error && <p className="mt-1 text-xs text-brand-orange">{error}</p>}
+      {error && <p id={`${id}-error`} role="alert" className="mt-1 text-xs text-brand-orange">{error}</p>}
     </div>
   );
 }
