@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { MapPin } from 'lucide-react';
 import { Section } from './Section';
-import logoIcon from '../assets/logo-icon.png';
+import logoIcon from '../assets/logo-icon.webp';
 
 export function About({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   return (

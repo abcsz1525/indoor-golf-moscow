@@ -3,12 +3,12 @@ import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Section } from './Section';
 
-import img1 from '../assets/gallery/1.jpeg';
-import img2 from '../assets/gallery/2.jpeg';
-import img3 from '../assets/gallery/3.jpeg';
-import img4 from '../assets/gallery/4.jpeg';
-import img5 from '../assets/gallery/5.jpg';
-import img6 from '../assets/gallery/6.jpg';
+import img1 from '../assets/gallery/1.webp';
+import img2 from '../assets/gallery/2.webp';
+import img3 from '../assets/gallery/3.webp';
+import img4 from '../assets/gallery/4.webp';
+import img5 from '../assets/gallery/5.webp';
+import img6 from '../assets/gallery/6.webp';
 
 const IMAGES = [
   { src: img1, alt: 'Мероприятие — 1' },

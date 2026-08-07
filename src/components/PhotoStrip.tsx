@@ -3,10 +3,10 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Section } from './Section';
 
-import img2 from '../assets/gallery/2.jpeg';
-import img3 from '../assets/gallery/3.jpeg';
-import img4 from '../assets/gallery/4.jpeg';
-import img5 from '../assets/gallery/5.jpg';
+import img2 from '../assets/gallery/2.webp';
+import img3 from '../assets/gallery/3.webp';
+import img4 from '../assets/gallery/4.webp';
+import img5 from '../assets/gallery/5.webp';
 
 const PHOTOS = [
   { src: img4, alt: 'Тренировка с PRO на симуляторе Trackman' },

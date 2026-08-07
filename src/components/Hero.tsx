@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useRef } from 'react';
-import heroPhoto from '../assets/gallery/4.jpeg';
+import heroPhoto from '../assets/gallery/4.webp';
 
 export function Hero({ onBooking }: { onBooking: (interest?: string) => void }) {
   const ref = useRef<HTMLElement>(null);
