@@ -4,9 +4,9 @@ import { Section } from './Section';
 
 const ADDRESS_QUERY = 'Москва, ул. Лужники 24 стр. 21';
 
-export function Location() {
+export function Location({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   return (
-    <Section id="location" eyebrow="Как нас найти" title="Локация">
+    <Section id="location" eyebrow="Как нас найти" title="Локация" headingLevel={headingLevel}>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}

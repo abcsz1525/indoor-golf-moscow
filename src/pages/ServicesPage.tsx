@@ -10,7 +10,7 @@ export function ServicesPage({ onBooking }: { onBooking: (interest?: string) => 
 
   return (
     <div className="page-content">
-      <Formats onBooking={onBooking} />
+      <Formats onBooking={onBooking} headingLevel={1} />
       <ServicesCTA />
     </div>
   );

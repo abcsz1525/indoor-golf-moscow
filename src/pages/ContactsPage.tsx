@@ -10,7 +10,7 @@ export function ContactsPage() {
 
   return (
     <div className="page-content">
-      <Location />
+      <Location headingLevel={1} />
       <BookingForm />
     </div>
   );

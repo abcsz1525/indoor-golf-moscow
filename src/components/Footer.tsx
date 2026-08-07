@@ -31,7 +31,7 @@ export function Footer() {
               <Logo size={66} />
             </Link>
             <p className="mt-6 text-sm text-[var(--text-subtle)] max-w-xs leading-relaxed">
-              Первое в России пространство гольфа в помещении. Симуляторы
+              Пространство indoor-гольфа в Лужниках. Симуляторы
               Trackman. Лужники, Москва.
             </p>
           </div>
@@ -45,6 +45,7 @@ export function Footer() {
               <li><Link to="/services" className="hover:text-brand-orange">Услуги</Link></li>
               <li><Link to="/events" className="hover:text-brand-orange">События</Link></li>
               <li><Link to="/contacts" className="hover:text-brand-orange">Контакты</Link></li>
+              <li><Link to="/privacy" className="hover:text-brand-orange">Конфиденциальность</Link></li>
             </ul>
           </div>
 
@@ -71,7 +72,7 @@ export function Footer() {
         </div>
 
         <div className="mt-14 pt-8 border-t border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs uppercase tracking-widest text-[var(--text-subtle)]">
-          <div>© {new Date().getFullYear()} Indoor Golf Moscow. Первое в России.</div>
+          <div>© {new Date().getFullYear()} Indoor Golf Moscow.</div>
           <div className="flex items-center gap-2">
             <span className="h-px w-8 bg-brand-orange" />
             We make golf accessible

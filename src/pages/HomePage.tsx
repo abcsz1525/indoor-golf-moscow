@@ -13,7 +13,7 @@ import { usePageMeta } from '../hooks/usePageMeta';
 export function HomePage({ onBooking }: { onBooking: (interest?: string) => void }) {
   usePageMeta(
     'Гольф-симулятор Trackman в Москве — Indoor Golf Moscow, Лужники',
-    'Первое в России пространство indoor-гольфа. Симулятор Trackman в Лужниках: игра от 6 000 ₽/час на компанию до 4 человек, тренировки с PRO, абонементы. Без выходных 7:00–23:00. Запись онлайн.'
+    'Пространство indoor-гольфа в Лужниках. Симулятор Trackman: игра от 6 000 ₽/час на компанию до 4 человек, тренировки с PRO, абонементы. Без выходных 7:00–23:00.'
   );
 
   return (

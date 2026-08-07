@@ -8,7 +8,9 @@ const METRICS = [
   { label: 'Spin Rate', value: 2800, unit: 'rpm', bar: '70%' },
 ];
 
-export function TrackMan() {
+export function TrackMan({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
+  const Heading = headingLevel === 1 ? motion.h1 : motion.h2;
+
   return (
     <section id="trackman" className="relative overflow-hidden bg-brand-orange text-black">
       {/* brand grid overlay (darker on orange per brandbook) */}
@@ -35,7 +37,7 @@ export function TrackMan() {
           Технология
         </motion.div>
 
-        <motion.h2
+        <Heading
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
@@ -44,7 +46,7 @@ export function TrackMan() {
           style={{ fontSize: 'clamp(64px, 14vw, 220px)', lineHeight: 0.85 }}
         >
           TrackMan
-        </motion.h2>
+        </Heading>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mt-12">
           <motion.p

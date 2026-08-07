@@ -44,6 +44,7 @@ export function EventsPage() {
     <div className="page-content">
       <Section
         first
+        headingLevel={1}
         eyebrow="Календарь"
         title="События "
         titleHighlight="клуба"

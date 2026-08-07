@@ -3,9 +3,9 @@ import { MapPin } from 'lucide-react';
 import { Section } from './Section';
 import logoIcon from '../assets/logo-icon.png';
 
-export function About() {
+export function About({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   return (
-    <Section id="about" eyebrow="О пространстве" title="Indoor Golf" titleHighlight=" Moscow">
+    <Section id="about" eyebrow="О пространстве" title="Indoor Golf" titleHighlight=" Moscow" headingLevel={headingLevel}>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 items-start">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -15,7 +15,7 @@ export function About() {
           className="lg:col-span-7 space-y-8"
         >
           <p className="text-xl md:text-2xl text-[var(--text-primary)] leading-relaxed font-light">
-            Первое в России пространство гольфа в помещении, оснащённое передовыми
+            Пространство indoor-гольфа в Лужниках, оснащённое передовыми
             симуляторами <span className="text-brand-orange">Trackman</span>.
             Технологии мирового уровня, профессиональное сообщество и атмосфера
             премиального клуба.

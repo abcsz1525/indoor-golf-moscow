@@ -10,6 +10,7 @@ interface SectionProps {
   className?: string;
   center?: boolean;
   first?: boolean;
+  headingLevel?: 1 | 2;
 }
 
 export function Section({
@@ -21,7 +22,10 @@ export function Section({
   className = '',
   center,
   first,
+  headingLevel = 2,
 }: SectionProps) {
+  const Heading = headingLevel === 1 ? 'h1' : 'h2';
+
   return (
     <section id={id} className={`relative ${first ? 'pt-0 pb-12 md:pb-16' : 'py-12 md:py-16'} ${className}`}>
       <div className="container-x">
@@ -44,10 +48,10 @@ export function Section({
               </div>
             )}
             {title && (
-              <h2 className="section-title text-brand-orange uppercase">
+              <Heading className="section-title text-brand-orange uppercase">
                 {title}
                 {titleHighlight && <span className="text-[var(--text-primary)]">{titleHighlight}</span>}
-              </h2>
+              </Heading>
             )}
           </motion.div>
         )}

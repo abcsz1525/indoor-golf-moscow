@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://indoor-golf.ru/sitemap.xml

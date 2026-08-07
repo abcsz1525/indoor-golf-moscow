@@ -14,6 +14,8 @@ import { GalleryPage } from './pages/GalleryPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { EventsPage } from './pages/EventsPage';
 import { ContactsPage } from './pages/ContactsPage';
+import { PrivacyPage } from './pages/PrivacyPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 function App() {
   const [bookingOpen, setBookingOpen] = useState(false);
@@ -50,6 +52,8 @@ function App() {
             <Route path="/services" element={<ServicesPage onBooking={openBooking} />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/contacts" element={<ContactsPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
         <Footer />

@@ -9,7 +9,7 @@ export function GalleryPage() {
 
   return (
     <div className="page-content">
-      <Gallery />
+      <Gallery headingLevel={1} />
     </div>
   );
 }

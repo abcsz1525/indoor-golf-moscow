@@ -19,7 +19,7 @@ const IMAGES = [
   { src: img1, alt: 'Indoor Golf — мячи и ти' },
 ];
 
-export function Gallery() {
+export function Gallery({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   const [current, setCurrent] = useState(0);
 
   const next = useCallback(() => setCurrent((i) => (i + 1) % IMAGES.length), []);
@@ -31,7 +31,7 @@ export function Gallery() {
   }, [next]);
 
   return (
-    <Section id="gallery" eyebrow="Атмосфера" title="Галерея">
+    <Section id="gallery" eyebrow="Атмосфера" title="Галерея" headingLevel={headingLevel}>
       <div className="relative overflow-hidden border border-line" data-cursor="grow">
         <div className="relative aspect-[16/9] md:aspect-[21/9] bg-bg-card">
           {IMAGES.map((img, i) => (

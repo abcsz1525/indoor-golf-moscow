@@ -39,9 +39,15 @@ function BookBtn({ onClick }: { onClick: () => void }) {
   );
 }
 
-export function Formats({ onBooking }: { onBooking: (interest?: string) => void }) {
+export function Formats({
+  onBooking,
+  headingLevel = 2,
+}: {
+  onBooking: (interest?: string) => void;
+  headingLevel?: 1 | 2;
+}) {
   return (
-    <Section id="formats" eyebrow="Стоимость" title="Услуги">
+    <Section id="formats" eyebrow="Стоимость" title="Услуги" headingLevel={headingLevel}>
       {/* Hourly rates */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-line mb-16">
         <motion.div

@@ -9,7 +9,7 @@ export function TechPage() {
 
   return (
     <div className="page-content">
-      <TrackMan />
+      <TrackMan headingLevel={1} />
     </div>
   );
 }
