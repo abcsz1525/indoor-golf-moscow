@@ -6,6 +6,7 @@ import { BookingModal } from './components/BookingModal';
 import { YClientsModal } from './components/YClientsModal';
 import { yclientsEnabled, LEAD_ONLY_INTERESTS } from './config/booking';
 import { CustomCursor } from './components/CustomCursor';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 const HomePage = lazy(() => import('./pages/HomePage').then((module) => ({ default: module.HomePage })));
 const AboutPage = lazy(() => import('./pages/AboutPage').then((module) => ({ default: module.AboutPage })));
@@ -15,7 +16,6 @@ const ServicesPage = lazy(() => import('./pages/ServicesPage').then((module) => 
 const EventsPage = lazy(() => import('./pages/EventsPage').then((module) => ({ default: module.EventsPage })));
 const ContactsPage = lazy(() => import('./pages/ContactsPage').then((module) => ({ default: module.ContactsPage })));
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage').then((module) => ({ default: module.PrivacyPage })));
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then((module) => ({ default: module.NotFoundPage })));
 
 function App() {
   const [bookingOpen, setBookingOpen] = useState(false);
