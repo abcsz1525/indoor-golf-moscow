@@ -43,6 +43,7 @@ export function Footer() {
               <li><Link to="/tech" className="hover:text-brand-orange">Технологии</Link></li>
               <li><Link to="/gallery" className="hover:text-brand-orange">Галерея</Link></li>
               <li><Link to="/services" className="hover:text-brand-orange">Услуги</Link></li>
+              <li><Link to="/events" className="hover:text-brand-orange">События</Link></li>
               <li><Link to="/contacts" className="hover:text-brand-orange">Контакты</Link></li>
             </ul>
           </div>

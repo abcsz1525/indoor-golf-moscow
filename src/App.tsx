@@ -12,6 +12,7 @@ import { AboutPage } from './pages/AboutPage';
 import { TechPage } from './pages/TechPage';
 import { GalleryPage } from './pages/GalleryPage';
 import { ServicesPage } from './pages/ServicesPage';
+import { EventsPage } from './pages/EventsPage';
 import { ContactsPage } from './pages/ContactsPage';
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
             <Route path="/tech" element={<TechPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/services" element={<ServicesPage onBooking={openBooking} />} />
+            <Route path="/events" element={<EventsPage />} />
             <Route path="/contacts" element={<ContactsPage />} />
           </Routes>
         </main>

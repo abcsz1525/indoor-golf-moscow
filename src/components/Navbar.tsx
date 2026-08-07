@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { to: '/tech', label: 'Технологии' },
   { to: '/gallery', label: 'Галерея' },
   { to: '/services', label: 'Услуги' },
+  { to: '/events', label: 'События' },
   { to: '/contacts', label: 'Контакты' },
 ];
 
@@ -39,16 +40,16 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
       style={scrolled ? { backgroundColor: 'var(--nav-bg)' } : undefined}
     >
       <div className="container-x flex items-center justify-between h-20">
-        <Link to="/" className="flex items-center">
+        <Link to="/" className="flex items-center shrink-0">
           <Logo size={66} />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-7">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.to}
               to={item.to}
-              className={`text-sm uppercase tracking-widest transition-colors ${
+              className={`text-sm uppercase tracking-widest whitespace-nowrap transition-colors ${
                 location.pathname === item.to
                   ? 'text-brand-orange'
                   : 'hover:text-brand-orange'
@@ -60,14 +61,15 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
           ))}
           <a
             href="tel:+79260926919"
-            className="flex items-center gap-2 text-sm tracking-wider transition-colors hover:text-brand-orange"
+            className="flex items-center gap-2 text-sm tracking-wider whitespace-nowrap transition-colors hover:text-brand-orange"
             style={{ color: 'var(--text-muted)' }}
+            aria-label="Позвонить 8 926 092-69-19"
           >
-            <Phone size={15} className="text-brand-orange" />
-            8 926 092-69-19
+            <Phone size={15} className="text-brand-orange shrink-0" />
+            <span className="hidden xl:inline">8 926 092-69-19</span>
           </a>
           <ThemeToggle />
-          <button onClick={onBooking} data-booking-trigger className="btn-primary text-sm py-3 px-6">
+          <button onClick={onBooking} data-booking-trigger className="btn-primary text-sm py-3 px-6 whitespace-nowrap">
             Записаться
           </button>
         </nav>
