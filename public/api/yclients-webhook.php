@@ -1,153 +1,147 @@
 <?php
-// Приёмник вебхуков YClients → пересылает уведомления о записях в Telegram.
-// YClients дёргает этот файл при событиях с записями (создание/удаление).
-// Токен бота хранится только на сервере (в git — плейсхолдер).
-$BOT_TOKEN = '__PASTE_BOT_TOKEN__';
-$CHAT_ID   = '-5229487803'; // группа «Indoor golf записи»
+declare(strict_types=1);
 
-// Секрет в URL: вебхук настраивается как .../api/yclients-webhook.php?key=ЭТОТ_КЛЮЧ
-// Если ключ не совпал — запрос отбрасываем (чтобы в чат не слали мусор).
-$WEBHOOK_KEY = 'igm-yc-9f3a71';
-
-// Наша компания в YClients — чужие события игнорируем.
-$COMPANY_ID = 1466424;
+const COMPANY_ID = 1466424;
 
 header('Content-Type: application/json; charset=utf-8');
+header('X-Content-Type-Options: nosniff');
+header('Cache-Control: no-store');
 
-// YClients при настройке проверяет доступность URL обычным GET — отвечаем 200.
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-  echo '{"ok":true,"service":"yclients-webhook"}';
+function json_response(int $status, array $payload): never {
+  http_response_code($status);
+  echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
   exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-  http_response_code(405);
-  echo '{"ok":false,"error":"method"}';
-  exit;
+function clean_field(mixed $value, int $maxLength, bool $allowNewlines = false): string {
+  $text = trim((string)$value);
+  $text = preg_replace($allowNewlines ? '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u' : '/[\x00-\x1F\x7F]+/u', ' ', $text) ?? '';
+  return mb_substr($text, 0, $maxLength);
 }
 
-// Проверка секретного ключа.
-if (($_GET['key'] ?? '') !== $WEBHOOK_KEY) {
-  http_response_code(403);
-  echo '{"ok":false,"error":"forbidden"}';
-  exit;
+function format_money(mixed $value): string {
+  return number_format((float)$value, 0, '.', ' ') . ' ₽';
 }
 
-$raw = file_get_contents('php://input');
-$payload = json_decode($raw, true);
-if (!is_array($payload)) {
-  http_response_code(400);
-  echo '{"ok":false,"error":"bad_json"}';
-  exit;
+function format_when(mixed $value): string {
+  if (!$value) return '';
+  $timestamp = strtotime((string)$value);
+  return $timestamp === false ? clean_field($value, 50) : date('d.m.Y H:i', $timestamp);
 }
 
-// YClients может прислать одно событие (объект) или список событий (массив).
-$events = isset($payload['resource']) || isset($payload['data']) ? [$payload] : $payload;
-
-function money($v) {
-  $n = (float)$v;
-  return number_format($n, 0, '.', ' ') . ' ₽';
-}
-
-function fmt_when($s) {
-  if (!$s) return '';
-  $ts = strtotime((string)$s);
-  if ($ts === false) return (string)$s;
-  return date('d.m.Y H:i', $ts);
-}
-
-$sent = 0;
-$errors = [];
-
-foreach ($events as $event) {
-  if (!is_array($event)) continue;
-
-  // Интересуют только события по записям.
-  $resource = $event['resource'] ?? 'record';
-  if ($resource !== 'record') continue;
-
-  // Чужая компания — пропускаем.
-  $cid = $event['company_id'] ?? ($event['data']['company_id'] ?? null);
-  if ($cid !== null && (int)$cid !== $COMPANY_ID) continue;
-
-  $status = $event['status'] ?? 'create'; // create | update | delete
-  // Шлём только про новые записи и отмены; update (смена статуса) — слишком шумно.
-  if (!in_array($status, ['create', 'delete'], true)) continue;
-
-  $rec = $event['data'] ?? $event;
-
-  // Клиент.
-  $client = $rec['client'] ?? [];
-  $name  = trim((string)($client['name'] ?? $rec['client_name'] ?? ''));
-  $phone = trim((string)($client['phone'] ?? $rec['client_phone'] ?? ''));
-
-  // Услуги (может быть несколько).
-  $serviceTitles = [];
-  $total = 0;
-  if (!empty($rec['services']) && is_array($rec['services'])) {
-    foreach ($rec['services'] as $s) {
-      $t = trim((string)($s['title'] ?? ''));
-      if ($t !== '') $serviceTitles[] = $t;
-      $total += (float)($s['cost'] ?? $s['price'] ?? 0);
-    }
-  }
-  $servicesLine = implode(', ', $serviceTitles);
-
-  // Когда.
-  $when = fmt_when($rec['datetime'] ?? $rec['date'] ?? '');
-
-  // Сотрудник / ресурс.
-  $staff = '';
-  if (!empty($rec['staff']) && is_array($rec['staff'])) {
-    $staff = trim((string)($rec['staff']['name'] ?? ''));
-  }
-
-  $comment = trim((string)($rec['comment'] ?? ''));
-  $isOnline = !empty($rec['online']);
-
-  // Собираем сообщение.
-  $head = $status === 'delete'
-    ? '🔴 Отмена записи — YClients'
-    : '🟢 Новая запись — YClients';
-
-  $lines = [$head, ''];
-  if ($name !== '')         $lines[] = "👤 Имя: $name";
-  if ($phone !== '')        $lines[] = "📱 Телефон: $phone";
-  if ($servicesLine !== '') $lines[] = "🎯 Услуга: $servicesLine";
-  if ($total > 0)           $lines[] = "💰 Сумма: " . money($total);
-  if ($when !== '')         $lines[] = "🕒 Когда: $when";
-  if ($staff !== '')        $lines[] = "🎾 Ресурс: $staff";
-  if ($comment !== '')      $lines[] = "💬 Комментарий: $comment";
-  $lines[] = $isOnline ? "🌐 Источник: онлайн-запись" : "🏢 Источник: YClients";
-
-  $text = implode("\n", $lines);
-
-  if ($BOT_TOKEN === '__PASTE_BOT_TOKEN__') {
-    http_response_code(500);
-    echo '{"ok":false,"error":"not_configured"}';
-    exit;
-  }
-
-  $ch = curl_init("https://api.telegram.org/bot$BOT_TOKEN/sendMessage");
+function send_telegram(string $botToken, string $chatId, string $text): bool {
+  $ch = curl_init('https://api.telegram.org/bot' . rawurlencode($botToken) . '/sendMessage');
   curl_setopt_array($ch, [
     CURLOPT_POST => true,
     CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CONNECTTIMEOUT => 5,
     CURLOPT_TIMEOUT => 10,
     CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
-    CURLOPT_POSTFIELDS => json_encode(['chat_id' => $CHAT_ID, 'text' => $text], JSON_UNESCAPED_UNICODE),
+    CURLOPT_POSTFIELDS => json_encode([
+      'chat_id' => $chatId,
+      'text' => $text,
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
   ]);
-  $tgResp = curl_exec($ch);
-  $tgErr  = curl_error($ch);
+  $response = curl_exec($ch);
+  $curlError = curl_error($ch);
+  $httpCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
   curl_close($ch);
 
-  // Проверяем реальный ответ Telegram, а не молча считаем успехом.
-  $tgData = is_string($tgResp) ? json_decode($tgResp, true) : null;
-  if (is_array($tgData) && !empty($tgData['ok'])) {
-    $sent++;
-  } else {
-    $errors[] = $tgErr !== '' ? $tgErr : ($tgData['description'] ?? 'unknown');
-  }
+  $data = is_string($response) ? json_decode($response, true) : null;
+  if ($httpCode === 200 && is_array($data) && !empty($data['ok'])) return true;
+
+  error_log('yclients-webhook.php: Telegram delivery failed: ' . ($curlError !== '' ? $curlError : 'HTTP ' . $httpCode));
+  return false;
 }
 
-// Всегда отвечаем 200, чтобы YClients не считал вебхук упавшим и не отключил его.
-echo json_encode(['ok' => true, 'sent' => $sent, 'errors' => $errors], JSON_UNESCAPED_UNICODE);
+$botToken = trim((string)getenv('TG_BOT_TOKEN'));
+$chatId = trim((string)getenv('TG_CHAT_ID'));
+$webhookKey = trim((string)getenv('YCLIENTS_WEBHOOK_KEY'));
+$configured = $botToken !== '' && $chatId !== '' && $webhookKey !== '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+  json_response($configured ? 200 : 503, [
+    'ok' => $configured,
+    'service' => 'yclients-webhook',
+  ]);
+}
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+  header('Allow: GET, POST');
+  json_response(405, ['ok' => false, 'error' => 'method_not_allowed']);
+}
+
+if (!$configured) {
+  error_log('yclients-webhook.php: server environment is not configured');
+  json_response(503, ['ok' => false, 'error' => 'service_unavailable']);
+}
+
+$providedKey = (string)($_GET['key'] ?? '');
+if ($providedKey === '' || !hash_equals($webhookKey, $providedKey)) {
+  json_response(403, ['ok' => false, 'error' => 'forbidden']);
+}
+
+$contentLength = (int)($_SERVER['CONTENT_LENGTH'] ?? 0);
+if ($contentLength > 1_048_576) {
+  json_response(413, ['ok' => false, 'error' => 'payload_too_large']);
+}
+
+$raw = file_get_contents('php://input');
+$payload = is_string($raw) ? json_decode($raw, true) : null;
+if (!is_array($payload)) {
+  json_response(400, ['ok' => false, 'error' => 'invalid_json']);
+}
+
+$events = isset($payload['resource']) || isset($payload['data']) ? [$payload] : $payload;
+$sent = 0;
+
+foreach ($events as $event) {
+  if (!is_array($event)) continue;
+  if (($event['resource'] ?? null) !== 'record') continue;
+  if (!isset($event['company_id']) || (int)$event['company_id'] !== COMPANY_ID) continue;
+
+  $status = $event['status'] ?? null;
+  if (!in_array($status, ['create', 'delete'], true)) continue;
+
+  $record = $event['data'] ?? null;
+  if (!is_array($record) || empty($event['resource_id'])) continue;
+
+  $client = is_array($record['client'] ?? null) ? $record['client'] : [];
+  $name = clean_field($client['name'] ?? $record['client_name'] ?? '', 100);
+  $phone = clean_field($client['phone'] ?? $record['client_phone'] ?? '', 30);
+  $comment = clean_field($record['comment'] ?? '', 500, true);
+
+  $serviceTitles = [];
+  $total = 0.0;
+  if (is_array($record['services'] ?? null)) {
+    foreach ($record['services'] as $service) {
+      if (!is_array($service)) continue;
+      $title = clean_field($service['title'] ?? '', 100);
+      if ($title !== '') $serviceTitles[] = $title;
+      $total += (float)($service['cost'] ?? $service['price'] ?? 0);
+    }
+  }
+
+  $staff = '';
+  if (is_array($record['staff'] ?? null)) {
+    $staff = clean_field($record['staff']['name'] ?? '', 100);
+  }
+
+  $lines = [$status === 'delete' ? '🔴 Отмена записи — YClients' : '🟢 Новая запись — YClients', ''];
+  if ($name !== '') $lines[] = "👤 Имя: $name";
+  if ($phone !== '') $lines[] = "📱 Телефон: $phone";
+  if ($serviceTitles !== []) $lines[] = '🎯 Услуга: ' . implode(', ', $serviceTitles);
+  if ($total > 0) $lines[] = '💰 Сумма: ' . format_money($total);
+  $when = format_when($record['datetime'] ?? $record['date'] ?? '');
+  if ($when !== '') $lines[] = "🕒 Когда: $when";
+  if ($staff !== '') $lines[] = "🎾 Ресурс: $staff";
+  if ($comment !== '') $lines[] = "💬 Комментарий: $comment";
+  $lines[] = !empty($record['online']) ? '🌐 Источник: онлайн-запись' : '🏢 Источник: YClients';
+
+  if (!send_telegram($botToken, $chatId, implode("\n", $lines))) {
+    json_response(502, ['ok' => false, 'error' => 'delivery_failed']);
+  }
+  $sent++;
+}
+
+json_response(200, ['ok' => true, 'sent' => $sent]);
