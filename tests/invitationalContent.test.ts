@@ -19,7 +19,10 @@ describe('Invitational content contracts', () => {
   });
 
   it('spells out every special contest and its prize', () => {
-    expect(html).toContain('Драйвер победителю каждого зачёта');
+    expect(html).toContain('Два драйвера TaylorMade Qi4D + фитинг');
+    expect(html).toContain(
+      'Победительница женской и победитель мужской номинации получат по драйверу TaylorMade Qi4D и персональный фитинг.',
+    );
     expect(html).toContain('Паттер победителю каждого зачёта');
     expect(html).toContain('Closest вторым ударом · пар-4');
     expect(html).toContain('Отдельный приз от BONAFIDE MEDICINE');
