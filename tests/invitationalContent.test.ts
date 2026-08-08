@@ -19,7 +19,8 @@ describe('Invitational content contracts', () => {
   it('announces the chief judge and the revised guest activities', () => {
     expect(html).toContain('Виктор Вадимович Мочалов');
     expect(html).toContain('The Open');
-    expect(html).toContain('Турнир по сквошу');
+    expect(html).toContain('Мини-турнир по настольному теннису');
+    expect(html).not.toContain('<b>Турнир по сквошу</b>');
     expect(html).toContain('Гольф-клиника и мини-контесты');
   });
 
@@ -31,4 +32,3 @@ describe('Invitational content contracts', () => {
     expect(html).toContain('https://squashclub.moscow/');
   });
 });
-
