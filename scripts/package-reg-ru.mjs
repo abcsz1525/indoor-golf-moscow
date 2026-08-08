@@ -6,6 +6,7 @@ const projectRoot = resolve(import.meta.dirname, '..');
 const distDir = resolve(projectRoot, 'dist');
 const artifactsDir = resolve(projectRoot, 'artifacts');
 const archivePath = resolve(artifactsDir, 'indoor-golf-reg-ru.tar.gz');
+const zipPath = resolve(artifactsDir, 'indoor-golf-reg-ru.zip');
 
 await Promise.all([
   access(resolve(distDir, 'index.html')),
@@ -17,7 +18,10 @@ await Promise.all([
 ]);
 
 await mkdir(artifactsDir, { recursive: true });
-await rm(archivePath, { force: true });
+await Promise.all([
+  rm(archivePath, { force: true }),
+  rm(zipPath, { force: true }),
+]);
 
 const result = spawnSync('tar', ['-czf', archivePath, '-C', distDir, '.'], {
   stdio: 'inherit',
@@ -27,5 +31,13 @@ if (result.status !== 0) {
   throw new Error(`Не удалось создать REG.RU archive (tar exit ${result.status ?? 'unknown'})`);
 }
 
-console.log(`REG.RU archive: ${archivePath}`);
+const zipResult = spawnSync('zip', ['-q', '-r', zipPath, '.'], {
+  cwd: distDir,
+  stdio: 'inherit',
+});
 
+if (zipResult.status !== 0) {
+  throw new Error(`Не удалось создать REG.RU ZIP (zip exit ${zipResult.status ?? 'unknown'})`);
+}
+
+console.log(`REG.RU archives:\n- ${zipPath}\n- ${archivePath}`);

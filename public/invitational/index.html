@@ -75,23 +75,27 @@
 
   /* ---------- НАГРАДЫ ---------- */
   .awards{background:var(--bg2)}
-  .prizes{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:34px}
-  .pz{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:.2s}
-  .pz:hover{border-color:rgba(227,91,39,.5);transform:translateY(-2px)}
-  .pz .ph{aspect-ratio:1;background:#f7f4ee}
-  .pz .ph img{width:100%;height:100%;object-fit:cover}
-  .pz .tx{padding:16px 17px}
-  .pz .pl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--orange-l)}
-  .pz b{display:block;font-size:14.5px;font-weight:800;margin-top:7px;line-height:1.3}
-  .pz span{display:block;font-size:12.5px;color:var(--mut);margin-top:5px}
+  .awardFeature{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);margin-top:34px;background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+  .awardVisual{min-height:380px;background:#F3EFE8;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  .awardVisual img{width:100%;height:100%;object-fit:cover}
+  .awardVisual::after{content:"Будущий приз";position:absolute;left:18px;bottom:18px;background:rgba(10,10,10,.78);backdrop-filter:blur(8px);padding:8px 12px;border-radius:99px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800}
+  .awardText{padding:clamp(26px,4vw,48px);display:flex;flex-direction:column;justify-content:center}
+  .awardText h3{font-size:clamp(23px,3.4vw,38px);line-height:1.08;text-transform:uppercase;margin-top:12px}
+  .awardText p{color:var(--mut);font-size:15px;margin-top:16px}
+  .awardText .secret{color:#fff;border-left:2px solid var(--orange);padding-left:16px;font-weight:600}
+
+  .judge{display:grid;grid-template-columns:150px 1fr;gap:24px;margin-top:28px;padding:26px;border:1px solid rgba(227,91,39,.45);border-radius:18px;background:linear-gradient(135deg,rgba(227,91,39,.13),rgba(22,22,22,.9))}
+  .judge .role{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:var(--orange-l)}
+  .judge b{font-size:clamp(19px,2.4vw,26px);line-height:1.2}
+  .judge p{color:var(--mut);font-size:14.5px;margin-top:8px}
 
   /* ---------- АКТИВНОСТИ ---------- */
-  .acts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+  .acts{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:34px}
   .act{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}
   .act .br{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--orange-l)}
   .act b{display:block;font-size:18px;font-weight:800;margin-top:10px;line-height:1.25}
   .act p{color:var(--mut);font-size:14.5px;margin-top:9px}
-  .act.wide{grid-column:1/-1;background:linear-gradient(135deg,rgba(227,91,39,.14),rgba(22,22,22,.9));border-color:rgba(227,91,39,.45)}
+  .act.wide{background:linear-gradient(135deg,rgba(227,91,39,.14),rgba(22,22,22,.9));border-color:rgba(227,91,39,.45)}
 
   /* ---------- ТАРИФЫ ---------- */
   .tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px;align-items:start}
@@ -108,12 +112,16 @@
 
   /* ---------- ПАРТНЁРЫ ---------- */
   .partners{background:#F4F2F2;color:#111}
-  .plog{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:26px 16px;margin-top:30px}
-  .plog > div{flex:0 1 118px;display:flex;align-items:center;justify-content:center;min-height:54px}
+  .plog{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:30px}
+  .partnerLink{min-height:118px;background:#fff;border:1px solid #DDD8D4;border-radius:16px;padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:14px;transition:.2s}
+  .partnerLink:hover,.partnerLink:focus-visible{border-color:var(--orange);transform:translateY(-2px);outline:none}
+  .partnerLogo{min-height:54px;display:flex;align-items:center;justify-content:center}
   .plog img{max-height:40px;width:auto;object-fit:contain}
-  .plog .tall img{max-height:52px}
-  .plog .dk img{filter:brightness(0);opacity:.8}
-  .plog .ml img{mix-blend-mode:multiply}
+  .partnerLink.tall img{max-height:52px}
+  .partnerLink.dk img{filter:brightness(0);opacity:.8}
+  .partnerLink.ml img{mix-blend-mode:multiply}
+  .partnerGo{font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#777}
+  .partnerLink:hover .partnerGo,.partnerLink:focus-visible .partnerGo{color:var(--orange)}
   .plabel{font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:800;color:#6C6C6C;text-align:center}
   .pname{font-size:15px;font-weight:900;letter-spacing:.04em;color:#111}
 
@@ -160,10 +168,14 @@
     .fin{flex-direction:column;text-align:center;gap:24px}
     .fright{text-align:center}
     .topline{font-size:10px;letter-spacing:.14em;gap:6px}
-    .plog > div{flex:0 1 132px}
+    .plog{grid-template-columns:1fr 1fr;gap:10px}
+    .partnerLink{min-height:108px;padding:14px}
+    .judge{grid-template-columns:1fr;gap:10px}
   }
   @media (max-width:860px){
     .split{grid-template-columns:1fr}
+    .awardFeature{grid-template-columns:1fr}
+    .awardVisual{min-height:300px}
     .fgrid{grid-template-columns:1fr}
     .fr{grid-template-columns:78px 1fr;gap:14px}
     .btn.ghost{margin-left:0;margin-top:10px}
@@ -233,6 +245,10 @@
       <div class="fr"><div class="w">Вечер</div><div><b>Гала-ужин</b><span>Вина от «Галицкий и Галицкий», живое общение и подведение итогов дня</span></div></div>
       <div class="fr"><div class="w">Финал</div><div><b>Церемония награждения</b><span>Двадцать наград в шести номинациях: победитель GROSS, призёры NET, Closest to the Pin и Longest Drive</span></div></div>
     </div>
+    <div class="judge">
+      <div class="role">Главный судья турнира</div>
+      <div><b>Виктор Вадимович Мочалов</b><p>Один из самых опытных российских судей по гольфу, работавший рефери на The Open и других международных турнирах. Единственный российский член The Royal and Ancient Golf Club of St Andrews.</p></div>
+    </div>
   </div>
 </section>
 
@@ -240,14 +256,17 @@
 <section class="awards">
   <div class="wrap">
     <div class="eyebrow">Награды</div>
-    <h2>Не кубки,<br>а <em>дизайнерские светильники</em></h2>
-    <p class="lead">Награды предоставляет <b>ЦЕНТРСВЕТ</b> — российский производитель, чья коллекция MATRЁSHKA стала победителем национальной премии «Лучший промышленный дизайн России 2025». Такая награда остаётся в интерьере, а не на полке. Светильники из натурального алебастра и хрусталя получают <b>все двадцать призёров</b>, включая каждого игрока команд-победителей.</p>
-    <div class="prizes">
-      <div class="pz"><div class="ph"><img src="img/cs-loona-x100-sq.jpg" alt=""></div><div class="tx"><div class="pl">Победитель GROSS</div><b>LOONA X100</b><span>Алебастр, основание Patina Brass</span></div></div>
-      <div class="pz"><div class="ph"><img src="img/cs-matreshka-crystal-sq.jpg" alt=""></div><div class="tx"><div class="pl">1 место NET</div><b>MATRЁSHKA CRYSTAL</b><span>Натуральный хрусталь, основание золото</span></div></div>
-      <div class="pz"><div class="ph"><img src="img/cs-matreshka-m-sq.jpg" alt=""></div><div class="tx"><div class="pl">2 место NET</div><b>MATRЁSHKA M</b><span>Персиковый алебастр, Испания</span></div></div>
-      <div class="pz"><div class="ph"><img src="img/cs-matreshka-s-sq.jpg" alt=""></div><div class="tx"><div class="pl">3 место NET</div><b>MATRЁSHKA S</b><span>Персиковый алебастр, Испания</span></div></div>
-      <div class="pz"><div class="ph"><img src="img/cs-loona-o-sq.jpg" alt=""></div><div class="tx"><div class="pl">Closest to the Pin · Longest Drive</div><b>LOONA O</b><span>Светящийся шар из алебастра — награда за удар, похожая на сам мяч</span></div></div>
+    <h2>Не кубок,<br>а <em>памятный арт-объект</em></h2>
+    <p class="lead">У победы должна быть форма, которую хочется сохранить. Поэтому вместо традиционных спортивных кубков призёры ID Golf Invitational получат дизайнерские арт-объекты от <b>ЦЕНТРСВЕТ</b>.</p>
+    <div class="awardFeature">
+      <!-- После получения ролика ЦЕНТРСВЕТ это изображение заменяется одним атмосферным video. -->
+      <div class="awardVisual" data-video-slot="centersvet"><img src="img/cs-matreshka-crystal-sq.jpg" alt="Арт-объект из коллекции MATRЁSHKA от ЦЕНТРСВЕТ"></div>
+      <div class="awardText">
+        <div class="eyebrow">ЦЕНТРСВЕТ · Символы России</div>
+        <h3>MATRЁSHKA — современное прочтение символа России</h3>
+        <p>Коллекция переосмысляет матрёшку как объект современного российского дизайна. Проект отмечен национальной премией «Лучший промышленный дизайн России 2025» и был представлен на выставке «Российский дизайн» в Московском музее дизайна.</p>
+        <p class="secret">Какие именно арт-объекты получат победители разных номинаций, останется тайной до церемонии награждения.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -257,12 +276,12 @@
   <div class="wrap">
     <div class="eyebrow">Для гостей и игроков</div>
     <h2>Программа <em>на площадке</em></h2>
-    <p class="lead">Пока команды на поле, гости не ждут — для них работает отдельная программа. А после раунда она открыта и для игроков.</p>
+    <p class="lead">Пока команды проходят турнирный раунд, на площадке продолжается собственная программа — со спортом, восстановлением, консультациями и неожиданными конкурсами от партнёров.</p>
     <div class="acts">
-      <div class="act"><div class="br">Гольф-клиника</div><b>Первый удар без опыта</b><p>Профессионалы ставят удар тем, кто на поле впервые. В программе — упражнения на виброплатформе Yamaguchi.</p></div>
-      <div class="act"><div class="br">Сквош-клуб «Москва»</div><b>Мини-турнир по настольному теннису</b><p>Столы и тренеры на площадке, отдельный зачёт и свои победители.</p></div>
-      <div class="act"><div class="br">Yamaguchi</div><b>Зона отдыха и восстановления</b><p>Массажные кресла между раундом и ужином — привести себя в порядок перед вечером. Плюс розыгрыш подарков среди гостей.</p></div>
-      <div class="act wide"><div class="br">BONAFIDE MEDICINE · WINTECARE</div><b>Знакомство с технологией TECAR от Wintecare</b><p>На площадке специалисты Bonafide Medicine расскажут о технологии, которую применяют в спортивном восстановлении, и проведут ознакомительные сеансы для гостей. Возможность участия, ограничения и противопоказания необходимо заранее уточнить у специалиста на площадке.</p></div>
+      <div class="act"><div class="br">Гольф-клиника · мини-контесты</div><b>Познакомиться с игрой</b><p>Профессиональные тренеры проведут серию активностей и мини-контестов для гостей. Неважно, впервые вы берёте клюшку или уже играете: с первых минут будет азартно, понятно и по-настоящему интересно.</p></div>
+      <div class="act"><div class="br">Сквош-клуб «Москва»</div><b>Турнир по сквошу</b><p>Профессиональные тренеры помогут познакомиться с игрой, освоить основы и попробовать свои силы в отдельном турнире. Присоединиться смогут и новички, и гости с опытом.</p></div>
+      <div class="act"><div class="br">Yamaguchi</div><b>Зона отдыха, восстановления и сюрпризов</b><p>Гости смогут познакомиться с новинками для мышечного восстановления, попробовать оборудование и проконсультироваться со специалистами. В течение дня пройдут неожиданные контесты с подарками и призами от бренда.</p></div>
+      <div class="act wide"><div class="br">BONAFIDE MEDICINE · WINTECARE</div><b>Восстановление — часть большого результата</b><p>Команда практикующих врачей и специалистов по реабилитации познакомит гостей с системой T-PLUS WINTECARE®, применяемой в спортивной медицине и восстановлении. На площадке можно будет узнать о профессиональной работе с мышцами, суставами и спиной и получить консультацию специалиста. Возможность участия в процедурах определяется специалистом с учётом ограничений и противопоказаний.</p></div>
     </div>
   </div>
 </section>
@@ -304,10 +323,10 @@
         <div class="pr">17 000 ₽</div>
         <div class="sub">без игры на поле</div>
         <ul>
-          <li>Гольф-клиника с виброплатформой</li>
-          <li>Мини-турнир по настольному теннису</li>
+          <li>Гольф-клиника и мини-контесты</li>
+          <li>Турнир по сквошу с профессиональными тренерами</li>
           <li>Зона отдыха и восстановления</li>
-          <li>Розыгрыш подарков среди гостей</li>
+          <li>Неожиданные конкурсы и подарки партнёров</li>
           <li>Гала-ужин и церемония награждения</li>
         </ul>
         <a href="#zayavka" class="btn">Оставить заявку</a>
@@ -321,14 +340,14 @@
   <div class="wrap">
     <div class="plabel">Партнёры турнира</div>
     <div class="plog">
-      <div class="ml"><img src="img/galitsky-logo.jpg" alt="Галицкий и Галицкий"></div>
-      <div><span class="pname">ЦЕНТРСВЕТ</span></div>
-      <div class="tall"><img src="img/bonafide-full.png" alt="BONAFIDE MEDICINE"></div>
-      <div class="tall"><img src="img/wintecare.png" alt="Wintecare"></div>
-      <div><img src="img/yamaguchi-logo.svg" alt="Yamaguchi"></div>
-      <div class="dk"><img src="img/rngc-logo.png" alt="RNGC"></div>
-      <div><img src="img/moskotin-logo.png" alt="Михаил Москотин"></div>
-      <div><img src="img/squash-moscow.png" alt="Сквош-клуб Москва"></div>
+      <a class="partnerLink ml" href="https://galitskiy-galitskiy.ru/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт Галицкий и Галицкий"><span class="partnerLogo"><img src="img/galitsky-logo.jpg" alt="Галицкий и Галицкий"></span><span class="partnerGo">Открыть сайт ↗</span></a>
+      <a class="partnerLink" href="https://www.centersvet.ru/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт ЦЕНТРСВЕТ"><span class="partnerLogo"><span class="pname">ЦЕНТРСВЕТ</span></span><span class="partnerGo">Открыть сайт ↗</span></a>
+      <a class="partnerLink tall" href="https://bonafidemed.ru/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт BONAFIDE MEDICINE"><span class="partnerLogo"><img src="img/bonafide-full.png" alt="BONAFIDE MEDICINE"></span><span class="partnerGo">Открыть сайт ↗</span></a>
+      <a class="partnerLink tall" href="https://wintecare.co.jp/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт Wintecare"><span class="partnerLogo"><img src="img/wintecare.png" alt="Wintecare"></span><span class="partnerGo">Открыть сайт ↗</span></a>
+      <a class="partnerLink" href="https://www.yamaguchi.ru/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт Yamaguchi"><span class="partnerLogo"><img src="img/yamaguchi-logo.svg" alt="Yamaguchi"></span><span class="partnerGo">Открыть сайт ↗</span></a>
+      <a class="partnerLink dk" href="https://rngc.golf/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт RNGC"><span class="partnerLogo"><img src="img/rngc-logo.png" alt="RNGC"></span><span class="partnerGo">Открыть сайт ↗</span></a>
+      <a class="partnerLink" href="https://moskotin.com/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт Михаила Москотина"><span class="partnerLogo"><img src="img/moskotin-logo.png" alt="Михаил Москотин — просто про бизнес"></span><span class="partnerGo">Открыть сайт ↗</span></a>
+      <a class="partnerLink" href="https://squashclub.moscow/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт Сквош-клуба Москва"><span class="partnerLogo"><img src="img/squash-moscow.png" alt="Сквош-клуб Москва"></span><span class="partnerGo">Открыть сайт ↗</span></a>
     </div>
   </div>
 </section>

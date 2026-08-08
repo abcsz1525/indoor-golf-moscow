@@ -14,7 +14,7 @@ npm audit --omit=dev
 npm run package:reg-ru
 ```
 
-Для загрузки будет создан `artifacts/indoor-golf-reg-ru.tar.gz`. Внутри архива лежит содержимое `dist/`, включая скрытый `.htaccess`; лишней папки `dist` внутри нет.
+Для загрузки будут созданы `artifacts/indoor-golf-reg-ru.zip` и резервный вариант `artifacts/indoor-golf-reg-ru.tar.gz`. Внутри архивов лежит содержимое `dist/`, включая скрытый `.htaccess`; лишней папки `dist` внутри нет.
 
 ## 2. Подготовьте секреты вне сайта
 
@@ -41,7 +41,7 @@ npm run package:reg-ru
 ## 4. Загрузите сайт
 
 1. ISPmanager → «Сайты» → `indoor-golf.ru` → «Файлы сайта».
-2. Загрузите `indoor-golf-reg-ru.tar.gz` в корневую папку сайта.
+2. Загрузите `indoor-golf-reg-ru.zip` в корневую папку сайта.
 3. Извлеките архив непосредственно в корень, а не во вложенную директорию.
 4. Убедитесь, что рядом с `index.html` находятся `.htaccess`, `404.html`, `assets/` и `api/`.
 5. Для файлов должны подойти права `644`, для каталогов — `755`.

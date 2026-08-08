@@ -14,7 +14,7 @@ Run `npm run check` before handing off changes. Tests live beside the code and a
 
 - Platform: REG.RU shared hosting, ISPmanager (manual upload)
 - Production URL: https://indoor-golf.ru
-- Deploy workflow: build `artifacts/indoor-golf-reg-ru.tar.gz` and upload it through ISPmanager
+- Deploy workflow: build `artifacts/indoor-golf-reg-ru.zip` and upload it through ISPmanager
 - Deploy status command: HTTP checks against production
 - Merge method: squash
 - Project type: React/Vite web app with PHP endpoints

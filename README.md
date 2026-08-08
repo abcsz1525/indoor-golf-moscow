@@ -19,7 +19,7 @@ Vite не исполняет PHP. В локальном dev/preview формы �
 npm run check
 ```
 
-Команда последовательно запускает lint, девять регрессионных тестов, TypeScript-проверку, production build и генерацию route-specific HTML. Подробности находятся в [TESTING.md](TESTING.md).
+Команда последовательно запускает lint, регрессионные тесты, TypeScript-проверку, production build и генерацию route-specific HTML. Подробности находятся в [TESTING.md](TESTING.md).
 
 ## Сборка
 
@@ -68,7 +68,7 @@ VITE_YCLIENTS_EMBED_ENABLED=true npm run build
 ## Перед публикацией
 
 1. Выполнить `npm ci && npm run check && npm audit --omit=dev`.
-2. Для REG.RU выполнить `npm run package:reg-ru` и развернуть созданный `artifacts/indoor-golf-reg-ru.tar.gz` по инструкции ISPmanager. Для VPS развернуть `dist/` с nginx/PHP-FPM конфигурацией.
+2. Для REG.RU выполнить `npm run package:reg-ru` и развернуть созданный `artifacts/indoor-golf-reg-ru.zip` по инструкции ISPmanager. Для VPS развернуть `dist/` с nginx/PHP-FPM конфигурацией.
 3. Проверить `GET /robots.txt`, `GET /sitemap.xml` и неизвестный URL со статусом 404.
 4. Отправить тестовую заявку и подтвердить её появление в Telegram.
 5. Отправить тестовый YClients webhook с корректным `company_id` из кабинета сервиса.
