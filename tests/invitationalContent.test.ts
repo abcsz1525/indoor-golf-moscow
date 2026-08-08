@@ -11,9 +11,18 @@ describe('Invitational content contracts', () => {
 
   it('keeps the awards reveal editorial instead of a product catalogue', () => {
     expect(html).toContain('памятный арт-объект');
+    expect(html).toContain('MATRЁSHKA — символ новой России');
+    expect(html).toContain('на первом турнире ID Golf');
     expect(html).toContain('останется тайной до церемонии награждения');
     expect(html).not.toContain('LOONA X100');
     expect(html).not.toContain('class="prizes"');
+  });
+
+  it('spells out every special contest and its prize', () => {
+    expect(html).toContain('Драйвер победителю каждого зачёта');
+    expect(html).toContain('Паттер победителю каждого зачёта');
+    expect(html).toContain('Closest вторым ударом · пар-4');
+    expect(html).toContain('Отдельный приз от BONAFIDE MEDICINE');
   });
 
   it('announces the chief judge and the revised guest activities', () => {
@@ -22,6 +31,9 @@ describe('Invitational content contracts', () => {
     expect(html).toContain('Мини-турнир по настольному теннису');
     expect(html).not.toContain('<b>Турнир по сквошу</b>');
     expect(html).toContain('Гольф-клиника и мини-контесты');
+    expect(html).toContain('оборудование для пробы игры и участия в клинике предоставим');
+    expect(html).not.toContain('подбор клюшек');
+    expect(html).not.toContain('Welcome-box, клюшки, мячи и кар');
   });
 
   it('links every partner tile to an external site safely', () => {
