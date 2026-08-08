@@ -39,6 +39,14 @@ describe('Invitational content contracts', () => {
     expect(html).not.toContain('Welcome-box, клюшки, мячи и кар');
   });
 
+  it('describes the Yamaguchi recovery zone and clinic contest explicitly', () => {
+    expect(html).toContain('Yamaguchi · восстановительная зона');
+    expect(html).toContain('Массажные кресла, виброплатформа и подарки');
+    expect(html).toContain('самый точный удар, стоя на виброплатформе Yamaguchi');
+    expect(html).toContain('Победителей ждут подарки от бренда.');
+    expect(html).toContain('Мини-контест Yamaguchi на точность удара и подарки победителям');
+  });
+
   it('holds the detailed tournament schedule until it is confirmed', () => {
     expect(html).toContain('Точное расписание появится немного позже');
     expect(html).toContain('Следите за обновлениями.');
