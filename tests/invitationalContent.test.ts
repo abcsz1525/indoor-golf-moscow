@@ -39,6 +39,16 @@ describe('Invitational content contracts', () => {
     expect(html).not.toContain('Welcome-box, клюшки, мячи и кар');
   });
 
+  it('holds the detailed tournament schedule until it is confirmed', () => {
+    expect(html).toContain('Точное расписание появится немного позже');
+    expect(html).toContain('Следите за обновлениями.');
+    expect(html).not.toContain('<div class="w">Утро</div>');
+    expect(html).not.toContain('<div class="w">Старт</div>');
+    expect(html).not.toContain('<div class="w">День</div>');
+    expect(html).not.toContain('<div class="w">Вечер</div>');
+    expect(html).not.toContain('<div class="w">Финал</div>');
+  });
+
   it('links every partner tile to an external site safely', () => {
     expect(html.match(/class="partnerLink/g)).toHaveLength(8);
     expect(html.match(/rel="noopener noreferrer"/g)).toHaveLength(8);
