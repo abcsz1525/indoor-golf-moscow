@@ -4,17 +4,9 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Section } from './Section';
 
 import img1 from '../assets/gallery/1.webp';
-import img2 from '../assets/gallery/2.webp';
-import img3 from '../assets/gallery/3.webp';
-import img4 from '../assets/gallery/4.webp';
-import img5 from '../assets/gallery/5.webp';
 import img6 from '../assets/gallery/6.webp';
 
 const IMAGES = [
-  { src: img4, alt: 'Indoor Golf — тренировка с PRO на симуляторе' },
-  { src: img3, alt: 'Indoor Golf — клюшки и симулятор' },
-  { src: img2, alt: 'Indoor Golf — отработка паттинга' },
-  { src: img5, alt: 'Indoor Golf — экран симулятора Trackman' },
   { src: img6, alt: 'Indoor Golf — брендинг клуба' },
   { src: img1, alt: 'Indoor Golf — мячи и ти' },
 ];
@@ -86,7 +78,7 @@ export function Gallery({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mt-3">
+      <div className="grid grid-cols-2 gap-2 mt-3 max-w-xl mx-auto">
         {IMAGES.map((img, i) => (
           <motion.div
             key={i}

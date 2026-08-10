@@ -9,15 +9,17 @@ describe('site content structure', () => {
   let homePage = '';
   let techPage = '';
   let advantages = '';
+  let gallery = '';
 
   beforeAll(async () => {
-    [about, founders, aboutPage, homePage, techPage, advantages] = await Promise.all([
+    [about, founders, aboutPage, homePage, techPage, advantages, gallery] = await Promise.all([
       readFile(resolve(process.cwd(), 'src/components/About.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/components/Founders.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/AboutPage.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/HomePage.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/TechPage.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/components/Advantages.tsx'), 'utf8'),
+      readFile(resolve(process.cwd(), 'src/components/Gallery.tsx'), 'utf8'),
     ]);
   });
 
@@ -50,5 +52,11 @@ describe('site content structure', () => {
     expect(advantages).toContain("i < 3 ? 'lg:col-span-2' : 'lg:col-span-3'");
     expect(homePage).not.toContain('<WhyUs />');
     expect(aboutPage).not.toContain('<Advantages />');
+  });
+
+  it('shows only the approved gallery images', () => {
+    expect(gallery).toContain("gallery/1.webp");
+    expect(gallery).toContain("gallery/6.webp");
+    expect(gallery).not.toMatch(/gallery\/[2345]\.webp/);
   });
 });
