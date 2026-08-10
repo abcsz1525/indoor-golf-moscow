@@ -5,8 +5,30 @@ import { Section } from './Section';
 
 import img1 from '../assets/gallery/1.webp';
 import img6 from '../assets/gallery/6.webp';
+import club6335 from '../assets/gallery/club-6335.webp';
+import club6336 from '../assets/gallery/club-6336.webp';
+import club6337 from '../assets/gallery/club-6337.webp';
+import club6338 from '../assets/gallery/club-6338.webp';
+import club6339 from '../assets/gallery/club-6339.webp';
+import club6340 from '../assets/gallery/club-6340.webp';
+import club6341 from '../assets/gallery/club-6341.webp';
+import club6342 from '../assets/gallery/club-6342.webp';
+import club6343 from '../assets/gallery/club-6343.webp';
+import club6344 from '../assets/gallery/club-6344.webp';
+import club6345 from '../assets/gallery/club-6345.webp';
 
 const IMAGES = [
+  { src: club6335, alt: 'Indoor Golf Moscow — пространство клуба и зона отдыха' },
+  { src: club6336, alt: 'Indoor Golf Moscow — игровая зона с симулятором TrackMan' },
+  { src: club6345, alt: 'Indoor Golf Moscow — радар TrackMan' },
+  { src: club6337, alt: 'Indoor Golf Moscow — экран запуска TrackMan' },
+  { src: club6338, alt: 'Indoor Golf Moscow — зона TrackMan Performance Studio' },
+  { src: club6339, alt: 'Indoor Golf Moscow — выбор режима игры TrackMan' },
+  { src: club6340, alt: 'Indoor Golf Moscow — игровые возможности TrackMan' },
+  { src: club6341, alt: 'Indoor Golf Moscow — режимы тренировки TrackMan' },
+  { src: club6342, alt: 'Indoor Golf Moscow — виртуальные поля TrackMan' },
+  { src: club6343, alt: 'Indoor Golf Moscow — соревнования TrackMan' },
+  { src: club6344, alt: 'Indoor Golf Moscow — игры на симуляторе TrackMan' },
   { src: img6, alt: 'Indoor Golf — брендинг клуба' },
   { src: img1, alt: 'Indoor Golf — мячи и ти' },
 ];
@@ -78,7 +100,7 @@ export function Gallery({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 mt-3 max-w-xl mx-auto">
+      <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-2 mt-3">
         {IMAGES.map((img, i) => (
           <motion.div
             key={i}

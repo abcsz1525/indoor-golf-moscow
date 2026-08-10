@@ -58,5 +58,8 @@ describe('site content structure', () => {
     expect(gallery).toContain("gallery/1.webp");
     expect(gallery).toContain("gallery/6.webp");
     expect(gallery).not.toMatch(/gallery\/[2345]\.webp/);
+    for (const photo of [6335, 6336, 6337, 6338, 6339, 6340, 6341, 6342, 6343, 6344, 6345]) {
+      expect(gallery).toContain(`gallery/club-${photo}.webp`);
+    }
   });
 });
