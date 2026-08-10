@@ -1,21 +1,17 @@
 import { About } from '../components/About';
-import { Advantages } from '../components/Advantages';
-import { ForWhom } from '../components/ForWhom';
-import { Activities } from '../components/Activities';
+import { Founders } from '../components/Founders';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 export function AboutPage() {
   usePageMeta(
-    'Indoor Golf Moscow — indoor-гольф клуб в Лужниках',
-    'Гольф в помещении круглый год: симуляторы Trackman, тренеры PRO, форматы для новичков, любителей и корпоративов. Лужники, охраняемая парковка. Работаем без выходных.'
+    'О нас — идеология и основатели ID Golf | Indoor Golf Moscow',
+    'ID означает Identity — идентичность. Узнайте об идеологии ID Golf, нашей миссии развивать гольф в России и основателях проекта.'
   );
 
   return (
     <div className="page-content">
       <About headingLevel={1} />
-      <Advantages />
-      <ForWhom />
-      <Activities />
+      <Founders />
     </div>
   );
 }

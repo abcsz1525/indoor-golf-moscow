@@ -1,7 +1,8 @@
 import { Hero } from '../components/Hero';
 import { Marquee } from '../components/Marquee';
 import { StartHere } from '../components/StartHere';
-import { WhyUs } from '../components/WhyUs';
+import { ForWhom } from '../components/ForWhom';
+import { Activities } from '../components/Activities';
 import { TrackMan } from '../components/TrackMan';
 import { PricingTeaser } from '../components/PricingTeaser';
 import { PhotoStrip } from '../components/PhotoStrip';
@@ -34,7 +35,8 @@ export function HomePage({ onBooking }: { onBooking: (interest?: string) => void
         <span className="text-brand-orange">·</span>
       </Marquee>
       <StartHere onBooking={onBooking} />
-      <WhyUs />
+      <ForWhom />
+      <Activities />
       <TrackMan />
       <PricingTeaser onBooking={onBooking} />
       <PhotoStrip />

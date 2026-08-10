@@ -1,4 +1,6 @@
 import { TrackMan } from '../components/TrackMan';
+import { WhyUs } from '../components/WhyUs';
+import { Advantages } from '../components/Advantages';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 export function TechPage() {
@@ -10,6 +12,8 @@ export function TechPage() {
   return (
     <div className="page-content">
       <TrackMan headingLevel={1} />
+      <WhyUs />
+      <Advantages />
     </div>
   );
 }
