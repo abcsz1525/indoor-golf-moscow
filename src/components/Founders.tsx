@@ -43,7 +43,7 @@ export function Founders() {
           </p>
         </motion.div>
 
-        <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-4 md:gap-6">
+        <div className="lg:col-span-7 grid grid-cols-2 gap-4 md:gap-6">
           {FOUNDERS.map((founder, index) => (
             <motion.article
               key={founder.name}

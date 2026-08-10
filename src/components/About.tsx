@@ -8,7 +8,13 @@ export function About({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
       id="about"
       eyebrow="Кто мы"
       title="Найди свой"
-      titleHighlight=" ID в гольфе"
+      titleHighlight={
+        <>
+          {' '}
+          <span className="section-title-id">ID</span>
+          {' в гольфе'}
+        </>
+      }
       headingLevel={headingLevel}
     >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 items-start">

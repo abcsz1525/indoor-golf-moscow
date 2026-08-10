@@ -5,7 +5,7 @@ interface SectionProps {
   id?: string;
   eyebrow?: string;
   title?: string;
-  titleHighlight?: string;
+  titleHighlight?: ReactNode;
   children: ReactNode;
   className?: string;
   center?: boolean;
