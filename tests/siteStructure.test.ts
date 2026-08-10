@@ -27,6 +27,7 @@ describe('site content structure', () => {
     expect(founders).toContain("name: 'Наталья'");
     expect(founders).toContain("founders/andrey.webp");
     expect(founders).toContain("founders/natalia.webp");
+    expect(founders).toContain('grid grid-cols-1 sm:grid-cols-2');
     expect(aboutPage).toContain('<Founders />');
   });
 
