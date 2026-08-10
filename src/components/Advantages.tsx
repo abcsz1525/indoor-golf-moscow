@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import {
-  Radar,
   CalendarClock,
   MapPin,
   Sparkles,
@@ -11,11 +10,6 @@ import { MagneticCard } from './MagneticCard';
 import { Section } from './Section';
 
 const ITEMS = [
-  {
-    icon: Radar,
-    title: 'TrackMan',
-    text: 'Профессиональные симуляторы мирового уровня — именно так тренируются игроки PGA Tour.',
-  },
   {
     icon: CalendarClock,
     title: 'Круглый год',
@@ -45,10 +39,11 @@ const ITEMS = [
 
 export function Advantages() {
   return (
-    <Section id="advantages" eyebrow="Почему мы" title="Преимущества">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-line">
+    <Section id="advantages" eyebrow="Почему ID Golf" title="Всё для игры и отдыха">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-px bg-line">
         {ITEMS.map((item, i) => {
           const Icon = item.icon;
+          const desktopSpan = i < 3 ? 'lg:col-span-2' : 'lg:col-span-3';
           return (
             <motion.div
               key={item.title}
@@ -56,7 +51,7 @@ export function Advantages() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.6, delay: i * 0.08 }}
-              className="group relative bg-bg-primary p-8 md:p-10 min-h-[260px] flex flex-col transition-colors hover:bg-bg-card"
+              className={`group relative bg-bg-primary p-8 md:p-10 min-h-[260px] flex flex-col transition-colors hover:bg-bg-card ${desktopSpan} ${i === ITEMS.length - 1 ? 'md:col-span-2 lg:col-span-3' : ''}`}
             >
               <MagneticCard className="w-full h-full">
                 {/* top line */}

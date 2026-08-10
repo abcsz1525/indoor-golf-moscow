@@ -8,14 +8,16 @@ describe('site content structure', () => {
   let aboutPage = '';
   let homePage = '';
   let techPage = '';
+  let advantages = '';
 
   beforeAll(async () => {
-    [about, founders, aboutPage, homePage, techPage] = await Promise.all([
+    [about, founders, aboutPage, homePage, techPage, advantages] = await Promise.all([
       readFile(resolve(process.cwd(), 'src/components/About.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/components/Founders.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/AboutPage.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/HomePage.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/TechPage.tsx'), 'utf8'),
+      readFile(resolve(process.cwd(), 'src/components/Advantages.tsx'), 'utf8'),
     ]);
   });
 
@@ -38,10 +40,14 @@ describe('site content structure', () => {
     expect(aboutPage).not.toContain('<Activities />');
   });
 
-  it('groups Why Us and Advantages with technology', () => {
+  it('keeps one distinct advantages block with technology', () => {
     expect(techPage).toContain('<TrackMan headingLevel={1} />');
-    expect(techPage).toContain('<WhyUs />');
+    expect(techPage).not.toContain('<WhyUs />');
     expect(techPage).toContain('<Advantages />');
+    expect(advantages).toContain('eyebrow="Почему ID Golf"');
+    expect(advantages).toContain('title="Всё для игры и отдыха"');
+    expect(advantages).not.toContain("title: 'TrackMan'");
+    expect(advantages).toContain("i < 3 ? 'lg:col-span-2' : 'lg:col-span-3'");
     expect(homePage).not.toContain('<WhyUs />');
     expect(aboutPage).not.toContain('<Advantages />');
   });
