@@ -1,9 +1,21 @@
 import { motion } from 'framer-motion';
 import { Section } from './Section';
+import andreyPhoto from '../assets/founders/andrey.webp';
+import nataliaPhoto from '../assets/founders/natalia.webp';
 
 const FOUNDERS = [
-  { name: 'Андрей', initial: 'А' },
-  { name: 'Наталья', initial: 'Н' },
+  {
+    name: 'Андрей',
+    photo: andreyPhoto,
+    alt: 'Андрей, сооснователь ID Golf, на гольф-поле',
+    objectPosition: 'center 54%',
+  },
+  {
+    name: 'Наталья',
+    photo: nataliaPhoto,
+    alt: 'Наталья, сооснователь ID Golf, на гольф-поле',
+    objectPosition: 'center 50%',
+  },
 ];
 
 export function Founders() {
@@ -42,23 +54,19 @@ export function Founders() {
               className="group"
             >
               <div className="relative aspect-[4/5] overflow-hidden border border-line bg-bg-card">
-                <div
-                  className="absolute inset-0 opacity-80"
-                  style={{
-                    backgroundImage:
-                      'linear-gradient(rgba(227,91,39,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(227,91,39,0.12) 1px, transparent 1px)',
-                    backgroundSize: '36px 36px',
-                  }}
+                <img
+                  src={founder.photo}
+                  alt={founder.alt}
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  style={{ objectPosition: founder.objectPosition }}
                 />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="display text-[clamp(96px,18vw,220px)] leading-none text-brand-orange/80 transition-transform duration-500 group-hover:scale-105">
-                    {founder.initial}
-                  </span>
-                </div>
-                <span className="absolute top-4 left-4 h-3 w-3 border-l border-t border-brand-orange" />
-                <span className="absolute top-4 right-4 h-3 w-3 border-r border-t border-brand-orange" />
-                <span className="absolute bottom-4 left-4 h-3 w-3 border-l border-b border-brand-orange" />
-                <span className="absolute bottom-4 right-4 h-3 w-3 border-r border-b border-brand-orange" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                <span className="absolute top-4 left-4 h-3 w-3 border-l border-t border-white/80" />
+                <span className="absolute top-4 right-4 h-3 w-3 border-r border-t border-white/80" />
+                <span className="absolute bottom-4 left-4 h-3 w-3 border-l border-b border-white/80" />
+                <span className="absolute bottom-4 right-4 h-3 w-3 border-r border-b border-white/80" />
               </div>
               <h3 className="display mt-5 text-3xl uppercase text-[var(--text-primary)]">
                 {founder.name}

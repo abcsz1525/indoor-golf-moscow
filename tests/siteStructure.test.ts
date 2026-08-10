@@ -25,6 +25,8 @@ describe('site content structure', () => {
     expect(about).toContain('Найди свой ID в гольфе.');
     expect(founders).toContain("name: 'Андрей'");
     expect(founders).toContain("name: 'Наталья'");
+    expect(founders).toContain("founders/andrey.webp");
+    expect(founders).toContain("founders/natalia.webp");
     expect(aboutPage).toContain('<Founders />');
   });
 
