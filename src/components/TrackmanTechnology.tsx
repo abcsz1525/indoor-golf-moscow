@@ -129,7 +129,7 @@ const MODES = [
     icon: Trophy,
     eyebrow: 'Virtual Golf',
     title: 'Поля мирового уровня',
-    text: 'Играйте полноценные раунды на детально воссозданных полях и принимайте те же тактические решения, что и на поле.',
+    text: 'Глобальная библиотека Trackman — более 550 детально воссозданных полей. Играйте полноценные раунды и принимайте те же тактические решения, что и на настоящем поле.',
     alt: 'Каталог виртуальных полей Trackman в ID Golf',
   },
   {
@@ -524,7 +524,7 @@ export function TrackmanTechnology() {
           </div>
           <div className="mt-8 flex flex-col gap-4 border border-line bg-bg-secondary p-6 md:flex-row md:items-center md:justify-between md:p-8">
             <p className="max-w-3xl leading-relaxed text-[var(--text-muted)]">
-              Глобальная библиотека Trackman включает более 500 виртуальных полей.
+              Глобальная библиотека Trackman включает более 550 виртуальных полей.
               Конкретный набор в клубе может меняться вместе с обновлениями и лицензией системы.
             </p>
             <a
