@@ -4,6 +4,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 
 describe('site content structure', () => {
   let about = '';
+  let brandStory = '';
   let founders = '';
   let aboutPage = '';
   let homePage = '';
@@ -12,8 +13,9 @@ describe('site content structure', () => {
   let gallery = '';
 
   beforeAll(async () => {
-    [about, founders, aboutPage, homePage, techPage, advantages, gallery] = await Promise.all([
+    [about, brandStory, founders, aboutPage, homePage, techPage, advantages, gallery] = await Promise.all([
       readFile(resolve(process.cwd(), 'src/components/About.tsx'), 'utf8'),
+      readFile(resolve(process.cwd(), 'src/components/BrandStory.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/components/Founders.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/AboutPage.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/HomePage.tsx'), 'utf8'),
@@ -24,15 +26,22 @@ describe('site content structure', () => {
   });
 
   it('explains the ID Golf ideology and identifies the founders on About', () => {
+    expect(about).toContain('Новая культура');
+    expect(about).toContain('современную, открытую культуру гольфа в России');
     expect(about).toContain('ID = <span className="text-brand-orange">Identity</span>');
     expect(about).toContain('Identity — идентичность');
-    expect(about).toContain('Найди свой ID в гольфе.');
-    expect(about).toContain('section-title-id');
-    expect(founders).toContain("name: 'Андрей'");
-    expect(founders).toContain("name: 'Наталья'");
+    expect(brandStory).toContain('Что означает ID');
+    expect(brandStory).toContain('Во что мы верим');
+    expect(brandStory).toContain('Что мы создаём');
+    expect(brandStory).toContain('Найди свой');
+    expect(brandStory).toContain('section-title-id');
+    expect(founders).toContain("name: 'Андрей Золотарев'");
+    expect(founders).toContain("name: 'Наталья Колыхалова'");
+    expect(founders).toContain("role: 'Сооснователь ID Golf'");
     expect(founders).toContain("founders/andrey.webp");
     expect(founders).toContain("founders/natalia.webp");
-    expect(aboutPage).toContain('<Founders />');
+    expect(aboutPage.indexOf('<About headingLevel={1} />')).toBeLessThan(aboutPage.indexOf('<Founders />'));
+    expect(aboutPage.indexOf('<Founders />')).toBeLessThan(aboutPage.indexOf('<BrandStory />'));
   });
 
   it('keeps audience and activity scenarios on the homepage', () => {
