@@ -6,7 +6,7 @@ import { Section } from './Section';
 import img1 from '../assets/gallery/1.webp';
 import img6 from '../assets/gallery/6.webp';
 import club6335 from '../assets/gallery/club-6335.webp';
-import club6337 from '../assets/gallery/club-6337.webp';
+import club6338 from '../assets/gallery/club-6338.webp';
 import club6340 from '../assets/gallery/club-6340.webp';
 import club6341 from '../assets/gallery/club-6341.webp';
 import club6342 from '../assets/gallery/club-6342.webp';
@@ -17,7 +17,7 @@ import club6345 from '../assets/gallery/club-6345.webp';
 const IMAGES = [
   { src: club6335, alt: 'Indoor Golf Moscow — пространство клуба и зона отдыха' },
   { src: club6345, alt: 'Indoor Golf Moscow — радар TrackMan' },
-  { src: club6337, alt: 'Indoor Golf Moscow — экран запуска TrackMan' },
+  { src: club6338, alt: 'Indoor Golf Moscow — зона TrackMan Performance Studio' },
   { src: club6340, alt: 'Indoor Golf Moscow — игровые возможности TrackMan' },
   { src: club6341, alt: 'Indoor Golf Moscow — режимы тренировки TrackMan' },
   { src: club6342, alt: 'Indoor Golf Moscow — виртуальные поля TrackMan' },
