@@ -6,10 +6,7 @@ import { Section } from './Section';
 import img1 from '../assets/gallery/1.webp';
 import img6 from '../assets/gallery/6.webp';
 import club6335 from '../assets/gallery/club-6335.webp';
-import club6336 from '../assets/gallery/club-6336.webp';
 import club6337 from '../assets/gallery/club-6337.webp';
-import club6338 from '../assets/gallery/club-6338.webp';
-import club6339 from '../assets/gallery/club-6339.webp';
 import club6340 from '../assets/gallery/club-6340.webp';
 import club6341 from '../assets/gallery/club-6341.webp';
 import club6342 from '../assets/gallery/club-6342.webp';
@@ -19,11 +16,8 @@ import club6345 from '../assets/gallery/club-6345.webp';
 
 const IMAGES = [
   { src: club6335, alt: 'Indoor Golf Moscow — пространство клуба и зона отдыха' },
-  { src: club6336, alt: 'Indoor Golf Moscow — игровая зона с симулятором TrackMan' },
   { src: club6345, alt: 'Indoor Golf Moscow — радар TrackMan' },
   { src: club6337, alt: 'Indoor Golf Moscow — экран запуска TrackMan' },
-  { src: club6338, alt: 'Indoor Golf Moscow — зона TrackMan Performance Studio' },
-  { src: club6339, alt: 'Indoor Golf Moscow — выбор режима игры TrackMan' },
   { src: club6340, alt: 'Indoor Golf Moscow — игровые возможности TrackMan' },
   { src: club6341, alt: 'Indoor Golf Moscow — режимы тренировки TrackMan' },
   { src: club6342, alt: 'Indoor Golf Moscow — виртуальные поля TrackMan' },
@@ -49,7 +43,7 @@ export function Gallery({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   return (
     <Section id="gallery" eyebrow="Атмосфера" title="Галерея" headingLevel={headingLevel}>
       <div className="relative overflow-hidden border border-line" data-cursor="grow">
-        <div className="relative aspect-[16/9] md:aspect-[21/9] bg-bg-card">
+        <div className="relative aspect-[4/3] bg-neutral-950 md:aspect-[16/9]">
           {IMAGES.map((img, i) => (
             <motion.img
               key={i}
@@ -60,7 +54,7 @@ export function Gallery({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
               initial={false}
               animate={{ opacity: i === current ? 1 : 0 }}
               transition={{ duration: 0.6 }}
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-contain"
             />
           ))}
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -111,11 +105,11 @@ export function Gallery({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
           >
             <button
               onClick={() => setCurrent(i)}
-              className={`relative aspect-[4/3] w-full overflow-hidden border transition-all duration-300 ${
+              className={`relative aspect-[4/3] w-full overflow-hidden border bg-neutral-950 transition-all duration-300 ${
                 i === current ? 'border-brand-orange' : 'border-line opacity-60 hover:opacity-100'
               }`}
             >
-              <img src={img.src} alt={img.alt} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+              <img src={img.src} alt={img.alt} loading="lazy" decoding="async" className="h-full w-full object-contain" />
             </button>
           </motion.div>
         ))}
