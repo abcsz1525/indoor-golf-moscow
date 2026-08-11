@@ -596,7 +596,7 @@ export function TrackmanTechnology() {
           <motion.div {...reveal} transition={{ duration: 0.7 }}>
             <p className="text-xs uppercase tracking-brand text-brand-orange">Первый удар расскажет больше, чем кажется</p>
             <h2 className="mx-auto mt-6 max-w-5xl display text-5xl uppercase leading-[0.9] sm:text-7xl lg:text-8xl">
-              Увидьте свою игру в деталях
+              Посмотрите на свою игру в деталях
             </h2>
             <p className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-white/65">
               Для первого знакомства, самостоятельной практики или полноценной тренировки с PRO.

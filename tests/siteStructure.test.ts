@@ -68,6 +68,7 @@ describe('site content structure', () => {
     expect(trackmanTechnology).toContain('Источник: PGA Tour');
     expect(trackmanTechnology).toContain('Глобальная библиотека Trackman — более 550 детально воссозданных полей');
     expect(trackmanTechnology).toContain('Глобальная библиотека Trackman включает более 550 виртуальных полей');
+    expect(trackmanTechnology).toContain('Посмотрите на свою игру в деталях');
     expect(trackmanTechnology).toContain('Технология помогает увидеть ваш ID');
     expect(trackmanTechnology).not.toContain('value: 285');
     expect(trackmanTechnology).not.toContain('value: 245');
