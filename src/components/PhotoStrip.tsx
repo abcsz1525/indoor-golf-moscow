@@ -3,16 +3,16 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Section } from './Section';
 
-import img2 from '../assets/gallery/2.webp';
-import img3 from '../assets/gallery/3.webp';
-import img4 from '../assets/gallery/4.webp';
-import img5 from '../assets/gallery/5.webp';
+import img1 from '../assets/gallery/1.webp';
+import club6335 from '../assets/gallery/club-6335.webp';
+import club6338 from '../assets/gallery/club-6338-retouched.webp';
+import club6345 from '../assets/gallery/club-6345.webp';
 
 const PHOTOS = [
-  { src: img4, alt: 'Тренировка с PRO на симуляторе Trackman' },
-  { src: img3, alt: 'Клюшки и симулятор Indoor Golf Moscow' },
-  { src: img2, alt: 'Отработка паттинга' },
-  { src: img5, alt: 'Экран симулятора Trackman' },
+  { src: club6335, alt: 'Пространство и зона отдыха Indoor Golf Moscow' },
+  { src: club6338, alt: 'Игровая зона TrackMan Performance Studio' },
+  { src: club6345, alt: 'Радар TrackMan в Indoor Golf Moscow' },
+  { src: img1, alt: 'Гольф-мячи и ти в Indoor Golf Moscow' },
 ];
 
 export function PhotoStrip() {

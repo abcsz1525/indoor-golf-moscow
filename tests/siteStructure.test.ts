@@ -13,9 +13,11 @@ describe('site content structure', () => {
   let trackmanTechnology = '';
   let advantages = '';
   let gallery = '';
+  let hero = '';
+  let photoStrip = '';
 
   beforeAll(async () => {
-    [about, brandStory, founders, aboutPage, homePage, techPage, trackmanTeaser, trackmanTechnology, advantages, gallery] = await Promise.all([
+    [about, brandStory, founders, aboutPage, homePage, techPage, trackmanTeaser, trackmanTechnology, advantages, gallery, hero, photoStrip] = await Promise.all([
       readFile(resolve(process.cwd(), 'src/components/About.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/components/BrandStory.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/components/Founders.tsx'), 'utf8'),
@@ -26,6 +28,8 @@ describe('site content structure', () => {
       readFile(resolve(process.cwd(), 'src/components/TrackmanTechnology.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/components/Advantages.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/components/Gallery.tsx'), 'utf8'),
+      readFile(resolve(process.cwd(), 'src/components/Hero.tsx'), 'utf8'),
+      readFile(resolve(process.cwd(), 'src/components/PhotoStrip.tsx'), 'utf8'),
     ]);
   });
 
@@ -97,5 +101,15 @@ describe('site content structure', () => {
     }
     expect(gallery).toContain('object-contain');
     expect(gallery).not.toContain('object-cover');
+  });
+
+  it('does not reuse removed gallery photos on the homepage', () => {
+    expect(hero).toContain("assets/hero-club-wide.webp");
+    expect(hero).not.toMatch(/gallery\/[2345]\.webp/);
+    expect(photoStrip).not.toMatch(/gallery\/[2345]\.webp/);
+    expect(photoStrip).toContain('gallery/club-6335.webp');
+    expect(photoStrip).toContain('gallery/club-6338-retouched.webp');
+    expect(photoStrip).toContain('gallery/club-6345.webp');
+    expect(photoStrip).toContain('gallery/1.webp');
   });
 });

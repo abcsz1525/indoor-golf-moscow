@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useRef } from 'react';
-import heroPhoto from '../assets/gallery/4.webp';
+import heroPhoto from '../assets/hero-club-wide.webp';
 
 export function Hero({ onBooking }: { onBooking: (interest?: string) => void }) {
   const ref = useRef<HTMLElement>(null);
@@ -23,8 +23,8 @@ export function Hero({ onBooking }: { onBooking: (interest?: string) => void }) 
       <motion.div style={{ y: bgY }} className="absolute inset-0">
         <img
           src={heroPhoto}
-          alt="Тренировка на симуляторе Trackman в Indoor Golf Moscow"
-          className="h-full w-full object-cover scale-110"
+          alt="Пространство Indoor Golf Moscow в Лужниках"
+          className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/30" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
