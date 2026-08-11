@@ -1,17 +1,15 @@
-import { TrackMan } from '../components/TrackMan';
-import { Advantages } from '../components/Advantages';
+import { TrackmanTechnology } from '../components/TrackmanTechnology';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 export function TechPage() {
   usePageMeta(
-    'Симулятор Trackman в Москве — технология игроков PGA Tour | Indoor Golf Moscow',
-    'Гольф-симулятор Trackman: точный анализ удара — скорость мяча, угол вылета, спин, дистанция. 150+ полей мира в HD. Тренируйтесь на технологии мирового тура в Лужниках.'
+    'Trackman в Москве — анализ удара и технология PGA Tour | ID Golf',
+    'Trackman в ID Golf: два радара, камера и более 40 параметров удара. Тренировки, виртуальные поля, игры и технология, которую использует PGA Tour.'
   );
 
   return (
     <div className="page-content">
-      <TrackMan headingLevel={1} />
-      <Advantages />
+      <TrackmanTechnology />
     </div>
   );
 }

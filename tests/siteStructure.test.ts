@@ -9,17 +9,21 @@ describe('site content structure', () => {
   let aboutPage = '';
   let homePage = '';
   let techPage = '';
+  let trackmanTeaser = '';
+  let trackmanTechnology = '';
   let advantages = '';
   let gallery = '';
 
   beforeAll(async () => {
-    [about, brandStory, founders, aboutPage, homePage, techPage, advantages, gallery] = await Promise.all([
+    [about, brandStory, founders, aboutPage, homePage, techPage, trackmanTeaser, trackmanTechnology, advantages, gallery] = await Promise.all([
       readFile(resolve(process.cwd(), 'src/components/About.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/components/BrandStory.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/components/Founders.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/AboutPage.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/HomePage.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/TechPage.tsx'), 'utf8'),
+      readFile(resolve(process.cwd(), 'src/components/TrackMan.tsx'), 'utf8'),
+      readFile(resolve(process.cwd(), 'src/components/TrackmanTechnology.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/components/Advantages.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/components/Gallery.tsx'), 'utf8'),
     ]);
@@ -51,10 +55,24 @@ describe('site content structure', () => {
     expect(aboutPage).not.toContain('<Activities />');
   });
 
-  it('keeps one distinct advantages block with technology', () => {
-    expect(techPage).toContain('<TrackMan headingLevel={1} />');
+  it('builds a dedicated Trackman story and keeps the distinct club advantages', () => {
+    expect(techPage).toContain('<TrackmanTechnology />');
     expect(techPage).not.toContain('<WhyUs />');
-    expect(techPage).toContain('<Advantages />');
+    expect(trackmanTechnology).toContain('<Advantages />');
+    expect(trackmanTechnology).toContain('Два радара. Одна камера. Полная картина удара.');
+    expect(trackmanTechnology).toContain("value: '40+'");
+    expect(trackmanTechnology).toContain("value: '90 / 100'");
+    expect(trackmanTechnology).toContain("value: '17'");
+    expect(trackmanTechnology).toContain("value: '13'");
+    expect(trackmanTechnology).toContain("value: '25'");
+    expect(trackmanTechnology).toContain('Источник: PGA Tour');
+    expect(trackmanTechnology).toContain('Глобальная библиотека Trackman включает более 500 виртуальных полей');
+    expect(trackmanTechnology).toContain('Технология помогает увидеть ваш ID');
+    expect(trackmanTechnology).not.toContain('value: 285');
+    expect(trackmanTechnology).not.toContain('value: 245');
+    expect(trackmanTeaser).not.toContain('value: 285');
+    expect(trackmanTeaser).not.toContain('value: 245');
+    expect(trackmanTeaser).toContain("value: '40+'");
     expect(advantages).toContain('eyebrow="Почему ID Golf"');
     expect(advantages).toContain('title="Всё для игры и отдыха"');
     expect(advantages).not.toContain("title: 'TrackMan'");

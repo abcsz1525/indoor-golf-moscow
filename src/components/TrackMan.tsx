@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
-import { AnimatedNumber } from './AnimatedNumber';
+import { ArrowRight } from 'lucide-react';
 
 const METRICS = [
-  { label: 'Ball Speed', value: 285, unit: 'km/h', bar: '95%' },
-  { label: 'Launch Angle', value: 12, unit: '°', bar: '60%' },
-  { label: 'Carry Distance', value: 245, unit: 'm', bar: '85%' },
-  { label: 'Spin Rate', value: 2800, unit: 'rpm', bar: '70%' },
+  { label: 'Club & Ball Data', value: '40+', unit: 'параметров' },
+  { label: 'Dual Radar + Optics', value: '2 + 1', unit: 'сенсора' },
+  { label: 'Club Data', value: '17', unit: 'параметров' },
+  { label: 'Ball Data', value: '13', unit: 'параметров' },
 ];
 
 export function TrackMan({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
@@ -56,8 +56,15 @@ export function TrackMan({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="lg:col-span-6 text-xl md:text-2xl leading-relaxed font-light"
           >
-            Профессиональная система анализа удара. Точные метрики в реальном
-            времени. Именно так тренируются игроки мирового тура.
+            Профессиональная измерительная система: два радара, камера и более
+            40 параметров удара. Технология, которой доверяет мировой тур.
+            <a
+              href="/tech"
+              className="mt-7 flex min-h-11 w-fit items-center gap-2 border-b border-black pb-1 text-xs font-semibold uppercase tracking-brand transition-colors hover:border-white hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black"
+            >
+              Подробнее о Trackman
+              <ArrowRight size={16} aria-hidden="true" />
+            </a>
           </motion.p>
 
           <div className="lg:col-span-6 lg:col-start-7">
@@ -73,20 +80,10 @@ export function TrackMan({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
                 >
                   <div className="text-[11px] uppercase tracking-brand">{m.label}</div>
                   <div>
-                    <span className="display text-5xl md:text-6xl leading-none">
-                      <AnimatedNumber end={m.value} />
-                    </span>
+                    <span className="display text-5xl md:text-6xl leading-none">{m.value}</span>
                     <span className="ml-2 text-sm font-medium uppercase">{m.unit}</span>
                   </div>
-                  <div className="mt-2 h-0.5 bg-black/20 overflow-hidden">
-                    <motion.div
-                      className="h-full bg-black/60"
-                      initial={{ width: '0%' }}
-                      whileInView={{ width: m.bar }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 2 }}
-                    />
-                  </div>
+                  <div className="mt-3 h-px bg-black/30" />
                 </motion.div>
               ))}
             </div>
