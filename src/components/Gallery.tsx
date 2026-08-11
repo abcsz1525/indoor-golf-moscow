@@ -6,7 +6,7 @@ import { Section } from './Section';
 import img1 from '../assets/gallery/1.webp';
 import img6 from '../assets/gallery/6.webp';
 import club6335 from '../assets/gallery/club-6335.webp';
-import club6338 from '../assets/gallery/club-6338.webp';
+import club6338 from '../assets/gallery/club-6338-retouched.webp';
 import club6340 from '../assets/gallery/club-6340.webp';
 import club6341 from '../assets/gallery/club-6341.webp';
 import club6342 from '../assets/gallery/club-6342.webp';
