@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import clubImage from '../assets/hero-club-wide.webp';
 import { Section } from './Section';
 
 const SIMULATOR_PLANS = [
@@ -14,28 +15,92 @@ const PRO_PLANS = [
   { hours: '25', price: '195 000', benefit: '7 800 ₽/час' },
 ];
 
-function FadeIn({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
+function BookButton({
+  onClick,
+  children = 'Выбрать формат',
+}: {
+  onClick: () => void;
+  children?: React.ReactNode;
+}) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.6, delay }}
-      className={className}
+    <button
+      type="button"
+      onClick={onClick}
+      className="group inline-flex min-h-11 items-center gap-2 py-2 text-sm font-medium text-brand-orange transition-colors hover:text-brand-orange-hover"
     >
       {children}
-    </motion.div>
+      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+    </button>
   );
 }
 
-function BookBtn({ onClick }: { onClick: () => void }) {
+function Rate({
+  title,
+  description,
+  price,
+  onBooking,
+}: {
+  title: string;
+  description: string;
+  price: string;
+  onBooking: () => void;
+}) {
   return (
-    <button
-      onClick={onClick}
-      className="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-brand-orange hover:gap-3 transition-all"
-    >
-      Забронировать →
-    </button>
+    <div className="grid gap-5 border-t border-line py-7 sm:grid-cols-[1fr_auto] sm:items-end">
+      <div>
+        <h3 className="text-xl font-medium tracking-[-0.02em] text-[var(--text-primary)] md:text-2xl">
+          {title}
+        </h3>
+        <p className="mt-2 max-w-md text-sm leading-relaxed text-[var(--text-muted)]">
+          {description}
+        </p>
+        <BookButton onClick={onBooking}>Забронировать</BookButton>
+      </div>
+      <div className="sm:text-right">
+        <div className="display text-4xl leading-none text-brand-orange md:text-5xl">{price}</div>
+        <div className="mt-1 text-xs tracking-[0.16em] text-[var(--text-subtle)]">₽ / час</div>
+      </div>
+    </div>
+  );
+}
+
+function PlanTable({
+  plans,
+  showPeriod,
+}: {
+  plans: Array<{ hours: string; price: string; benefit: string; period?: string }>;
+  showPeriod?: boolean;
+}) {
+  return (
+    <div className="border-t border-line">
+      <div
+        className={`hidden py-4 text-[11px] tracking-[0.16em] text-[var(--text-subtle)] sm:grid ${
+          showPeriod ? 'sm:grid-cols-[0.7fr_1.2fr_0.8fr]' : 'sm:grid-cols-[0.7fr_1.3fr]'
+        }`}
+      >
+        <span>Часы</span>
+        <span>Стоимость</span>
+        {showPeriod && <span>Период</span>}
+      </div>
+      {plans.map((plan) => (
+        <div
+          key={plan.hours}
+          className={`grid gap-3 border-t border-line py-5 first:border-t-0 sm:items-center ${
+            showPeriod ? 'sm:grid-cols-[0.7fr_1.2fr_0.8fr]' : 'sm:grid-cols-[0.7fr_1.3fr]'
+          }`}
+        >
+          <div className="flex items-baseline gap-2">
+            <span className="display text-4xl leading-none text-brand-orange">{plan.hours}</span>
+            <span className="text-xs text-[var(--text-subtle)]">часов</span>
+          </div>
+          <div>
+            <div className="text-lg font-medium text-[var(--text-primary)]">{plan.price} ₽</div>
+            <div className="mt-1 text-sm text-brand-orange">{plan.benefit}</div>
+          </div>
+          {showPeriod && <div className="text-sm text-[var(--text-muted)]">{plan.period}</div>}
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -47,172 +112,103 @@ export function Formats({
   headingLevel?: 1 | 2;
 }) {
   return (
-    <Section id="formats" eyebrow="Стоимость" title="Услуги" headingLevel={headingLevel}>
-      {/* Hourly rates */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-line mb-16">
-        <motion.div
-          initial={{ opacity: 0, x: -60 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6 }}
-          className="bg-bg-primary p-8 md:p-10 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between"
-        >
-          <div>
-            <h3 className="display text-2xl md:text-3xl text-[var(--text-primary)] uppercase tracking-wide">
-              Аренда гольф-симулятора
-            </h3>
-            <p className="text-sm text-[var(--text-subtle)] mt-2">До 4 человек на симуляторе — от 1 500 ₽ с человека</p>
-            <BookBtn onClick={() => onBooking('Игра на симуляторе')} />
-          </div>
-          <div className="text-left sm:text-right flex-shrink-0 sm:ml-6">
-            <div className="display text-3xl md:text-4xl text-brand-orange">6 000</div>
-            <div className="text-xs uppercase tracking-widest text-[var(--text-subtle)]">руб./час</div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 60 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6, delay: 0.08 }}
-          className="bg-bg-primary p-8 md:p-10 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between"
-        >
-          <div>
-            <h3 className="display text-2xl md:text-3xl text-[var(--text-primary)] uppercase tracking-wide">
-              Аренда набора клюшек
-            </h3>
-            <p className="text-sm text-[var(--text-subtle)] mt-2">Полный набор для комфортной игры</p>
-            <BookBtn onClick={() => onBooking('Игра на симуляторе')} />
-          </div>
-          <div className="text-left sm:text-right flex-shrink-0 sm:ml-6">
-            <div className="display text-3xl md:text-4xl text-brand-orange">3 000</div>
-            <div className="text-xs uppercase tracking-widest text-[var(--text-subtle)]">руб./час</div>
-          </div>
-        </motion.div>
+    <Section id="formats" eyebrow="Форматы и стоимость" title="Выберите свою игру" headingLevel={headingLevel}>
+      <div className="mb-14 grid gap-8 md:mb-20 lg:grid-cols-12 lg:items-end">
+        <p className="max-w-2xl text-lg leading-relaxed text-[var(--text-muted)] lg:col-span-7 md:text-xl">
+          Разовая игра, регулярная практика или работа с PRO — стоимость собрана в одном месте,
+          чтобы вы могли сразу выбрать подходящий ритм.
+        </p>
+        <p className="border-l border-brand-orange pl-5 text-sm leading-relaxed text-[var(--text-subtle)] lg:col-span-4 lg:col-start-9">
+          На одном симуляторе могут играть до четырёх человек. Бронирование — от одного часа.
+        </p>
       </div>
 
-      {/* Simulator subscription */}
-      <FadeIn className="mb-16">
-        <div className="border border-line">
-          <div className="bg-bg-card p-6 md:p-8 border-b border-line">
-            <div className="eyebrow mb-2 flex items-center gap-3">
-              <span className="h-px w-8 bg-brand-orange" />
-              Абонемент
-            </div>
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <h3 className="display text-3xl md:text-4xl text-[var(--text-primary)] uppercase tracking-wide">
-                Абонементы на симулятор
-              </h3>
-              <BookBtn onClick={() => onBooking('Абонемент')} />
-            </div>
+      <article className="grid overflow-hidden border-y border-line lg:grid-cols-12">
+        <div className="relative min-h-[300px] overflow-hidden bg-black lg:col-span-7 lg:min-h-[520px]">
+          <img
+            src={clubImage}
+            alt="Игровая зона Indoor Golf Moscow с симуляторами Trackman"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-6 pt-20 text-sm text-white/80 md:p-8">
+            Indoor Golf Moscow · Лужники
           </div>
-
-          {/* Table header */}
-          <div className="grid grid-cols-3 gap-px bg-line text-xs uppercase tracking-widest text-[var(--text-subtle)]">
-            <div className="bg-bg-primary p-4 md:p-5">Кол-во часов</div>
-            <div className="bg-bg-primary p-4 md:p-5">Стоимость</div>
-            <div className="bg-bg-primary p-4 md:p-5">Период</div>
-          </div>
-
-          {/* Table rows */}
-          {SIMULATOR_PLANS.map((plan, i) => (
-            <motion.div
-              key={plan.hours}
-              initial={{ opacity: 0, x: -12 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.06 }}
-              className="grid grid-cols-3 gap-px bg-line group"
-            >
-              <div className="bg-bg-primary p-4 md:p-5 flex items-center group-hover:bg-bg-card transition-colors">
-                <span className="display text-2xl md:text-3xl text-brand-orange">{plan.hours}</span>
-              </div>
-              <div className="bg-bg-primary p-4 md:p-5 flex flex-col justify-center group-hover:bg-bg-card transition-colors">
-                <span className="text-[var(--text-primary)] text-lg md:text-xl font-light">{plan.price} <span className="text-[var(--text-subtle)] text-sm">₽</span></span>
-                <span className="text-xs text-brand-orange mt-0.5">{plan.benefit}</span>
-              </div>
-              <div className="bg-bg-primary p-4 md:p-5 flex items-center group-hover:bg-bg-card transition-colors">
-                <span className="text-[var(--text-muted)]">{plan.period}</span>
-              </div>
-            </motion.div>
-          ))}
         </div>
-      </FadeIn>
-
-      {/* PRO training subscription */}
-      <FadeIn className="mb-16">
-        <div className="border border-line">
-          <div className="bg-bg-card p-6 md:p-8 border-b border-line">
-            <div className="eyebrow mb-2 flex items-center gap-3">
-              <span className="h-px w-8 bg-brand-orange" />
-              Абонемент
-            </div>
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <h3 className="display text-3xl md:text-4xl text-[var(--text-primary)] uppercase tracking-wide">
-                Абонементы на тренировки с PRO
-              </h3>
-              <BookBtn onClick={() => onBooking('Тренировка с PRO')} />
-            </div>
+        <div className="flex flex-col justify-center bg-bg-card p-6 md:p-10 lg:col-span-5 lg:p-12">
+          <div className="mb-8">
+            <div className="eyebrow mb-3 text-brand-orange">Разовая игра</div>
+            <h2 className="text-3xl font-light tracking-[-0.04em] text-[var(--text-primary)] md:text-4xl">
+              Всё необходимое для раунда
+            </h2>
           </div>
-
-          {/* Table header */}
-          <div className="grid grid-cols-2 gap-px bg-line text-xs uppercase tracking-widest text-[var(--text-subtle)]">
-            <div className="bg-bg-primary p-4 md:p-5">Кол-во часов</div>
-            <div className="bg-bg-primary p-4 md:p-5">Стоимость</div>
-          </div>
-
-          {/* Table rows */}
-          {PRO_PLANS.map((plan, i) => (
-            <motion.div
-              key={plan.hours}
-              initial={{ opacity: 0, x: -12 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.06 }}
-              className="grid grid-cols-2 gap-px bg-line group"
-            >
-              <div className="bg-bg-primary p-4 md:p-5 flex items-center group-hover:bg-bg-card transition-colors">
-                <span className="display text-2xl md:text-3xl text-brand-orange">{plan.hours}</span>
-              </div>
-              <div className="bg-bg-primary p-4 md:p-5 flex flex-col justify-center group-hover:bg-bg-card transition-colors">
-                <span className="text-[var(--text-primary)] text-lg md:text-xl font-light">{plan.price} <span className="text-[var(--text-subtle)] text-sm">₽</span></span>
-                <span className="text-xs text-brand-orange mt-0.5">{plan.benefit}</span>
-              </div>
-            </motion.div>
-          ))}
+          <Rate
+            title="Аренда гольф-симулятора"
+            description="До 4 человек на симуляторе — от 1 500 ₽ с человека"
+            price="6 000"
+            onBooking={() => onBooking('Игра на симуляторе')}
+          />
+          <Rate
+            title="Аренда набора клюшек"
+            description="Полный набор для комфортной игры"
+            price="3 000"
+            onBooking={() => onBooking('Игра на симуляторе')}
+          />
         </div>
-      </FadeIn>
+      </article>
 
-      {/* Per-hour lessons */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-line">
-        <FadeIn className="bg-bg-primary p-8 md:p-10 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between group hover:bg-bg-card transition-colors">
-          <div>
-            <h3 className="display text-2xl md:text-3xl text-[var(--text-primary)] uppercase tracking-wide">
-              Групповое занятие
-            </h3>
-            <p className="text-sm text-[var(--text-subtle)] mt-2">За группу 2–3 человека — от 5 000 ₽ с человека</p>
-            <BookBtn onClick={() => onBooking('Тренировка с PRO')} />
+      <article className="grid gap-10 border-b border-line py-14 md:py-20 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-4">
+          <div className="eyebrow mb-4 text-brand-orange">Регулярная практика</div>
+          <h2 className="text-3xl font-light tracking-[-0.04em] text-[var(--text-primary)] md:text-4xl">
+            Абонементы на симулятор
+          </h2>
+          <p className="mt-5 max-w-sm text-base leading-relaxed text-[var(--text-muted)]">
+            Для тех, кто хочет тренироваться системно и заранее выбрать удобный объём часов.
+          </p>
+          <div className="mt-5">
+            <BookButton onClick={() => onBooking('Абонемент')}>Выбрать абонемент</BookButton>
           </div>
-          <div className="text-left sm:text-right flex-shrink-0 sm:ml-6">
-            <div className="display text-3xl md:text-4xl text-brand-orange">15 000</div>
-            <div className="text-xs uppercase tracking-widest text-[var(--text-subtle)]">руб./час</div>
-          </div>
-        </FadeIn>
+        </div>
+        <div className="lg:col-span-8">
+          <PlanTable plans={SIMULATOR_PLANS} showPeriod />
+        </div>
+      </article>
 
-        <FadeIn delay={0.08} className="bg-bg-primary p-8 md:p-10 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between group hover:bg-bg-card transition-colors">
-          <div>
-            <h3 className="display text-2xl md:text-3xl text-[var(--text-primary)] uppercase tracking-wide">
-              Индивидуальное занятие
-            </h3>
-            <p className="text-sm text-[var(--text-subtle)] mt-2">Персональная тренировка с PRO</p>
-            <BookBtn onClick={() => onBooking('Тренировка с PRO')} />
+      <article className="grid gap-10 py-14 md:py-20 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-4">
+          <div className="eyebrow mb-4 text-brand-orange">Работа с PRO</div>
+          <h2 className="text-3xl font-light tracking-[-0.04em] text-[var(--text-primary)] md:text-4xl">
+            Тренировка с профессионалом
+          </h2>
+          <p className="mt-5 max-w-sm text-base leading-relaxed text-[var(--text-muted)]">
+            Индивидуальный формат или занятие небольшой группой — выберите подходящий способ
+            работы.
+          </p>
+          <div className="mt-5">
+            <BookButton onClick={() => onBooking('Тренировка с PRO')}>Записаться к PRO</BookButton>
           </div>
-          <div className="text-left sm:text-right flex-shrink-0 sm:ml-6">
-            <div className="display text-3xl md:text-4xl text-brand-orange">10 000</div>
-            <div className="text-xs uppercase tracking-widest text-[var(--text-subtle)]">руб./час</div>
+        </div>
+        <div className="lg:col-span-8">
+          <div className="grid border-y border-line sm:grid-cols-2">
+            <div className="py-7 sm:pr-8">
+              <h3 className="text-xl font-medium text-[var(--text-primary)]">Индивидуальное занятие</h3>
+              <p className="mt-2 text-sm text-[var(--text-muted)]">Персональная тренировка с PRO</p>
+              <div className="mt-6 display text-4xl text-brand-orange">10 000 ₽</div>
+              <div className="text-xs text-[var(--text-subtle)]">за час</div>
+            </div>
+            <div className="border-t border-line py-7 sm:border-l sm:border-t-0 sm:pl-8">
+              <h3 className="text-xl font-medium text-[var(--text-primary)]">Групповое занятие</h3>
+              <p className="mt-2 text-sm text-[var(--text-muted)]">Группа 2–3 человека — от 5 000 ₽ с человека</p>
+              <div className="mt-6 display text-4xl text-brand-orange">15 000 ₽</div>
+              <div className="text-xs text-[var(--text-subtle)]">за группу / час</div>
+            </div>
           </div>
-        </FadeIn>
-      </div>
+          <div className="mt-10">
+            <div className="mb-4 text-sm font-medium text-[var(--text-primary)]">Абонементы на тренировки</div>
+            <PlanTable plans={PRO_PLANS} />
+          </div>
+        </div>
+      </article>
     </Section>
   );
 }

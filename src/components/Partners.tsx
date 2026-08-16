@@ -1,31 +1,38 @@
-import { motion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 import { Section } from './Section';
+
+const PARTNERS = [
+  {
+    name: 'RNGC',
+    meta: 'Russian National Golf Center',
+    text: 'Стратегический партнёр клуба: совместные турниры, обмен опытом и развитие гольф-сообщества.',
+    href: 'https://rngc.golf/',
+  },
+];
 
 export function Partners() {
   return (
-    <Section id="partners" eyebrow="Друзья и партнёры" title="Партнёры" className="bg-bg-secondary">
-      <div className="flex justify-center">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.7 }}
-          className="border border-line bg-bg-primary p-10 md:p-14 flex flex-col items-center text-center max-w-md"
-        >
-          <div
-            className="display text-brand-orange uppercase tracking-wide"
-            style={{ fontSize: 'clamp(32px, 5vw, 56px)', lineHeight: 1 }}
+    <Section id="partners" eyebrow="Партнёрская сеть" title="Вместе развиваем гольф" className="bg-bg-secondary">
+      <div className="border-t border-line">
+        {PARTNERS.map((partner) => (
+          <a
+            key={partner.name}
+            href={partner.href}
+            target="_blank"
+            rel="noreferrer"
+            className="group grid gap-6 border-b border-line py-8 transition-colors hover:text-brand-orange md:grid-cols-12 md:items-center md:py-10"
           >
-            RNGC
-          </div>
-          <div className="mt-3 text-sm uppercase tracking-widest text-[var(--text-subtle)]">
-            Russian National Golf Center
-          </div>
-          <div className="mt-6 h-px w-16 bg-brand-orange" />
-          <p className="mt-6 text-[var(--text-subtle)] text-sm leading-relaxed max-w-xs">
-            Стратегический партнёр клуба. Совместные турниры, обмен опытом и развитие гольф-сообщества.
-          </p>
-        </motion.div>
+            <div className="md:col-span-3">
+              <span className="display text-5xl leading-none text-brand-orange">{partner.name}</span>
+            </div>
+            <div className="md:col-span-3">
+              <h3 className="text-base font-semibold text-[var(--text-primary)]">{partner.name}</h3>
+              <p className="mt-1 text-sm text-[var(--text-muted)]">{partner.meta}</p>
+            </div>
+            <p className="max-w-xl text-sm leading-relaxed text-[var(--text-muted)] md:col-span-5">{partner.text}</p>
+            <ArrowUpRight className="text-brand-orange md:col-span-1 md:justify-self-end" size={20} />
+          </a>
+        ))}
       </div>
     </Section>
   );

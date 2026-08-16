@@ -44,13 +44,17 @@ describe('BookingModal', () => {
     expect(await screen.findByText('Подтвердите согласие на обработку данных')).toBeInTheDocument();
     expect(sendLeadMock).not.toHaveBeenCalled();
 
-    await user.click(screen.getByRole('checkbox', { name: /политику конфиденциальности/i }));
+    await user.click(screen.getByRole('checkbox', { name: /отдельное.*согласие/i }));
     await user.click(screen.getByRole('button', { name: 'Отправить заявку' }));
 
     await waitFor(() => expect(sendLeadMock).toHaveBeenCalledWith(expect.objectContaining({
       name: 'Иван Петров',
       phone: '+7 926 000-00-00',
       interest: 'Первый раз',
+      consent: expect.objectContaining({
+        accepted: true,
+        version: '2026-08-11',
+      }),
     })));
     expect(await screen.findByText('Заявка отправлена')).toBeInTheDocument();
   });

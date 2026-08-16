@@ -1,441 +1,174 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ID Golf Invitational 2026 — Pro-Am турнир 4 сентября, Нахабино</title>
-<meta name="description" content="ID Golf Invitational — Pro-Am турнир 4 сентября 2026 в Moscow Country Club, Нахабино. 22 команды, любители играют в одной команде с профессионалами. Гала-ужин, награждение, программа для гостей.">
-<meta property="og:title" content="ID Golf Invitational 2026 — Pro-Am турнир">
-<meta property="og:description" content="4 сентября, Нахабино. Любители играют в одной команде с профессионалами. 22 команды, гала-ужин, награждение.">
-<meta property="og:image" content="https://indoor-golf.ru/invitational/img/course.jpg">
-<meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#0A0A0A; --bg2:#111; --card:#161616; --line:rgba(255,255,255,.12);
-    --orange:#E35B27; --orange-l:#F0713D; --txt:#fff; --mut:rgba(255,255,255,.62);
-    --max:1180px;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
-  body{background:var(--bg);color:var(--txt);font-family:Inter,-apple-system,"Helvetica Neue",Arial,sans-serif;line-height:1.55;overflow-x:hidden}
-  img{max-width:100%;display:block}
-  a{color:inherit;text-decoration:none}
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
-  section{padding:clamp(48px,7vw,90px) 0}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <title>Раздел обновляется | Indoor Golf Moscow</title>
+  <meta
+    name="description"
+    content="Программа, календарь и площадка события сейчас уточняются. Подтверждённая информация появится позже."
+  >
+  <link rel="canonical" href="https://indoor-golf.ru/invitational/">
+  <meta property="og:title" content="Раздел обновляется | Indoor Golf Moscow">
+  <meta
+    property="og:description"
+    content="Программа, календарь и площадка события сейчас уточняются."
+  >
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://indoor-golf.ru/invitational/">
+  <style>
+    @font-face {
+      font-family: Inter;
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+      src: url('/fonts/inter-cyrillic.woff2') format('woff2');
+      unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+    }
 
-  .eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:800;color:var(--orange-l)}
-  h2{font-size:clamp(28px,5vw,46px);font-weight:900;letter-spacing:-.02em;line-height:1.05;text-transform:uppercase;margin-top:14px}
-  h2 em{font-style:normal;color:var(--orange-l)}
-  .lead{font-size:clamp(15px,1.6vw,18px);color:var(--mut);margin-top:18px;max-width:760px}
-  .lead b{color:#fff;font-weight:600}
+    @font-face {
+      font-family: Inter;
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+      src: url('/fonts/inter-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+        U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+        U+2212, U+2215, U+FEFF, U+FFFD;
+    }
 
-  /* ---------- HERO ---------- */
-  .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;overflow:hidden}
-  .hero__bg{position:absolute;inset:0}
-  .hero__bg img{width:100%;height:100%;object-fit:cover;object-position:center 55%}
-  .hero__bg::after{content:"";position:absolute;inset:0;background:
-    linear-gradient(180deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.25) 30%,rgba(0,0,0,0) 50%),
-    linear-gradient(0deg,rgba(10,10,10,1) 2%,rgba(10,10,10,.75) 22%,rgba(0,0,0,.1) 55%)}
-  .hero__in{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:26px 20px 40px}
-  .topline{display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;color:rgba(255,255,255,.85);gap:14px;flex-wrap:wrap}
-  .topline .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--orange);margin-right:9px;vertical-align:1px}
-  .pill{display:inline-block;background:var(--orange);color:#fff;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;padding:9px 18px;border-radius:99px}
-  .hero h1{font-size:clamp(34px,9vw,116px);font-weight:900;line-height:.9;letter-spacing:-.035em;text-transform:uppercase;margin-top:18px}
-  .hero h1 em{font-style:normal;color:var(--orange-l);display:block}
-  .orgs{display:flex;align-items:center;gap:14px;margin-top:20px;flex-wrap:wrap}
-  .orgs .l{font-size:10px;letter-spacing:.24em;text-transform:uppercase;font-weight:800;color:var(--mut)}
-  .orgs .n{font-size:clamp(14px,2vw,19px);font-weight:900;letter-spacing:.03em;text-transform:uppercase}
-  .orgs .n i{font-style:normal;color:var(--orange);margin:0 8px}
-  .heroMeta{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:32px}
-  .heroMeta > div{background:rgba(10,10,10,.72);padding:18px;backdrop-filter:blur(6px)}
-  .heroMeta .v{font-size:clamp(17px,2.1vw,23px);font-weight:900;color:var(--orange-l);letter-spacing:-.01em;line-height:1.1}
-  .heroMeta .k{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-top:7px;font-weight:700}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--orange);color:#fff;font-weight:800;letter-spacing:.16em;text-transform:uppercase;font-size:13px;padding:18px 34px;border-radius:99px;border:none;cursor:pointer;transition:.2s;margin-top:26px}
-  .btn:hover{background:#C74B1F;transform:translateY(-1px)}
-  .btn.ghost{background:transparent;border:1.5px solid rgba(255,255,255,.35);margin-left:10px}
-  .btn.ghost:hover{border-color:var(--orange);color:var(--orange-l);background:transparent}
+    :root {
+      color-scheme: dark;
+      --background: #090909;
+      --surface: #121212;
+      --line: rgba(255, 255, 255, 0.13);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.64);
+      --orange: #e35b27;
+      --orange-light: #f0713d;
+    }
 
-  /* ---------- ФОРМАТ ---------- */
-  .split{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,4vw,56px);align-items:center}
-  .figure{border-radius:20px;overflow:hidden;aspect-ratio:4/3}
-  .figure img{width:100%;height:100%;object-fit:cover}
-  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:34px}
-  .fact{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
-  .fact .v{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1}
-  .fact .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-top:9px;font-weight:700;line-height:1.4}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+    }
 
-  /* ---------- ТАЙМЛАЙН ---------- */
-  .flow{margin-top:34px;border-top:1px solid var(--line)}
-  .fr{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--line)}
-  .fr .w{font-size:12px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:var(--orange-l);padding-top:3px}
-  .fr b{display:block;font-size:clamp(16px,2vw,20px);font-weight:800;line-height:1.25}
-  .fr span{display:block;color:var(--mut);font-size:15px;margin-top:6px}
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
 
-  /* ---------- НАГРАДЫ ---------- */
-  .awards{background:var(--bg2)}
-  .awardFeature{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);margin-top:34px;background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden}
-  .awardVisual{min-height:380px;background:#F3EFE8;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-  .awardVisual img{width:100%;height:100%;object-fit:cover}
-  .awardVisual::after{content:"Будущий приз";position:absolute;left:18px;bottom:18px;background:rgba(10,10,10,.78);backdrop-filter:blur(8px);padding:8px 12px;border-radius:99px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800}
-  .awardText{padding:clamp(26px,4vw,48px);display:flex;flex-direction:column;justify-content:center}
-  .awardText h3{font-size:clamp(23px,3.4vw,38px);line-height:1.08;text-transform:uppercase;margin-top:12px}
-  .awardText p{color:var(--mut);font-size:15px;margin-top:16px}
-  .awardText .secret{color:#fff;border-left:2px solid var(--orange);padding-left:16px;font-weight:600}
-  .specialPrizes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
-  .specialPrize{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}
-  .specialPrize .nom{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--orange-l)}
-  .specialPrize b{display:block;font-size:18px;line-height:1.25;margin-top:10px}
-  .specialPrize p{color:var(--mut);font-size:14.5px;margin-top:9px}
+    body {
+      min-width: 320px;
+      min-height: 100svh;
+      background:
+        radial-gradient(circle at 82% 15%, rgba(227, 91, 39, 0.16), transparent 34rem),
+        var(--background);
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-  .judge{display:grid;grid-template-columns:150px 1fr;gap:24px;margin-top:28px;padding:26px;border:1px solid rgba(227,91,39,.45);border-radius:18px;background:linear-gradient(135deg,rgba(227,91,39,.13),rgba(22,22,22,.9))}
-  .judge .role{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:var(--orange-l)}
-  .judge b{font-size:clamp(19px,2.4vw,26px);line-height:1.2}
-  .judge p{color:var(--mut);font-size:14.5px;margin-top:8px}
+    main {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 28px 20px;
+    }
 
-  /* ---------- АКТИВНОСТИ ---------- */
-  .acts{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:34px}
-  .act{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}
-  .act .br{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--orange-l)}
-  .act b{display:block;font-size:18px;font-weight:800;margin-top:10px;line-height:1.25}
-  .act p{color:var(--mut);font-size:14.5px;margin-top:9px}
-  .act.wide{background:linear-gradient(135deg,rgba(227,91,39,.14),rgba(22,22,22,.9));border-color:rgba(227,91,39,.45)}
+    .panel {
+      width: min(760px, 100%);
+      border-block: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(18, 18, 18, 0.88));
+      padding: clamp(32px, 7vw, 72px);
+    }
 
-  /* ---------- ТАРИФЫ ---------- */
-  .tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px;align-items:start}
-  .tr{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;display:flex;flex-direction:column;height:100%}
-  .tr.prime{border-color:var(--orange);background:linear-gradient(160deg,rgba(227,91,39,.13),var(--card))}
-  .tr .nm{font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:900;color:var(--mut)}
-  .tr.prime .nm{color:var(--orange-l)}
-  .tr .pr{font-size:clamp(32px,4vw,42px);font-weight:900;letter-spacing:-.025em;margin-top:14px;line-height:1}
-  .tr .sub{font-size:12.5px;color:var(--mut);margin-top:9px;font-weight:600}
-  .tr ul{list-style:none;margin-top:18px}
-  .tr li{font-size:14.5px;padding-left:20px;position:relative;margin-bottom:9px;color:rgba(255,255,255,.86)}
-  .tr li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;background:var(--orange)}
-  .tr .btn{width:100%;margin-top:auto;padding:15px 20px;font-size:12px}
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--orange-light);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
 
-  /* ---------- ПАРТНЁРЫ ---------- */
-  .partners{background:#F4F2F2;color:#111}
-  .plog{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:30px}
-  .partnerLink{min-height:118px;background:#fff;border:1px solid #DDD8D4;border-radius:16px;padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:14px;transition:.2s}
-  .partnerLink:hover,.partnerLink:focus-visible{border-color:var(--orange);transform:translateY(-2px);outline:none}
-  .partnerLogo{min-height:54px;display:flex;align-items:center;justify-content:center}
-  .plog img{max-height:40px;width:auto;object-fit:contain}
-  .partnerLink.tall img{max-height:52px}
-  .partnerLink.dk img{filter:brightness(0);opacity:.8}
-  .partnerLink.ml img{mix-blend-mode:multiply}
-  .partnerGo{font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#777}
-  .partnerLink:hover .partnerGo,.partnerLink:focus-visible .partnerGo{color:var(--orange)}
-  .plabel{font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:800;color:#6C6C6C;text-align:center}
-  .pname{font-size:15px;font-weight:900;letter-spacing:.04em;color:#111}
+    .brand::before {
+      width: 32px;
+      height: 1px;
+      background: var(--orange);
+      content: "";
+    }
 
-  /* ---------- ФОРМА ---------- */
-  .form{background:var(--bg2)}
-  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
-  .fgrid .full{grid-column:1/-1}
-  label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--mut);margin-bottom:8px}
-  input,select,textarea{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;color:#fff;font:inherit;font-size:15px;padding:15px 16px;outline:none;transition:.15s}
-  input:focus,select:focus,textarea:focus{border-color:var(--orange)}
-  select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.6' fill='none'/></svg>");background-repeat:no-repeat;background-position:right 16px center}
-  textarea{min-height:96px;resize:vertical}
-  .note{font-size:12.5px;color:var(--mut);margin-top:14px}
-  .msg{margin-top:16px;font-size:15px;font-weight:600;display:none}
-  .msg.ok{display:block;color:#6ede8a}
-  .msg.err{display:block;color:#ff8a6b}
-  .consent{display:flex;align-items:flex-start;gap:10px;color:var(--mut);font-size:12px;line-height:1.5;text-transform:none;letter-spacing:0;cursor:pointer}
-  .consent input{width:18px;height:18px;margin-top:1px;accent-color:var(--orange);flex:0 0 auto}
-  .consent a{color:var(--orange-l);text-decoration:underline;text-underline-offset:2px}
-  .hp{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+    h1 {
+      max-width: 620px;
+      margin-top: 22px;
+      font-size: clamp(38px, 8vw, 78px);
+      font-weight: 400;
+      letter-spacing: -0.055em;
+      line-height: 0.98;
+    }
 
-  /* ---------- ФУТЕР ---------- */
-  footer{border-top:1px solid var(--line);padding:38px 0}
-  .fin{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
-  .fin a{font-weight:700}
-  .fin .ph{font-size:clamp(20px,3vw,28px);font-weight:900;letter-spacing:-.01em}
-  .fmut{font-size:13px;color:var(--mut)}
-  .fright{text-align:right}
-  .flbl{letter-spacing:.2em;text-transform:uppercase;font-weight:800;font-size:11px}
+    p {
+      max-width: 590px;
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: clamp(16px, 2.2vw, 19px);
+      line-height: 1.65;
+    }
 
-  @media (max-width:560px){
-    .btn{width:100%;margin-left:0}
-    .btn.ghost{margin-left:0}
-    .hero__in{padding:20px 0 32px}
-    .orgs .n{font-size:15px}
-    section{padding:44px 0}
-  }
-  @media (max-width:940px){
-    .acts{grid-template-columns:1fr 1fr}
-    .specialPrizes{grid-template-columns:1fr}
-  }
-  @media (max-width:640px){
-    .acts{grid-template-columns:1fr}
-    .heroMeta{grid-template-columns:1fr 1fr}
-    .fin{flex-direction:column;text-align:center;gap:24px}
-    .fright{text-align:center}
-    .topline{font-size:10px;letter-spacing:.14em;gap:6px}
-    .plog{grid-template-columns:1fr 1fr;gap:10px}
-    .partnerLink{min-height:108px;padding:14px}
-    .judge{grid-template-columns:1fr;gap:10px}
-  }
-  @media (max-width:860px){
-    .split{grid-template-columns:1fr}
-    .awardFeature{grid-template-columns:1fr}
-    .awardVisual{min-height:300px}
-    .fgrid{grid-template-columns:1fr}
-    .fr{grid-template-columns:78px 1fr;gap:14px}
-    .btn.ghost{margin-left:0;margin-top:10px}
-  }
-</style>
+    .backSite {
+      display: inline-flex;
+      min-height: 46px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 34px;
+      border: 1px solid var(--orange);
+      background: var(--orange);
+      color: #111111;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 20px;
+      text-decoration: none;
+      transition: background 180ms ease, border-color 180ms ease;
+    }
+
+    .backSite:hover,
+    .backSite:focus-visible {
+      border-color: var(--orange-light);
+      background: var(--orange-light);
+      outline: 2px solid transparent;
+    }
+
+    @media (max-width: 520px) {
+      .panel {
+        padding-inline: 24px;
+      }
+
+      .backSite {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-
-<!-- ===== HERO ===== -->
-<header class="hero">
-  <div class="hero__bg"><img src="img/course.jpg" alt="Гольф-поле"></div>
-  <div class="hero__in wrap">
-    <div class="topline">
-      <span><span class="dot"></span>Организаторы · ID Golf × Tursunov Team</span>
-      <span>Москва · 2026</span>
-    </div>
-    <div>
-      <span class="pill">Pro-Am турнир</span>
-      <h1>ID Golf<em>Invitational</em></h1>
-      <div class="orgs">
-        <span class="l">Организаторы</span>
-        <span class="n">ID Golf<i>×</i>Tursunov Team</span>
-      </div>
-      <div class="heroMeta">
-        <div><div class="v">4 сентября</div><div class="k">Пятница · 2026</div></div>
-        <div><div class="v">Нахабино</div><div class="k">Moscow Country Club</div></div>
-        <div><div class="v">22 команды</div><div class="k">3 любителя + профи</div></div>
-        <div><div class="v">Гала-ужин</div><div class="k">и церемония награждения</div></div>
-      </div>
-      <a href="#zayavka" class="btn">Оставить заявку</a>
-      <a href="#programma" class="btn ghost">Программа дня</a>
-    </div>
-  </div>
-</header>
-
-<!-- ===== ФОРМАТ ===== -->
-<section>
-  <div class="wrap">
-    <div class="split">
-      <div>
-        <div class="eyebrow">Формат</div>
-        <h2>Любитель играет<br>в одной команде<br><em>с профессионалом</em></h2>
-        <p class="lead">Pro-Am — редкий формат, в котором опыт не разделяет игроков, а объединяет. В каждой команде три любителя и профессионал: он подскажет клюшку, прочитает грин и поддержит на сложной лунке.</p>
-        <p class="lead"><b>Мы сделали турнир спортивнее привычного:</b> в зачёт команды идут три лучших результата, а не два. Спрятаться за партнёром не получится — вклад нужен от каждого.</p>
-        <p class="lead">Команду можно заявить целиком или прийти вдвоём: недостающих партнёров и профи подберём мы.</p>
-      </div>
-      <div class="figure"><img src="img/players.jpg" alt="Игроки на поле"></div>
-    </div>
-    <div class="facts">
-      <div class="fact"><div class="v">22</div><div class="k">команды на поле</div></div>
-      <div class="fact"><div class="v">3+1</div><div class="k">три любителя и профессионал</div></div>
-      <div class="fact"><div class="v">3 из 4</div><div class="k">лучших результата идут в зачёт</div></div>
-      <div class="fact"><div class="v">120+</div><div class="k">гостей на гала-ужине</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== ПРОГРАММА ===== -->
-<section id="programma" style="background:var(--bg2)">
-  <div class="wrap">
-    <div class="eyebrow">Программа турнира</div>
-    <h2>Как проходит<br><em>день турнира</em></h2>
-    <div class="flow">
-      <div class="fr"><div class="w">Скоро</div><div><b>Точное расписание появится немного позже</b><span>Мы опубликуем подробный тайминг утра, дневной программы и вечера. Следите за обновлениями.</span></div></div>
-    </div>
-    <div class="judge">
-      <div class="role">Главный судья турнира</div>
-      <div><b>Виктор Вадимович Мочалов</b><p>Один из самых опытных российских судей по гольфу, работавший рефери на The Open и других международных турнирах. Единственный российский член The Royal and Ancient Golf Club of St Andrews.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== НАГРАДЫ ===== -->
-<section class="awards">
-  <div class="wrap">
-    <div class="eyebrow">Награды</div>
-    <h2>Не кубок,<br>а <em>памятный арт-объект</em></h2>
-    <p class="lead">У победы должна быть форма, которую хочется сохранить. Поэтому вместо традиционных спортивных кубков призёры ID Golf Invitational получат дизайнерские арт-объекты от <b>ЦЕНТРСВЕТ</b>.</p>
-    <div class="awardFeature">
-      <!-- После получения ролика ЦЕНТРСВЕТ это изображение заменяется одним атмосферным video. -->
-      <div class="awardVisual" data-video-slot="centersvet"><img src="img/cs-matreshka-crystal-sq.jpg" alt="Арт-объект из коллекции MATRЁSHKA от ЦЕНТРСВЕТ"></div>
-      <div class="awardText">
-        <div class="eyebrow">ЦЕНТРСВЕТ · Символы России</div>
-        <h3>MATRЁSHKA — символ новой России</h3>
-        <p>Коллекция переосмысляет матрёшку как объект современного российского дизайна. Проект отмечен национальной премией «Лучший промышленный дизайн России 2025» и был представлен на выставке «Российский дизайн» в Московском музее дизайна.</p>
-        <p>Для нас особенно важно, что на первом турнире ID Golf роль главных кубков выполнят арт-объекты от ЦЕНТРСВЕТ — символ новой России. Продвигая ID Golf и гольф в России, мы хотим говорить и о новой российской культуре: современной эстетике, сильной айдентике и новом подходе к игре. MATRЁSHKA становится частью этого движения.</p>
-        <p class="secret">Какие именно арт-объекты получат победители разных номинаций, останется тайной до церемонии награждения.</p>
-      </div>
-    </div>
-    <div class="specialPrizes" aria-label="Специальные номинации турнира">
-      <div class="specialPrize"><div class="nom">Longest Drive · женщины и мужчины</div><b>Два драйвера TaylorMade Qi4D + фитинг</b><p>Самый дальний удар отдельно определим среди женщин и мужчин. Победительница женской и победитель мужской номинации получат по драйверу TaylorMade Qi4D и персональный фитинг.</p></div>
-      <div class="specialPrize"><div class="nom">Closest to the Pin · пар-3</div><b>Паттер победителю каждого зачёта</b><p>Традиционный closest пройдёт отдельно в женском и мужском зачётах. За самый точный удар — паттер в подарок.</p></div>
-      <div class="specialPrize"><div class="nom">Closest вторым ударом · пар-4</div><b>Отдельный приз от BONAFIDE MEDICINE</b><p>На одной из лунок партнёры турнира отметят самый точный второй удар специальным подарком.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== АКТИВНОСТИ ===== -->
-<section>
-  <div class="wrap">
-    <div class="eyebrow">Для гостей и игроков</div>
-    <h2>Программа <em>на площадке</em></h2>
-    <p class="lead">Пока команды проходят турнирный раунд, на площадке продолжается собственная программа — со спортом, восстановлением, консультациями и неожиданными конкурсами от партнёров.</p>
-    <div class="acts">
-      <div class="act"><div class="br">Гольф-клиника · мини-контесты</div><b>Познакомиться с игрой</b><p>Профессиональные тренеры проведут серию активностей и мини-контестов для гостей. В программу войдёт специальный контест Yamaguchi на самый точный удар с виброплатформы — с подарками для победителей. Неважно, впервые вы берёте клюшку или уже играете: с первых минут будет азартно, понятно и по-настоящему интересно. Клюшки, мячи и всё необходимое оборудование для пробы игры и участия в клинике предоставим на площадке.</p></div>
-      <div class="act"><div class="br">Сквош-клуб «Москва»</div><b>Мини-турнир по настольному теннису</b><p>Профессиональные тренеры помогут познакомиться с игрой, освоить основы и попробовать свои силы в отдельном турнире. Присоединиться смогут и новички, и гости с опытом.</p></div>
-      <div class="act"><div class="br">Yamaguchi · восстановительная зона</div><b>Массажные кресла, виброплатформа и подарки</b><p>На площадке будет работать восстановительная зона Yamaguchi с массажными креслами и виброплатформой. Во время гольф-клиники пройдёт специальный мини-контест: участникам предложат выполнить самый точный удар, стоя на виброплатформе Yamaguchi. Победителей ждут подарки от бренда.</p></div>
-      <div class="act wide"><div class="br">BONAFIDE MEDICINE · WINTECARE</div><b>Восстановление — часть большого результата</b><p>Команда практикующих врачей и специалистов по реабилитации познакомит гостей с системой T-PLUS WINTECARE®, применяемой в спортивной медицине и восстановлении. На площадке можно будет узнать о профессиональной работе с мышцами, суставами и спиной и получить консультацию специалиста. Возможность участия в процедурах определяется специалистом с учётом ограничений и противопоказаний.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== УЧАСТИЕ ===== -->
-<section id="uchastie" style="background:var(--bg2)">
-  <div class="wrap">
-    <div class="eyebrow">Участие</div>
-    <h2>Три способа<br><em>быть на турнире</em></h2>
-    <div class="tiers">
-      <div class="tr">
-        <div class="nm">Участие</div>
-        <div class="pr">37 000 ₽</div>
-        <div class="sub">за игрока</div>
-        <ul>
-          <li>Раунд в команде с профессионалом</li>
-          <li>Welcome-box, мячи на тренировочной зоне и кар</li>
-          <li>Питание и напитки на дистанции</li>
-          <li>Гала-ужин и церемония награждения</li>
-        </ul>
-        <a href="#zayavka" class="btn">Оставить заявку</a>
-      </div>
-      <div class="tr prime">
-        <div class="nm">ID Prime · всего 4 команды</div>
-        <div class="pr">55 000 ₽</div>
-        <div class="sub">за игрока, командный тариф</div>
-        <ul>
-          <li>Всё из базового участия</li>
-          <li>Набор от партнёров турнира</li>
-          <li>Форкедди на флайт: линии, дистанции, поиск мячей</li>
-          <li>Приоритет в зоне восстановления</li>
-          <li>Отдельный стол на гала-ужине</li>
-          <li>Час игры в Indoor Golf в подарок</li>
-        </ul>
-        <a href="#zayavka" class="btn">Забронировать Prime</a>
-      </div>
-      <div class="tr">
-        <div class="nm">Гость</div>
-        <div class="pr">17 000 ₽</div>
-        <div class="sub">без игры на поле</div>
-        <ul>
-          <li>Гольф-клиника и мини-контесты — оборудование предоставляем</li>
-          <li>Мини-турнир по настольному теннису с профессиональными тренерами</li>
-          <li>Восстановительная зона Yamaguchi: массажные кресла и виброплатформа</li>
-          <li>Мини-контест Yamaguchi на точность удара и подарки победителям</li>
-          <li>Гала-ужин и церемония награждения</li>
-        </ul>
-        <a href="#zayavka" class="btn">Оставить заявку</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== ПАРТНЁРЫ ===== -->
-<section class="partners">
-  <div class="wrap">
-    <div class="plabel">Партнёры турнира</div>
-    <div class="plog">
-      <a class="partnerLink ml" href="https://galitskiy-galitskiy.ru/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт Галицкий и Галицкий"><span class="partnerLogo"><img src="img/galitsky-logo.jpg" alt="Галицкий и Галицкий"></span><span class="partnerGo">Открыть сайт ↗</span></a>
-      <a class="partnerLink" href="https://www.centersvet.ru/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт ЦЕНТРСВЕТ"><span class="partnerLogo"><span class="pname">ЦЕНТРСВЕТ</span></span><span class="partnerGo">Открыть сайт ↗</span></a>
-      <a class="partnerLink tall" href="https://bonafidemed.ru/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт BONAFIDE MEDICINE"><span class="partnerLogo"><img src="img/bonafide-full.png" alt="BONAFIDE MEDICINE"></span><span class="partnerGo">Открыть сайт ↗</span></a>
-      <a class="partnerLink tall" href="https://wintecare.co.jp/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт Wintecare"><span class="partnerLogo"><img src="img/wintecare.png" alt="Wintecare"></span><span class="partnerGo">Открыть сайт ↗</span></a>
-      <a class="partnerLink" href="https://www.yamaguchi.ru/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт Yamaguchi"><span class="partnerLogo"><img src="img/yamaguchi-logo.svg" alt="Yamaguchi"></span><span class="partnerGo">Открыть сайт ↗</span></a>
-      <a class="partnerLink dk" href="https://rngc.golf/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт RNGC"><span class="partnerLogo"><img src="img/rngc-logo.png" alt="RNGC"></span><span class="partnerGo">Открыть сайт ↗</span></a>
-      <a class="partnerLink" href="https://moskotin.com/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт Михаила Москотина"><span class="partnerLogo"><img src="img/moskotin-logo.png" alt="Михаил Москотин — просто про бизнес"></span><span class="partnerGo">Открыть сайт ↗</span></a>
-      <a class="partnerLink" href="https://squashclub.moscow/" target="_blank" rel="noopener noreferrer" aria-label="Открыть сайт Сквош-клуба Москва"><span class="partnerLogo"><img src="img/squash-moscow.png" alt="Сквош-клуб Москва"></span><span class="partnerGo">Открыть сайт ↗</span></a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== ЗАЯВКА ===== -->
-<section id="zayavka" class="form">
-  <div class="wrap">
-    <div class="eyebrow">Заявка</div>
-    <h2>Оставьте заявку —<br><em>свяжемся сегодня</em></h2>
-    <p class="lead">Поле ограничено двадцатью двумя командами. Заявки принимаем до заполнения стартового листа.</p>
-    <form id="f" class="fgrid" novalidate>
-      <div><label for="n">Имя</label><input id="n" name="name" type="text" placeholder="Как к вам обращаться" required></div>
-      <div><label for="p">Телефон</label><input id="p" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="+7 (___) ___-__-__" required></div>
-      <div class="full"><label for="t">Формат участия</label>
-        <select id="t" name="tariff">
-          <option>Участие — 37 000 ₽</option>
-          <option>ID Prime — 55 000 ₽</option>
-          <option>Гость — 17 000 ₽</option>
-          <option>Команда целиком</option>
-          <option>Партнёрство и спонсорство</option>
-        </select>
-      </div>
-      <div class="full"><label for="c">Комментарий</label><textarea id="c" name="comment" placeholder="Сколько человек, есть ли команда, вопросы"></textarea></div>
-      <div class="hp" aria-hidden="true"><label for="w">Не заполняйте это поле</label><input id="w" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-      <div class="full">
-        <label class="consent" for="consent"><input id="consent" name="consent" type="checkbox" required><span>Я принимаю <a href="/privacy" target="_blank" rel="noreferrer">политику конфиденциальности</a> и даю согласие на обработку данных для ответа на заявку.</span></label>
-        <button class="btn" type="submit" id="sb" style="margin-top:4px">Отправить заявку</button>
-        <div class="msg" id="m" role="status" aria-live="polite"></div>
-      </div>
-    </form>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap fin">
-    <div>
-      <div class="fmut flbl">Заявка и вопросы</div>
-      <a class="ph" href="tel:+79260926919">+7 (926) 092-69-19</a>
-    </div>
-    <div class="fright">
-      <div class="fmut">ID Golf Invitational · 4 сентября 2026</div>
-      <div class="fmut">Moscow Country Club, Нахабино</div>
-      <div style="margin-top:8px"><a href="https://indoor-golf.ru">indoor-golf.ru</a> · <a href="https://t.me/indoorgolf">@indoorgolf</a></div>
-      <div style="margin-top:8px"><a href="/privacy">Политика конфиденциальности</a></div>
-    </div>
-  </div>
-</footer>
-
-<script>
-  var f=document.getElementById('f'),m=document.getElementById('m'),sb=document.getElementById('sb'),ph=document.getElementById('p');
-
-  // Телефон: всегда +7, вводятся только 10 цифр — ни больше, ни меньше.
-  function digits(v){var d=(v||'').replace(/\D/g,'');if(d.charAt(0)==='7'||d.charAt(0)==='8')d=d.slice(1);return d.slice(0,10);}
-  function fmt(d){var s='+7';if(d.length)s+=' ('+d.slice(0,3);if(d.length>3)s+=') '+d.slice(3,6);if(d.length>6)s+='-'+d.slice(6,8);if(d.length>8)s+='-'+d.slice(8,10);return s;}
-  ph.addEventListener('focus',function(){if(!ph.value)ph.value='+7 (';});
-  ph.addEventListener('input',function(){ph.value=fmt(digits(ph.value));});
-  ph.addEventListener('blur',function(){if(digits(ph.value).length===0)ph.value='';});
-  ph.addEventListener('keydown',function(e){if(e.key==='Backspace'&&digits(ph.value).length===0){ph.value='';}});
-  f.addEventListener('submit',function(e){
-    e.preventDefault();
-    var name=f.name.value.trim(),d=digits(ph.value),phone=fmt(d);
-    m.className='msg';
-    if(!name){m.textContent='Укажите имя.';m.className='msg err';return;}
-    if(d.length!==10){m.textContent='Введите 10 цифр номера после +7.';m.className='msg err';return;}
-    if(!f.consent.checked){m.textContent='Подтвердите согласие на обработку данных.';m.className='msg err';return;}
-    sb.disabled=true;sb.textContent='Отправляем…';
-    fetch('/api/lead.php',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({name:name,phone:phone,interest:'ID Golf Invitational — '+f.tariff.value,comment:f.comment.value.trim(),website:f.website.value})
-    }).then(function(r){
-      return r.json().catch(function(){return null;}).then(function(data){
-        if(!r.ok||!data||data.ok!==true)throw new Error(data&&data.error||'delivery_failed');
-        return data;
-      });
-    })
-     .then(function(){m.textContent='Заявка отправлена. Свяжемся с вами сегодня.';m.className='msg ok';f.reset();})
-     .catch(function(){m.textContent='Не удалось отправить. Позвоните нам: +7 (926) 092-69-19';m.className='msg err';})
-     .finally(function(){sb.disabled=false;sb.textContent='Отправить заявку';});
-  });
-</script>
-
+  <main>
+    <section class="panel" aria-labelledby="page-title">
+      <div class="brand">Indoor Golf Moscow</div>
+      <h1 id="page-title">Раздел обновляется</h1>
+      <p>
+        Мы уточняем программу, календарь и площадку события. Подтверждённая информация
+        появится здесь позже.
+      </p>
+      <a
+        class="backSite"
+        href="/"
+        aria-label="Вернуться на основной сайт Indoor Golf Moscow"
+      >
+        Вернуться на основной сайт
+      </a>
+    </section>
+  </main>
 </body>
 </html>

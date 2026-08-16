@@ -1,9 +1,10 @@
 import { useId, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Check, Phone, MessageCircle, Send } from 'lucide-react';
 import { Section } from './Section';
 import { sendLead } from '../lib/sendLead';
+import { CONSENT_VERSION } from '../legal/company';
+import { PersonalDataConsent } from './PersonalDataConsent';
 
 type Channel = 'call' | 'telegram' | 'max';
 
@@ -51,6 +52,11 @@ export function BookingForm() {
         comment: data.comment,
         page: 'Контакты',
         website: data.website,
+        consent: {
+          accepted: true,
+          version: CONSENT_VERSION,
+          acceptedAt: new Date().toISOString(),
+        },
       });
       setSubmitted(true);
       setSelectedChannel('call');
@@ -64,20 +70,15 @@ export function BookingForm() {
     <Section id="booking" eyebrow="Заявка" title="Записаться">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
         <div className="lg:col-span-7">
-          <AnimatePresence mode="wait">
-            {submitted ? (
-              <motion.div
-                key="success"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className="border border-brand-orange bg-brand-orange/5 p-10 md:p-14 flex flex-col items-start gap-5"
+          {submitted ? (
+              <div
+                className="flex flex-col items-start gap-5 border border-brand-orange bg-brand-orange/5 p-8 md:p-12"
                 role="status"
               >
-                <div className="h-14 w-14 rounded-full bg-brand-orange flex items-center justify-center">
-                  <Check size={28} className="text-white" strokeWidth={2.5} />
+                <div className="flex h-14 w-14 items-center justify-center bg-brand-orange">
+                  <Check size={28} className="text-neutral-950" strokeWidth={2.5} />
                 </div>
-                <h3 className="display text-4xl md:text-5xl uppercase text-[var(--text-primary)]">
+                <h3 className="text-3xl font-light tracking-[-0.03em] text-[var(--text-primary)] md:text-4xl">
                   Заявка отправлена
                 </h3>
                 <p className="text-[var(--text-muted)] max-w-md">
@@ -85,19 +86,16 @@ export function BookingForm() {
                   Спасибо, что выбрали Indoor Golf Moscow.
                 </p>
                 <button
+                  type="button"
                   onClick={() => setSubmitted(false)}
-                  className="mt-2 text-sm uppercase tracking-widest text-brand-orange hover:text-brand-orange-hover"
+                  className="mt-2 inline-flex min-h-11 items-center py-2 text-sm font-medium text-brand-orange hover:text-brand-orange-hover"
                 >
                   Отправить ещё одну →
                 </button>
-              </motion.div>
+              </div>
             ) : (
-              <motion.form
-                key="form"
+              <form
                 onSubmit={handleSubmit(onSubmit)}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
                 className="space-y-8"
                 noValidate
               >
@@ -146,7 +144,7 @@ export function BookingForm() {
                             setSelectedChannel(c.id);
                             setValue('channel', c.id);
                           }}
-                          className={`px-5 py-3 text-sm uppercase tracking-widest border transition-all duration-200 ${
+                          className={`min-h-11 border px-5 py-3 text-sm font-medium transition-colors duration-200 ${
                             active
                               ? 'border-brand-orange text-brand-orange bg-brand-orange/10'
                               : 'border-line text-[var(--text-muted)] hover:border-neutral-400 hover:text-[var(--text-primary)]'
@@ -175,28 +173,20 @@ export function BookingForm() {
                   <input id={`${nameId}-website`} tabIndex={-1} autoComplete="off" {...register('website')} />
                 </div>
 
-                <div>
-                  <label htmlFor={consentId} className="flex items-start gap-3 text-xs text-[var(--text-muted)] cursor-pointer max-w-xl">
-                    <input
-                      id={consentId}
-                      type="checkbox"
-                      className="mt-0.5 accent-[#E35B27]"
-                      aria-describedby={errors.consent ? `${consentId}-error` : undefined}
-                      {...register('consent', { required: 'Подтвердите согласие на обработку данных' })}
-                    />
-                    <span>
-                      Я принимаю <a href="/privacy" target="_blank" rel="noreferrer" className="text-brand-orange underline underline-offset-2">политику конфиденциальности</a> и даю согласие на обработку данных для ответа на заявку.
-                    </span>
-                  </label>
-                  {errors.consent && <p id={`${consentId}-error`} role="alert" className="mt-2 text-xs text-brand-orange">{errors.consent.message}</p>}
-                </div>
+                <PersonalDataConsent
+                  id={consentId}
+                  error={errors.consent?.message}
+                  inputProps={register('consent', {
+                    required: 'Подтвердите согласие на обработку данных',
+                  })}
+                />
 
                 {error && <p className="text-sm text-brand-orange" role="alert">{error}</p>}
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn-primary w-full sm:w-auto group disabled:opacity-60"
+                  className="btn-primary group min-h-11 w-full disabled:opacity-60 sm:w-auto"
                 >
                   {isSubmitting ? 'Отправляем…' : 'Отправить заявку'}
                   <ArrowRight
@@ -205,18 +195,11 @@ export function BookingForm() {
                   />
                 </button>
 
-              </motion.form>
+              </form>
             )}
-          </AnimatePresence>
         </div>
 
-        <motion.aside
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.7 }}
-          className="lg:col-span-5 lg:col-start-9"
-        >
+        <aside className="lg:col-span-5 lg:col-start-9">
           <div className="eyebrow mb-4">Быстрые контакты</div>
           <div className="space-y-px bg-line">
             <QuickContact
@@ -238,10 +221,10 @@ export function BookingForm() {
             />
           </div>
           <p className="mt-8 text-sm text-[var(--text-subtle)] leading-relaxed">
-            Мы отвечаем в течение 30 минут с 7:00 до 23:00. Бронирование
+            Мы отвечаем в течение 30 минут с 9:00 до 23:00. Бронирование
             симулятора возможно от 1 часа.
           </p>
-        </motion.aside>
+        </aside>
       </div>
 
       <style>{`

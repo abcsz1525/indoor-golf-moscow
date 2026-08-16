@@ -28,16 +28,19 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'backdrop-blur-md border-b border-line'
-          : 'bg-transparent'
-      }`}
-      style={scrolled ? { backgroundColor: 'var(--nav-bg)' } : undefined}
+      className="fixed inset-x-0 top-0 z-50 border-b border-line backdrop-blur-md transition-colors duration-200"
+      style={{ backgroundColor: scrolled ? 'var(--nav-bg)' : 'color-mix(in srgb, var(--bg-primary) 84%, transparent)' }}
     >
-      <div className="container-x flex items-center justify-between h-20">
+      <div className="container-x flex h-[72px] items-center justify-between">
         <Link to="/" className="flex items-center shrink-0">
           <Logo size={66} />
         </Link>
@@ -48,7 +51,7 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
               key={item.to}
               to={item.to}
               onClick={() => setOpen(false)}
-              className={`text-sm uppercase tracking-widest whitespace-nowrap transition-colors ${
+              className={`whitespace-nowrap text-[13px] font-medium transition-colors ${
                 location.pathname === item.to
                   ? 'text-brand-orange'
                   : 'hover:text-brand-orange'
@@ -60,25 +63,26 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
           ))}
           <a
             href="tel:+79260926919"
-            className="flex items-center gap-2 text-sm tracking-wider whitespace-nowrap transition-colors hover:text-brand-orange"
+            className="flex items-center gap-2 whitespace-nowrap text-[13px] transition-colors hover:text-brand-orange"
             style={{ color: 'var(--text-muted)' }}
             aria-label="Позвонить 8 926 092-69-19"
           >
             <Phone size={15} className="text-brand-orange shrink-0" />
             <span className="hidden xl:inline">8 926 092-69-19</span>
           </a>
-          <ThemeToggle />
-          <button onClick={onBooking} data-booking-trigger className="btn-primary text-sm py-3 px-6 whitespace-nowrap">
-            Записаться
+          <div className="hidden xl:block"><ThemeToggle /></div>
+          <button onClick={onBooking} data-booking-trigger className="btn-primary whitespace-nowrap px-6">
+            Выбрать время
           </button>
         </nav>
 
-        <div className="lg:hidden flex items-center gap-4">
-          <ThemeToggle />
+        <div className="flex items-center gap-3 lg:hidden">
           <button
             onClick={() => setOpen((v) => !v)}
-            aria-label="Меню"
-            style={{ color: 'var(--text-primary)' }}
+            aria-label={open ? 'Закрыть меню' : 'Открыть меню'}
+            aria-expanded={open}
+            aria-controls="mobile-navigation"
+            className="inline-flex h-11 w-11 items-center justify-center border border-brand-orange bg-brand-orange text-neutral-950 transition-colors hover:bg-brand-orange-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
           >
             {open ? <X size={26} /> : <Menu size={26} />}
           </button>
@@ -87,16 +91,17 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
 
       {open && (
         <div
+          id="mobile-navigation"
           className="lg:hidden backdrop-blur-md border-t border-line"
           style={{ backgroundColor: 'var(--nav-mobile-bg)' }}
         >
-          <nav className="container-x flex flex-col py-6 gap-5">
+          <nav className="container-x flex min-h-[calc(100svh-72px)] flex-col gap-1 py-6">
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
                 onClick={() => setOpen(false)}
-                className={`text-lg uppercase tracking-widest ${
+                className={`flex min-h-14 items-center border-b border-line text-2xl font-medium ${
                   location.pathname === item.to
                     ? 'text-brand-orange'
                     : 'hover:text-brand-orange'
@@ -109,7 +114,7 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
             <a
               href="tel:+79260926919"
               onClick={() => setOpen(false)}
-              className="flex items-center gap-2 text-lg tracking-wider"
+              className="flex min-h-14 items-center gap-2 border-b border-line text-lg"
               style={{ color: 'var(--text-primary)' }}
             >
               <Phone size={17} className="text-brand-orange" />
@@ -120,10 +125,11 @@ export function Navbar({ onBooking }: { onBooking: () => void }) {
                 setOpen(false);
                 onBooking();
               }}
-              className="text-lg uppercase tracking-widest text-brand-orange text-left"
+              className="btn-primary mt-6 w-full text-left"
             >
-              Записаться
+              Выбрать время
             </button>
+            <div className="mt-auto pt-8"><ThemeToggle /></div>
           </nav>
         </div>
       )}

@@ -25,7 +25,7 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Bebas Neue"', '"Barlow Condensed"', 'sans-serif'],
+        display: ['"Barlow Condensed"', 'sans-serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {

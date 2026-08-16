@@ -30,7 +30,7 @@ export function YClientsModal({
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[100] flex items-center justify-center p-3 md:p-6"
         >
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+          <div className="fixed inset-0 bg-black/60" onClick={onClose} />
 
           <motion.div
             ref={dialogRef}
@@ -39,20 +39,16 @@ export function YClientsModal({
             aria-labelledby={titleId}
             aria-describedby={descriptionId}
             tabIndex={-1}
-            initial={{ opacity: 0, y: 30, scale: 0.97 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 30, scale: 0.97 }}
-            transition={{ duration: 0.3 }}
+            exit={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.2 }}
             className="relative w-full max-w-2xl h-[85vh] bg-bg-primary border border-line flex flex-col overflow-hidden"
           >
-            {/* Header */}
             <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-line">
               <div>
-                <div className="eyebrow flex items-center gap-3 mb-0.5">
-                  <span className="h-px w-8 bg-brand-orange" />
-                  Онлайн-запись
-                </div>
-                <h2 id={titleId} className="display text-xl md:text-2xl text-brand-orange uppercase leading-none">
+                <div className="eyebrow mb-1 text-brand-orange">Онлайн-запись</div>
+                <h2 id={titleId} className="text-2xl font-light tracking-[-0.03em] text-[var(--text-primary)] md:text-3xl">
                   Выберите время
                 </h2>
               </div>
@@ -77,7 +73,6 @@ export function YClientsModal({
               </div>
             </div>
 
-            {/* Widget */}
             <div className="relative flex-1 bg-white" aria-busy={!loaded}>
               {!loaded && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-neutral-500">
@@ -94,7 +89,6 @@ export function YClientsModal({
               />
             </div>
 
-            {/* Footer: fallbacks */}
             <div id={descriptionId} className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-5 py-3 border-t border-line text-xs text-[var(--text-muted)]">
               <a
                 href="tel:+79260926919"
@@ -105,7 +99,7 @@ export function YClientsModal({
               </a>
               <button
                 onClick={onLeadFallback}
-                className="uppercase tracking-widest text-brand-orange hover:text-brand-orange-hover transition-colors"
+                className="inline-flex min-h-11 items-center font-medium text-brand-orange transition-colors hover:text-brand-orange-hover"
               >
                 Корпоратив или вопрос? Оставить заявку →
               </button>

@@ -30,7 +30,7 @@ npm run package:reg-ru
 /var/www/u1234567/data/indoor-golf-secrets.php
 ```
 
-Скопируйте структуру из `deploy/indoor-golf-secrets.php.example`, замените все три значения и установите права `600`. Старый YClients webhook key использовать нельзя.
+Скопируйте структуру из `deploy/indoor-golf-secrets.php.example`, замените все четыре значения и установите права `600`. `LEADS_ADMIN_PASSWORD` должен быть отдельным длинным случайным паролем. Старый YClients webhook key использовать нельзя.
 
 Этот файл нельзя помещать в `www`, `indoor-golf.ru`, Git или архив сайта.
 
@@ -63,7 +63,9 @@ curl https://indoor-golf.ru/api/yclients-webhook.php
 - неизвестный URL — HTTP 404;
 - webhook health check — `{"ok":true,"service":"yclients-webhook"}`;
 - прямой `/api/_server-config.php` недоступен;
-- тестовая заявка приходит в Telegram.
+- тестовая заявка приходит в Telegram без имени, телефона и комментария;
+- `https://indoor-golf.ru/api/leads-admin.php` запрашивает логин `indoor-golf` и пароль `LEADS_ADMIN_PASSWORD`, после чего показывает полную заявку;
+- в `/var/www/<логин>/data/indoor-golf-private/leads.ndjson` создаётся приватный журнал заявок и согласий с правами `600`.
 
 После этого замените URL webhook в YClients на:
 

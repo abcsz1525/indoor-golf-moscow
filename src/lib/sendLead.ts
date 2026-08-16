@@ -6,6 +6,11 @@ export interface Lead {
   comment?: string;
   page?: string;
   website?: string;
+  consent: {
+    accepted: true;
+    version: string;
+    acceptedAt: string;
+  };
 }
 
 export async function sendLead(lead: Lead): Promise<void> {

@@ -5,7 +5,6 @@ import { beforeAll, describe, expect, it } from 'vitest';
 describe('site content structure', () => {
   let about = '';
   let brandStory = '';
-  let founders = '';
   let aboutPage = '';
   let homePage = '';
   let techPage = '';
@@ -17,10 +16,9 @@ describe('site content structure', () => {
   let photoStrip = '';
 
   beforeAll(async () => {
-    [about, brandStory, founders, aboutPage, homePage, techPage, trackmanTeaser, trackmanTechnology, advantages, gallery, hero, photoStrip] = await Promise.all([
+    [about, brandStory, aboutPage, homePage, techPage, trackmanTeaser, trackmanTechnology, advantages, gallery, hero, photoStrip] = await Promise.all([
       readFile(resolve(process.cwd(), 'src/components/About.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/components/BrandStory.tsx'), 'utf8'),
-      readFile(resolve(process.cwd(), 'src/components/Founders.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/AboutPage.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/HomePage.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/TechPage.tsx'), 'utf8'),
@@ -33,28 +31,25 @@ describe('site content structure', () => {
     ]);
   });
 
-  it('explains the ID Golf ideology and identifies the founders on About', () => {
-    expect(about).toContain('Новая культура');
-    expect(about).toContain('современную, открытую культуру гольфа в России');
-    expect(about).toContain('ID = <span className="text-brand-orange">Identity</span>');
-    expect(about).toContain('Identity — идентичность');
-    expect(brandStory).toContain('Что означает ID');
-    expect(brandStory).toContain('Во что мы верим');
-    expect(brandStory).toContain('Что мы создаём');
-    expect(brandStory).toContain('Найди свой');
-    expect(brandStory).toContain('section-title-id');
-    expect(founders).toContain("name: 'Андрей Золотарев'");
-    expect(founders).toContain("name: 'Наталья Колыхалова'");
-    expect(founders).toContain("role: 'Сооснователь ID Golf'");
-    expect(founders).toContain("founders/andrey.webp");
-    expect(founders).toContain("founders/natalia.webp");
-    expect(aboutPage.indexOf('<About headingLevel={1} />')).toBeLessThan(aboutPage.indexOf('<Founders />'));
-    expect(aboutPage.indexOf('<Founders />')).toBeLessThan(aboutPage.indexOf('<BrandStory />'));
+  it('keeps About focused on the ID Golf ideology without founder identities', () => {
+    expect(about).toContain('Мы — ID Golf');
+    expect(about).toContain('современную культуру гольфа в России');
+    expect(brandStory).toContain('ID — Identity');
+    expect(brandStory).toContain('Гольф как часть идентичности');
+    expect(brandStory).toContain('Зачем существует ID Golf');
+    expect(brandStory).toContain('Развивать и популяризировать гольф в России');
+    expect(aboutPage).not.toContain('Founders');
+    expect(aboutPage).not.toContain('Андрей Золотарев');
+    expect(aboutPage).not.toContain('Наталья Колыхалова');
+    expect(aboutPage).not.toContain('founders/andrey.webp');
+    expect(aboutPage).not.toContain('founders/natalia.webp');
+    expect(aboutPage.indexOf('<About headingLevel={1} />')).toBeLessThan(aboutPage.indexOf('<BrandStory />'));
   });
 
-  it('keeps audience and activity scenarios on the homepage', () => {
-    expect(homePage).toContain('<ForWhom />');
-    expect(homePage).toContain('<Activities />');
+  it('keeps the four core playing scenarios on the homepage without duplicate audience blocks', () => {
+    expect(homePage).toContain('<StartHere onBooking={onBooking} />');
+    expect(homePage).not.toContain('<ForWhom />');
+    expect(homePage).not.toContain('<Activities />');
     expect(aboutPage).not.toContain('<ForWhom />');
     expect(aboutPage).not.toContain('<Activities />');
   });
@@ -78,11 +73,11 @@ describe('site content structure', () => {
     expect(trackmanTechnology).not.toContain('value: 245');
     expect(trackmanTeaser).not.toContain('value: 285');
     expect(trackmanTeaser).not.toContain('value: 245');
-    expect(trackmanTeaser).toContain("value: '40+'");
+    expect(trackmanTeaser).toContain("['40+', 'параметров удара']");
     expect(advantages).toContain('eyebrow="Почему ID Golf"');
     expect(advantages).toContain('title="Всё для игры и отдыха"');
-    expect(advantages).not.toContain("title: 'TrackMan'");
-    expect(advantages).toContain("i < 3 ? 'lg:col-span-2' : 'lg:col-span-3'");
+    expect(advantages).not.toContain("title: 'Trackman'");
+    expect(advantages).toContain('border-b border-line');
     expect(homePage).not.toContain('<WhyUs />');
     expect(aboutPage).not.toContain('<Advantages />');
   });
@@ -99,8 +94,7 @@ describe('site content structure', () => {
     for (const removedPhoto of [6336, 6337, 6339]) {
       expect(gallery).not.toContain(`gallery/club-${removedPhoto}.webp`);
     }
-    expect(gallery).toContain('object-contain');
-    expect(gallery).not.toContain('object-cover');
+    expect(gallery).toContain('h-auto w-full');
   });
 
   it('does not reuse removed gallery photos on the homepage', () => {

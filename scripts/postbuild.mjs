@@ -9,8 +9,12 @@ const pages = [
   { path: '/gallery', title: 'Фото клуба Indoor Golf Moscow в Лужниках', description: 'Зал, тренировки и атмосфера Indoor Golf Moscow. Посмотрите пространство и симуляторы Trackman до визита.' },
   { path: '/services', title: 'Цены на гольф-симулятор в Москве | Indoor Golf Moscow', description: 'Аренда Trackman от 6 000 ₽/час до 4 человек, тренировки с PRO, абонементы и аренда клюшек в Лужниках.' },
   { path: '/events', title: 'События Indoor Golf Moscow — турниры и мероприятия', description: 'Турниры, клубные вечера и открытые мероприятия Indoor Golf Moscow.' },
-  { path: '/contacts', title: 'Контакты Indoor Golf Moscow — Лужники 24, стр. 21', description: 'Москва, ул. Лужники 24, стр. 21, Дворец тенниса, блок C. Ежедневно 7:00–23:00. Телефон 8 (926) 092-69-19.' },
-  { path: '/privacy', title: 'Политика конфиденциальности | Indoor Golf Moscow', description: 'Как Indoor Golf Moscow обрабатывает данные, переданные через формы записи и внешние сервисы.' },
+  { path: '/contacts', title: 'Контакты Indoor Golf Moscow — Лужники 24, стр. 21', description: 'Москва, ул. Лужники 24, стр. 21, Дворец тенниса, блок C. Ежедневно 9:00–23:00. Телефон 8 (926) 092-69-19.' },
+  { path: '/privacy', title: 'Политика обработки персональных данных | Indoor Golf Moscow', description: 'Политика ООО «Гольф Дом» в отношении обработки и защиты персональных данных посетителей Indoor Golf Moscow.' },
+  { path: '/consent', title: 'Согласие на обработку персональных данных | Indoor Golf Moscow', description: 'Отдельное согласие на обработку данных, передаваемых через формы Indoor Golf Moscow.' },
+  { path: '/legal', title: 'Реквизиты ООО «Гольф Дом» | Indoor Golf Moscow', description: 'Юридические реквизиты исполнителя услуг Indoor Golf Moscow.' },
+  { path: '/terms', title: 'Правила оказания услуг и посещения | Indoor Golf Moscow', description: 'Правила бронирования, оплаты, отмены и безопасного посещения Indoor Golf Moscow.' },
+  { path: '/tournament-rules', title: 'Турнирные документы обновляются | Indoor Golf Moscow', description: 'Раздел с условиями участия временно недоступен: программа и площадка события уточняются.' },
 ];
 
 const template = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
@@ -38,7 +42,8 @@ function render(meta, noIndex = false) {
 }
 
 for (const page of pages) {
-  await writeFile(new URL(`../dist${page.path}.html`, import.meta.url), render(page));
+  const noIndex = ['/consent', '/legal', '/tournament-rules'].includes(page.path);
+  await writeFile(new URL(`../dist${page.path}.html`, import.meta.url), render(page, noIndex));
 }
 
 await writeFile(

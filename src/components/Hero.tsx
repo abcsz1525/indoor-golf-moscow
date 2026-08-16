@@ -1,104 +1,77 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import { useRef } from 'react';
+import { ArrowDown, ArrowRight } from 'lucide-react';
 import heroPhoto from '../assets/hero-club-wide.webp';
 
-export function Hero({ onBooking }: { onBooking: (interest?: string) => void }) {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
-  const fade = useTransform(scrollYProgress, [0, 1], [1, 0.2]);
+const FACTS = [
+  ['03', 'симулятора'],
+  ['9:00–23:00', 'ежедневно'],
+  ['до 4', 'игроков'],
+];
 
-  const scrollToPricing = () => {
-    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+export function Hero({ onBooking }: { onBooking: (interest?: string) => void }) {
+  const scrollToStart = () => {
+    document.getElementById('start')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section
-      id="top"
-      ref={ref}
-      className="relative min-h-screen flex flex-col justify-start md:justify-center overflow-hidden"
-    >
-      {/* Photo background with parallax */}
-      <motion.div style={{ y: bgY }} className="absolute inset-0">
-        <img
-          src={heroPhoto}
-          alt="Пространство Indoor Golf Moscow в Лужниках"
-          className="h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/30" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
-      </motion.div>
+    <section id="top" className="relative min-h-[100svh] overflow-hidden bg-neutral-950 text-white">
+      <img
+        src={heroPhoto}
+        alt="Пространство Indoor Golf Moscow в Лужниках"
+        className="absolute inset-0 h-full w-full object-cover object-[58%_center]"
+        fetchPriority="high"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,7,7,.92)_0%,rgba(7,7,7,.72)_42%,rgba(7,7,7,.12)_78%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(7,7,7,.74)_0%,transparent_48%,rgba(7,7,7,.22)_100%)]" />
 
-      <motion.div
-        style={{ opacity: fade }}
-        className="container-x relative z-10 pt-32 md:pt-32 pb-32"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="eyebrow mb-6 flex items-center gap-3 !text-white/70"
+      <div className="container-x relative z-10 flex min-h-[100svh] flex-col justify-end pb-28 pt-32 md:justify-center md:pb-32 md:pt-36">
+        <p className="mb-6 text-xs font-medium uppercase tracking-[0.16em] text-white/70">
+          Indoor Golf Moscow · Лужники
+        </p>
+        <h1
+          className="font-brand-display max-w-[1000px] uppercase"
+          style={{ fontSize: 'clamp(72px, 12vw, 176px)', lineHeight: 0.82, letterSpacing: '-0.02em' }}
         >
-          <span className="h-px w-10 bg-brand-orange" />
-          Trackman · Лужники · Pro Level
-        </motion.div>
+          Гольф.<br />
+          <span className="text-brand-orange">Весь год.</span>
+        </h1>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.05 }}
-          className="display text-white font-normal"
-          style={{
-            fontSize: 'clamp(56px, 10vw, 160px)',
-            lineHeight: 0.9,
-            letterSpacing: '0.01em',
-          }}
-        >
-          Гольф <br />
-          <span className="text-brand-orange">круглый</span> год
-        </motion.h1>
+        <div className="mt-8 grid gap-8 md:mt-10 md:grid-cols-12 md:items-end">
+          <p className="max-w-xl text-base leading-relaxed text-white/78 sm:text-lg md:col-span-6">
+            Три симулятора Trackman в Лужниках — для самостоятельной игры,
+            тренировок с тренером и встреч с друзьями.
+          </p>
+          <div className="flex flex-col gap-3 sm:flex-row md:col-span-6 md:justify-end">
+            <button onClick={() => onBooking()} className="btn-primary group">
+              Выбрать время
+              <ArrowRight size={17} className="transition-transform group-hover:translate-x-0.5" />
+            </button>
+            <button
+              onClick={scrollToStart}
+              className="inline-flex min-h-12 items-center justify-center gap-2 border border-white/45 px-7 py-3 text-sm font-medium text-white transition-colors hover:border-white"
+            >
+              Выбрать формат
+            </button>
+          </div>
+        </div>
+      </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-8 max-w-2xl text-lg md:text-xl text-white/80 font-light leading-relaxed"
-        >
-          Симуляторы Trackman в Лужниках. От 6 000 ₽/час на компанию
-          до 4 человек — новичкам поможем с клюшками и первым ударом.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-12 flex flex-wrap gap-4"
-        >
-          <button onClick={() => onBooking()} className="btn-primary group" data-cursor="grow">
-            Записаться
-            <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-          </button>
+      <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/20 bg-black/35 backdrop-blur-sm">
+        <div className="container-x flex min-h-20 items-stretch">
           <button
-            onClick={scrollToPricing}
-            className="inline-flex items-center justify-center gap-2 uppercase tracking-widest px-7 py-4 border border-white/70 text-white transition-all duration-200 hover:border-brand-orange hover:text-brand-orange"
-            data-cursor="grow"
+            onClick={scrollToStart}
+            className="hidden w-20 shrink-0 items-center justify-center border-r border-white/20 text-white/70 transition-colors hover:text-white md:flex"
+            aria-label="Перейти к форматам"
           >
-            Смотреть цены
+            <ArrowDown size={19} />
           </button>
-        </motion.div>
-      </motion.div>
-
-      {/* Bottom info bar */}
-      <div className="absolute bottom-0 inset-x-0 border-t border-brand-orange bg-black/40 backdrop-blur-sm">
-        <div className="container-x py-5 flex flex-wrap items-center justify-between gap-x-10 gap-y-2 text-[11px] md:text-xs uppercase tracking-brand text-white/70">
-          <span>Trackman</span>
-          <span className="hidden sm:inline text-brand-orange">·</span>
-          <span>Лужники · парковка на территории</span>
-          <span className="hidden sm:inline text-brand-orange">·</span>
-          <span>Без выходных 7:00–23:00</span>
-          <span className="hidden sm:inline text-brand-orange">·</span>
-          <span>Pro Level</span>
+          <div className="grid flex-1 grid-cols-3">
+            {FACTS.map(([value, label]) => (
+              <div key={label} className="flex flex-col justify-center border-r border-white/20 px-4 last:border-r-0 md:px-8">
+                <span className="display text-xl leading-none text-white md:text-2xl">{value}</span>
+                <span className="mt-1 text-[10px] uppercase tracking-[0.13em] text-white/55 md:text-xs">{label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

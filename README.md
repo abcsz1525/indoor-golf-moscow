@@ -1,6 +1,6 @@
 # Indoor Golf Moscow
 
-Маркетинговый сайт клуба Indoor Golf Moscow в Лужниках. Основной интерфейс собран на React 19, TypeScript и Vite. Заявки обрабатываются PHP-endpoint и отправляются в Telegram; интеграция YClients доступна как отключаемый внешний виджет.
+Маркетинговый сайт клуба Indoor Golf Moscow в Лужниках. Основной интерфейс собран на React 19, TypeScript и Vite. Заявки сохраняются PHP-endpoint в приватном хранилище на российском сервере, а в Telegram отправляется только обезличенное уведомление; интеграция YClients доступна как отключаемый внешний виджет.
 
 ## Локальная разработка
 
@@ -27,7 +27,7 @@ npm run check
 npm run build
 ```
 
-Результат появляется в `dist/`. Postbuild создаёт отдельные HTML-файлы для `/about`, `/tech`, `/gallery`, `/services`, `/events`, `/contacts`, `/privacy` и 404. Это даёт поисковым роботам уникальные title, description, canonical и Open Graph metadata до выполнения JavaScript.
+Результат появляется в `dist/`. Postbuild создаёт отдельные HTML-файлы для основных и юридических маршрутов и 404. Это даёт поисковым роботам уникальные title, description, canonical и Open Graph metadata до выполнения JavaScript.
 
 ## Production
 
@@ -39,6 +39,7 @@ npm run build
 env[TG_BOT_TOKEN] = "..."
 env[TG_CHAT_ID] = "..."
 env[YCLIENTS_WEBHOOK_KEY] = "новый-длинный-случайный-секрет"
+env[LEADS_ADMIN_PASSWORD] = "отдельный-длинный-пароль"
 ```
 
 На виртуальном хостинге REG.RU они записываются в `/var/www/<логин>/data/indoor-golf-secrets.php`, то есть вне публичной директории `data/www/indoor-golf.ru`. Шаблон находится в [deploy/indoor-golf-secrets.php.example](deploy/indoor-golf-secrets.php.example).
@@ -70,7 +71,7 @@ VITE_YCLIENTS_EMBED_ENABLED=true npm run build
 1. Выполнить `npm ci && npm run check && npm audit --omit=dev`.
 2. Для REG.RU выполнить `npm run package:reg-ru` и развернуть созданный `artifacts/indoor-golf-reg-ru.zip` по инструкции ISPmanager. Для VPS развернуть `dist/` с nginx/PHP-FPM конфигурацией.
 3. Проверить `GET /robots.txt`, `GET /sitemap.xml` и неизвестный URL со статусом 404.
-4. Отправить тестовую заявку и подтвердить её появление в Telegram.
+4. Отправить тестовую заявку, подтвердить обезличенное уведомление в Telegram и открыть полные данные в защищённой панели `/api/leads-admin.php`.
 5. Отправить тестовый YClients webhook с корректным `company_id` из кабинета сервиса.
 6. Пройти все CTA на ширинах 375 px и 1280 px.
 

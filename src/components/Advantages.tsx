@@ -1,19 +1,17 @@
-import { motion } from 'framer-motion';
 import {
   CalendarClock,
   MapPin,
-  Sparkles,
+  Armchair,
   CircleParking,
   UtensilsCrossed,
 } from 'lucide-react';
-import { MagneticCard } from './MagneticCard';
 import { Section } from './Section';
 
 const ITEMS = [
   {
     icon: CalendarClock,
     title: 'Круглый год',
-    text: 'Тренируйтесь в любую погоду и любой сезон — микроклимат и свет всегда идеальные.',
+    text: 'Три indoor-симулятора работают ежедневно с 9:00 до 23:00 независимо от сезона и погоды.',
   },
   {
     icon: MapPin,
@@ -21,9 +19,9 @@ const ITEMS = [
     text: 'Дворец тенниса в Лужниках — рядом метро Воробьёвы горы и МЦК Лужники, охраняемая парковка.',
   },
   {
-    icon: Sparkles,
+    icon: Armchair,
     title: 'Комфорт',
-    text: 'Раздевалки и душевые premium-класса, зона отдыха и бар — как в лучших клубах мира.',
+    text: 'Раздевалки, душевые, зона отдыха и бар находятся рядом с игровыми боксами.',
   },
   {
     icon: CircleParking,
@@ -40,39 +38,21 @@ const ITEMS = [
 export function Advantages() {
   return (
     <Section id="advantages" eyebrow="Почему ID Golf" title="Всё для игры и отдыха">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-px bg-line">
+      <div className="border-t border-line">
         {ITEMS.map((item, i) => {
           const Icon = item.icon;
-          const desktopSpan = i < 3 ? 'lg:col-span-2' : 'lg:col-span-3';
           return (
-            <motion.div
+            <article
               key={item.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.6, delay: i * 0.08 }}
-              className={`group relative bg-bg-primary p-8 md:p-10 min-h-[260px] flex flex-col transition-colors hover:bg-bg-card ${desktopSpan} ${i === ITEMS.length - 1 ? 'md:col-span-2 lg:col-span-3' : ''}`}
+              className="grid gap-5 border-b border-line py-7 md:grid-cols-[3rem_minmax(10rem,0.7fr)_1.5fr] md:items-start md:gap-8 md:py-9"
             >
-              <MagneticCard className="w-full h-full">
-                {/* top line */}
-                <span className="absolute top-0 left-0 h-px w-10 bg-brand-orange transition-all duration-500 group-hover:w-full" />
-
-                <Icon
-                  size={32}
-                  className="text-brand-orange mb-8"
-                  strokeWidth={1.4}
-                />
-                <h3 className="display text-3xl text-[var(--text-primary)] uppercase mb-3 tracking-wide">
-                  {item.title}
-                </h3>
-                <p className="text-[var(--text-muted)] leading-relaxed">{item.text}</p>
-
-                {/* index */}
-                <span className="absolute top-6 right-6 text-xs text-[var(--text-subtle)] font-mono">
-                  0{i + 1}
-                </span>
-              </MagneticCard>
-            </motion.div>
+              <Icon size={25} className="text-brand-orange" strokeWidth={1.4} aria-hidden="true" />
+              <h3 className="text-xl font-medium text-[var(--text-primary)] md:text-2xl">{item.title}</h3>
+              <div className="flex gap-5">
+                <p className="max-w-xl flex-1 leading-relaxed text-[var(--text-muted)]">{item.text}</p>
+                <span className="font-mono text-xs text-[var(--text-subtle)]">0{i + 1}</span>
+              </div>
+            </article>
           );
         })}
       </div>

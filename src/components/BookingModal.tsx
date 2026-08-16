@@ -4,6 +4,8 @@ import { sendLead } from '../lib/sendLead';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Check, X, Phone, MessageCircle, Send } from 'lucide-react';
 import { useDialog } from '../hooks/useDialog';
+import { CONSENT_VERSION } from '../legal/company';
+import { PersonalDataConsent } from './PersonalDataConsent';
 
 type Channel = 'call' | 'telegram' | 'max';
 
@@ -78,6 +80,11 @@ export function BookingModal({
         comment: data.comment,
         page: window.location.pathname,
         website: data.website,
+        consent: {
+          accepted: true,
+          version: CONSENT_VERSION,
+          acceptedAt: new Date().toISOString(),
+        },
       });
       setSubmitted(true);
       setSelectedChannel('call');
@@ -100,12 +107,10 @@ export function BookingModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto py-8 px-4"
+          className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto px-4 py-6 md:py-10"
         >
-          {/* Backdrop */}
-          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={handleClose} />
+          <div className="fixed inset-0 bg-black/60" onClick={handleClose} />
 
-          {/* Modal */}
           <motion.div
             ref={dialogRef}
             role="dialog"
@@ -113,28 +118,25 @@ export function BookingModal({
             aria-labelledby={titleId}
             aria-describedby={descriptionId}
             tabIndex={-1}
-            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 40, scale: 0.95 }}
-            transition={{ duration: 0.3 }}
-            className="relative w-full max-w-md bg-bg-primary border border-line p-6 md:p-8 my-auto"
+            exit={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.2 }}
+            className="relative my-auto w-full max-w-lg border border-line bg-bg-primary p-7 md:p-10"
           >
             <button
               onClick={handleClose}
-              className="absolute top-3 right-3 text-[var(--text-subtle)] hover:text-[var(--text-primary)] transition-colors"
+              className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center border border-line text-[var(--text-subtle)] transition-colors hover:border-brand-orange hover:text-brand-orange"
               aria-label="Закрыть"
             >
               <X size={22} />
             </button>
 
-            <div className="eyebrow mb-1 flex items-center gap-3">
-              <span className="h-px w-8 bg-brand-orange" />
-              Заявка
-            </div>
-            <h2 id={titleId} className="display text-3xl text-brand-orange uppercase mb-2">
+            <div className="eyebrow mb-3 text-brand-orange">Заявка</div>
+            <h2 id={titleId} className="pr-12 text-4xl font-light tracking-[-0.04em] text-[var(--text-primary)] md:text-5xl">
               Записаться
             </h2>
-            <p id={descriptionId} className="mb-5 text-sm text-[var(--text-muted)]">
+            <p id={descriptionId} className="mb-7 mt-4 max-w-md text-sm leading-relaxed text-[var(--text-muted)]">
               Оставьте контакты, и администратор поможет подобрать время и формат.
             </p>
 
@@ -148,18 +150,18 @@ export function BookingModal({
                   className="flex flex-col items-start gap-4"
                   role="status"
                 >
-                  <div className="h-12 w-12 rounded-full bg-brand-orange flex items-center justify-center">
-                    <Check size={24} className="text-white" strokeWidth={2.5} />
+                  <div className="flex h-12 w-12 items-center justify-center bg-brand-orange">
+                    <Check size={24} className="text-neutral-950" strokeWidth={2.5} />
                   </div>
-                  <h3 className="display text-2xl uppercase text-[var(--text-primary)]">
+                  <h3 className="text-3xl font-light tracking-[-0.03em] text-[var(--text-primary)]">
                     Заявка отправлена
                   </h3>
                   <p className="text-[var(--text-muted)] text-sm">
-                    Мы свяжемся с вами в течение 30 минут.
+                    Мы свяжемся с вами в течение 30 минут в рабочее время.
                   </p>
                   <button
                     onClick={() => setSubmitted(false)}
-                    className="text-sm uppercase tracking-widest text-brand-orange hover:text-brand-orange-hover"
+                    className="inline-flex min-h-11 items-center text-sm font-medium text-brand-orange hover:text-brand-orange-hover"
                   >
                     Отправить ещё одну →
                   </button>
@@ -217,7 +219,7 @@ export function BookingModal({
                             type="button"
                             key={item}
                             onClick={() => setSelectedInterest(active ? '' : item)}
-                            className={`px-3 py-2 text-xs uppercase tracking-wider border transition-all duration-200 ${
+                            className={`min-h-11 border px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                               active
                                 ? 'border-brand-orange text-brand-orange bg-brand-orange/10'
                                 : 'border-line text-[var(--text-muted)] hover:border-neutral-400 hover:text-[var(--text-primary)]'
@@ -244,7 +246,7 @@ export function BookingModal({
                               setSelectedChannel(c.id);
                               setValue('channel', c.id);
                             }}
-                            className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-200 ${
+                            className={`min-h-11 border px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                               active
                                 ? 'border-brand-orange text-brand-orange bg-brand-orange/10'
                                 : 'border-line text-[var(--text-muted)] hover:border-neutral-400 hover:text-[var(--text-primary)]'
@@ -278,21 +280,13 @@ export function BookingModal({
                     />
                   </div>
 
-                  <div>
-                    <label htmlFor={consentId} className="flex items-start gap-3 text-xs text-[var(--text-muted)] cursor-pointer">
-                      <input
-                        id={consentId}
-                        type="checkbox"
-                        className="mt-0.5 accent-[#E35B27]"
-                        aria-describedby={errors.consent ? `${consentId}-error` : undefined}
-                        {...register('consent', { required: 'Подтвердите согласие на обработку данных' })}
-                      />
-                      <span>
-                        Я принимаю <a href="/privacy" target="_blank" rel="noreferrer" className="text-brand-orange underline underline-offset-2">политику конфиденциальности</a> и даю согласие на обработку данных для ответа на заявку.
-                      </span>
-                    </label>
-                    {errors.consent && <p id={`${consentId}-error`} role="alert" className="mt-2 text-xs text-brand-orange">{errors.consent.message}</p>}
-                  </div>
+                  <PersonalDataConsent
+                    id={consentId}
+                    error={errors.consent?.message}
+                    inputProps={register('consent', {
+                      required: 'Подтвердите согласие на обработку данных',
+                    })}
+                  />
 
                   {error && (
                     <p className="text-sm text-red-600" role="alert">{error}</p>
@@ -314,7 +308,6 @@ export function BookingModal({
               )}
             </AnimatePresence>
 
-            {/* Quick contacts */}
             <div className="mt-5 pt-4 border-t border-line">
               <div className="flex flex-wrap gap-4">
                 <a href="tel:+79260926919" className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-brand-orange transition-colors">

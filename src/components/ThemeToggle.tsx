@@ -20,15 +20,15 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setDark((d) => !d)}
-      className="relative h-8 w-14 rounded-full border border-line transition-colors duration-300 flex items-center px-1"
+      className="relative flex h-9 w-[54px] items-center rounded-full border border-line px-1 transition-colors duration-200"
       style={{ backgroundColor: dark ? '#1E1E1E' : '#E0E0E0' }}
       aria-label={dark ? 'Светлая тема' : 'Тёмная тема'}
     >
       <div
-        className="h-6 w-6 rounded-full bg-brand-orange flex items-center justify-center transition-transform duration-300"
-        style={{ transform: dark ? 'translateX(22px)' : 'translateX(0)' }}
+        className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-orange text-neutral-950 transition-transform duration-200"
+        style={{ transform: dark ? 'translateX(20px)' : 'translateX(0)' }}
       >
-        {dark ? <Moon size={14} className="text-white" /> : <Sun size={14} className="text-white" />}
+        {dark ? <Moon size={14} /> : <Sun size={14} />}
       </div>
     </button>
   );

@@ -108,11 +108,6 @@ foreach ($events as $event) {
   $record = $event['data'] ?? null;
   if (!is_array($record) || empty($event['resource_id'])) continue;
 
-  $client = is_array($record['client'] ?? null) ? $record['client'] : [];
-  $name = clean_field($client['name'] ?? $record['client_name'] ?? '', 100);
-  $phone = clean_field($client['phone'] ?? $record['client_phone'] ?? '', 30);
-  $comment = clean_field($record['comment'] ?? '', 500, true);
-
   $serviceTitles = [];
   $total = 0.0;
   if (is_array($record['services'] ?? null)) {
@@ -130,14 +125,13 @@ foreach ($events as $event) {
   }
 
   $lines = [$status === 'delete' ? '🔴 Отмена записи — YClients' : '🟢 Новая запись — YClients', ''];
-  if ($name !== '') $lines[] = "👤 Имя: $name";
-  if ($phone !== '') $lines[] = "📱 Телефон: $phone";
+  $lines[] = '🔐 Контактные данные доступны только в YClients и не переданы в Telegram.';
+  $lines[] = '🆔 Запись: ' . clean_field($event['resource_id'], 100);
   if ($serviceTitles !== []) $lines[] = '🎯 Услуга: ' . implode(', ', $serviceTitles);
   if ($total > 0) $lines[] = '💰 Сумма: ' . format_money($total);
   $when = format_when($record['datetime'] ?? $record['date'] ?? '');
   if ($when !== '') $lines[] = "🕒 Когда: $when";
   if ($staff !== '') $lines[] = "🎾 Ресурс: $staff";
-  if ($comment !== '') $lines[] = "💬 Комментарий: $comment";
   $lines[] = !empty($record['online']) ? '🌐 Источник: онлайн-запись' : '🏢 Источник: YClients';
 
   if (!send_telegram($botToken, $chatId, implode("\n", $lines))) {

@@ -1,106 +1,81 @@
 import { Link } from 'react-router-dom';
-import { Send } from 'lucide-react';
+import { ArrowUpRight, Send } from 'lucide-react';
 import { Logo } from './Logo';
+import { COMPANY } from '../legal/company';
 
-function InstagramIcon({ size = 18 }: { size?: number }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="4" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" />
-    </svg>
-  );
-}
+const NAV = [
+  ['/about', 'О нас'],
+  ['/tech', 'Технологии'],
+  ['/gallery', 'Галерея'],
+  ['/services', 'Услуги'],
+  ['/events', 'События'],
+  ['/contacts', 'Контакты'],
+] as const;
+
+const LEGAL = [
+  ['/terms', 'Правила клуба'],
+  ['/privacy', 'Персональные данные'],
+  ['/consent', 'Согласие'],
+  ['/legal', 'Реквизиты'],
+] as const;
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-line bg-bg-primary">
-      <div className="container-x py-16">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+    <footer className="border-t border-line bg-bg-primary">
+      <div className="container-x py-14 md:py-20">
+        <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
-            <Link to="/">
+            <Link to="/" aria-label="Indoor Golf Moscow — главная">
               <Logo size={66} />
             </Link>
-            <p className="mt-6 text-sm text-[var(--text-subtle)] max-w-xs leading-relaxed">
-              Пространство indoor-гольфа в Лужниках. Симуляторы
-              Trackman. Лужники, Москва.
+            <p className="mt-7 max-w-sm text-base leading-relaxed text-[var(--text-muted)]">
+              Indoor-гольф в Лужниках: самостоятельная игра, тренировки с тренером и клубные события.
             </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href="https://www.instagram.com/indoorgolfmoscow" target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-2 border border-line px-4 text-sm transition-colors hover:border-brand-orange hover:text-brand-orange">
+                Instagram <ArrowUpRight size={15} />
+              </a>
+              <a href="https://t.me/indoorgolf" target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-2 border border-line px-4 text-sm transition-colors hover:border-brand-orange hover:text-brand-orange">
+                <Send size={15} /> Telegram
+              </a>
+            </div>
           </div>
 
           <div className="md:col-span-3">
-            <div className="eyebrow mb-4">Навигация</div>
-            <ul className="space-y-2 text-[var(--text-muted)]">
-              <li><Link to="/about" className="hover:text-brand-orange">О нас</Link></li>
-              <li><Link to="/tech" className="hover:text-brand-orange">Технологии</Link></li>
-              <li><Link to="/gallery" className="hover:text-brand-orange">Галерея</Link></li>
-              <li><Link to="/services" className="hover:text-brand-orange">Услуги</Link></li>
-              <li><Link to="/events" className="hover:text-brand-orange">События</Link></li>
-              <li><Link to="/contacts" className="hover:text-brand-orange">Контакты</Link></li>
-              <li><Link to="/privacy" className="hover:text-brand-orange">Конфиденциальность</Link></li>
+            <p className="eyebrow mb-5">Разделы</p>
+            <ul className="space-y-3 text-sm text-[var(--text-muted)]">
+              {NAV.map(([to, label]) => (
+                <li key={to}><Link to={to} className="transition-colors hover:text-brand-orange">{label}</Link></li>
+              ))}
             </ul>
           </div>
 
           <div className="md:col-span-4">
-            <div className="eyebrow mb-4">Контакты</div>
-            <div className="space-y-2 text-[var(--text-muted)] text-sm">
-              <div>Москва, ул. Лужники 24, стр. 21</div>
-              <div>Дворец тенниса · блок C</div>
-              <div>Без выходных 7:00 – 23:00</div>
-              <a href="tel:+79260926919" className="block hover:text-brand-orange">
-                8 (926) 092-69-19
+            <p className="eyebrow mb-5">Лужники</p>
+            <div className="space-y-3 text-sm leading-relaxed text-[var(--text-muted)]">
+              <p>{COMPANY.venueAddress}</p>
+              <p>{COMPANY.hours}</p>
+              <a href={COMPANY.phoneHref} className="block text-lg font-medium text-[var(--text-primary)] transition-colors hover:text-brand-orange">
+                {COMPANY.phoneDisplay}
               </a>
-            </div>
-
-            <div className="mt-6 flex gap-3">
-              <SocialLink href="https://www.instagram.com/indoorgolfmoscow" label="Instagram">
-                <InstagramIcon />
-              </SocialLink>
-              <SocialLink href="https://t.me/indoorgolf" label="Telegram">
-                <Send size={18} strokeWidth={1.5} />
-              </SocialLink>
             </div>
           </div>
         </div>
 
-        <div className="mt-14 pt-8 border-t border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs uppercase tracking-widest text-[var(--text-subtle)]">
-          <div>© {new Date().getFullYear()} Indoor Golf Moscow.</div>
-          <div className="flex items-center gap-2">
-            <span className="h-px w-8 bg-brand-orange" />
-            We make golf accessible
+        <div className="mt-14 grid gap-6 border-t border-line pt-7 text-xs leading-relaxed text-[var(--text-subtle)] md:grid-cols-12">
+          <div className="md:col-span-5">
+            <p>{COMPANY.fullName}</p>
+            <p>ИНН {COMPANY.inn} · КПП {COMPANY.kpp} · ОГРН {COMPANY.ogrn}</p>
+            <p>{COMPANY.legalAddress}</p>
           </div>
+          <nav className="flex flex-wrap gap-x-5 gap-y-2 md:col-span-5">
+            {LEGAL.map(([to, label]) => (
+              <Link key={to} to={to} className="transition-colors hover:text-brand-orange">{label}</Link>
+            ))}
+          </nav>
+          <p className="md:col-span-2 md:text-right">© {new Date().getFullYear()} ID Golf</p>
         </div>
       </div>
     </footer>
-  );
-}
-
-function SocialLink({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      aria-label={label}
-      className="h-11 w-11 inline-flex items-center justify-center border border-line text-[var(--text-primary)] hover:border-brand-orange hover:text-brand-orange transition-colors"
-    >
-      {children}
-    </a>
   );
 }

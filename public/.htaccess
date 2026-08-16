@@ -1,5 +1,8 @@
 DirectoryIndex index.html
 
+# FastCGI на REG.RU может не передать Authorization в PHP без этой переменной.
+SetEnvIf Authorization "(.+)" HTTP_AUTHORIZATION=$1
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
@@ -8,16 +11,19 @@ DirectoryIndex index.html
   RewriteCond %{HTTP:X-Forwarded-Proto} !=https
   RewriteRule ^ https://indoor-golf.ru%{REQUEST_URI} [R=301,L,NE]
 
-  # В браузере доступны только два публичных PHP endpoint.
-  RewriteRule ^api/_server-config\.php$ - [R=404,L,NC]
+  # Вспомогательные PHP-модули никогда не доступны из браузера.
+  RewriteRule ^api/_.*\.php$ - [R=404,L,NC]
 
   # Существующие файлы и каталоги, включая assets и /invitational/, отдаём как есть.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
+  # Старый адрес раздела технологий ведём на канонический /tech.
+  RewriteRule ^technology/?$ /tech [R=301,L,NC]
+
   # Для основных маршрутов postbuild создаёт HTML с уникальными SEO-метаданными.
-  RewriteRule ^(about|tech|gallery|services|events|contacts|privacy)/?$ $1.html [L,NC]
+  RewriteRule ^(about|tech|gallery|services|events|contacts|privacy|consent|legal|terms|tournament-rules)/?$ $1.html [L,NC]
 
   # Любой неизвестный адрес получает настоящий HTTP 404 и нашу страницу ошибки.
   RewriteRule ^ - [R=404,L]
@@ -30,6 +36,8 @@ ErrorDocument 404 /404.html
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; frame-src https://yandex.ru https://*.yclients.com"
 
   <FilesMatch "\.(?:css|js|woff2)$">
     Header set Cache-Control "public, max-age=31536000, immutable"

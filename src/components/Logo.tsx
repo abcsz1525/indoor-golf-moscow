@@ -1,4 +1,4 @@
-import logoSrc from '../assets/logo.webp';
+import logoSrc from '../assets/logo-wordmark.png';
 
 interface LogoProps {
   size?: number;
@@ -9,9 +9,9 @@ export function Logo({ size = 32, className = '' }: LogoProps) {
   return (
     <img
       src={logoSrc}
-      alt="Indoor Golf Moscow"
-      className={`h-10 w-auto object-contain ${className}`}
-      style={{ height: `${size * 1.8}px` }}
+      alt="ID Golf — Indoor Golf Moscow"
+      className={`w-auto object-contain ${className}`}
+      style={{ height: `${Math.max(24, Math.round(size * 0.42))}px` }}
     />
   );
 }

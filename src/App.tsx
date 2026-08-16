@@ -5,7 +5,6 @@ import { Footer } from './components/Footer';
 import { BookingModal } from './components/BookingModal';
 import { YClientsModal } from './components/YClientsModal';
 import { yclientsEnabled, LEAD_ONLY_INTERESTS } from './config/booking';
-import { CustomCursor } from './components/CustomCursor';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 const HomePage = lazy(() => import('./pages/HomePage').then((module) => ({ default: module.HomePage })));
@@ -16,6 +15,10 @@ const ServicesPage = lazy(() => import('./pages/ServicesPage').then((module) => 
 const EventsPage = lazy(() => import('./pages/EventsPage').then((module) => ({ default: module.EventsPage })));
 const ContactsPage = lazy(() => import('./pages/ContactsPage').then((module) => ({ default: module.ContactsPage })));
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage').then((module) => ({ default: module.PrivacyPage })));
+const ConsentPage = lazy(() => import('./pages/ConsentPage').then((module) => ({ default: module.ConsentPage })));
+const LegalDetailsPage = lazy(() => import('./pages/LegalDetailsPage').then((module) => ({ default: module.LegalDetailsPage })));
+const TermsPage = lazy(() => import('./pages/TermsPage').then((module) => ({ default: module.TermsPage })));
+const TournamentRulesPage = lazy(() => import('./pages/TournamentRulesPage').then((module) => ({ default: module.TournamentRulesPage })));
 
 function App() {
   const [bookingOpen, setBookingOpen] = useState(false);
@@ -39,7 +42,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      <CustomCursor />
       <div id="app-shell" className="min-h-screen bg-bg-primary" style={{ color: 'var(--text-primary)' }}>
         <Navbar onBooking={() => openBooking()} />
         <main>
@@ -48,11 +50,16 @@ function App() {
               <Route path="/" element={<HomePage onBooking={openBooking} />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/tech" element={<TechPage />} />
+              <Route path="/technology" element={<TechPage />} />
               <Route path="/gallery" element={<GalleryPage />} />
               <Route path="/services" element={<ServicesPage onBooking={openBooking} />} />
               <Route path="/events" element={<EventsPage />} />
               <Route path="/contacts" element={<ContactsPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="/consent" element={<ConsentPage />} />
+              <Route path="/legal" element={<LegalDetailsPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/tournament-rules" element={<TournamentRulesPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>

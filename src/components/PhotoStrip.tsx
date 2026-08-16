@@ -1,47 +1,54 @@
-import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Section } from './Section';
 
-import img1 from '../assets/gallery/1.webp';
-import club6335 from '../assets/gallery/club-6335.webp';
-import club6338 from '../assets/gallery/club-6338-retouched.webp';
-import club6345 from '../assets/gallery/club-6345.webp';
-
-const PHOTOS = [
-  { src: club6335, alt: 'Пространство и зона отдыха Indoor Golf Moscow' },
-  { src: club6338, alt: 'Игровая зона TrackMan Performance Studio' },
-  { src: club6345, alt: 'Радар TrackMan в Indoor Golf Moscow' },
-  { src: img1, alt: 'Гольф-мячи и ти в Indoor Golf Moscow' },
-];
+import detailPhoto from '../assets/gallery/1.webp';
+import clubPhoto from '../assets/gallery/club-6335.webp';
+import simulatorPhoto from '../assets/gallery/club-6338-retouched.webp';
+import trackmanPhoto from '../assets/gallery/club-6345.webp';
 
 export function PhotoStrip() {
   return (
-    <Section eyebrow="Атмосфера" title="Как это выглядит">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
-        {PHOTOS.map((p, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.5, delay: i * 0.08 }}
-            className="relative aspect-[3/4] overflow-hidden border border-line group"
-          >
-            <img
-              src={p.src}
-              alt={p.alt}
-              loading="lazy"
-              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-          </motion.div>
-        ))}
+    <Section eyebrow="Пространство" title="До первого удара">
+      <div className="grid gap-3 md:grid-cols-12 md:grid-rows-[300px_300px]">
+        <figure className="min-h-[440px] overflow-hidden md:col-span-6 md:row-span-2 md:min-h-0">
+          <img
+            src={clubPhoto}
+            alt="Пространство Indoor Golf Moscow в Лужниках"
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
+        </figure>
+        <figure className="min-h-[320px] overflow-hidden md:col-span-6 md:min-h-0">
+          <img
+            src={simulatorPhoto}
+            alt="Игровой бокс Trackman в Indoor Golf Moscow"
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
+        </figure>
+        <figure className="min-h-[320px] overflow-hidden md:col-span-3 md:min-h-0">
+          <img
+            src={detailPhoto}
+            alt="Гольф-мячи и ти в Indoor Golf Moscow"
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
+        </figure>
+        <figure className="min-h-[320px] overflow-hidden md:col-span-3 md:min-h-0">
+          <img
+            src={trackmanPhoto}
+            alt="Радар Trackman 4 в Indoor Golf Moscow"
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
+        </figure>
       </div>
-      <div className="mt-8 text-center">
-        <Link
-          to="/gallery"
-          className="inline-flex items-center gap-2 text-sm uppercase tracking-widest text-brand-orange hover:gap-3 transition-all"
-        >
+      <div className="mt-8 flex items-center justify-between gap-6">
+        <p className="max-w-lg text-sm leading-relaxed text-[var(--text-muted)]">
+          Игровые боксы, зона отдыха и оборудование клуба — без постановочных рендеров.
+        </p>
+        <Link to="/gallery" className="text-link shrink-0">
           Смотреть галерею
           <ArrowRight size={16} />
         </Link>

@@ -5,7 +5,7 @@ import { Section } from './Section';
 const ITEMS = [
   {
     icon: Radar,
-    title: 'TrackMan',
+    title: 'Trackman',
     text: 'Профессиональные симуляторы мирового уровня — технологии PGA Tour у вас под рукой.',
   },
   {

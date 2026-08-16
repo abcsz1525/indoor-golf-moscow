@@ -2,66 +2,81 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
 
-describe('Invitational content contracts', () => {
-  let html = '';
+const WITHDRAWN_PUBLIC_DETAILS = [
+  'ID Golf Invitational 2026',
+  '4 сентября',
+  '04.09.26',
+  'Нахабино',
+  'Moscow Country Club',
+  '37 000 ₽',
+  '55 000 ₽',
+  '17 000 ₽',
+  'Приём заявок открыт',
+  'Оставить заявку',
+];
+
+function expectNoWithdrawnDetails(content: string) {
+  for (const detail of WITHDRAWN_PUBLIC_DETAILS) {
+    expect(content).not.toContain(detail);
+  }
+}
+
+describe('temporary tournament publication pause', () => {
+  let invitational = '';
+  let eventsPage = '';
+  let rulesPage = '';
+  let sitemap = '';
+  let postbuild = '';
 
   beforeAll(async () => {
-    html = await readFile(resolve(process.cwd(), 'public', 'invitational', 'index.html'), 'utf8');
+    [invitational, eventsPage, rulesPage, sitemap, postbuild] = await Promise.all([
+      readFile(resolve(process.cwd(), 'public/invitational/index.html'), 'utf8'),
+      readFile(resolve(process.cwd(), 'src/pages/EventsPage.tsx'), 'utf8'),
+      readFile(resolve(process.cwd(), 'src/pages/TournamentRulesPage.tsx'), 'utf8'),
+      readFile(resolve(process.cwd(), 'public/sitemap.xml'), 'utf8'),
+      readFile(resolve(process.cwd(), 'scripts/postbuild.mjs'), 'utf8'),
+    ]);
   });
 
-  it('keeps the awards reveal editorial instead of a product catalogue', () => {
-    expect(html).toContain('памятный арт-объект');
-    expect(html).toContain('MATRЁSHKA — символ новой России');
-    expect(html).toContain('на первом турнире ID Golf');
-    expect(html).toContain('останется тайной до церемонии награждения');
-    expect(html).not.toContain('LOONA X100');
-    expect(html).not.toContain('class="prizes"');
+  it('serves a branded noindex maintenance page at the direct invitational URL', () => {
+    expect(invitational).toContain('<meta name="robots" content="noindex, nofollow">');
+    expect(invitational).toContain('Indoor Golf Moscow');
+    expect(invitational).toContain('Раздел обновляется');
+    expect(invitational).toContain('уточняем программу, календарь и площадку события');
+    expect(invitational).toContain('class="backSite"');
+    expect(invitational).toContain('href="/"');
+    expect(invitational).not.toMatch(/<form\b/i);
+    expect(invitational).not.toMatch(/<(?:input|select|textarea)\b/i);
+    expect(invitational).not.toContain('/api/lead.php');
+    expectNoWithdrawnDetails(invitational);
   });
 
-  it('spells out every special contest and its prize', () => {
-    expect(html).toContain('Два драйвера TaylorMade Qi4D + фитинг');
-    expect(html).toContain(
-      'Победительница женской и победитель мужской номинации получат по драйверу TaylorMade Qi4D и персональный фитинг.',
-    );
-    expect(html).toContain('Паттер победителю каждого зачёта');
-    expect(html).toContain('Closest вторым ударом · пар-4');
-    expect(html).toContain('Отдельный приз от BONAFIDE MEDICINE');
+  it('shows only a neutral update notice in the public events calendar', () => {
+    expect(eventsPage).toContain('Готовим обновлённый календарь');
+    expect(eventsPage).toContain('уточняем календарь, программу и площадки ближайших событий');
+    expect(eventsPage).not.toContain('/invitational/');
+    expectNoWithdrawnDetails(eventsPage);
   });
 
-  it('announces the chief judge and the revised guest activities', () => {
-    expect(html).toContain('Виктор Вадимович Мочалов');
-    expect(html).toContain('The Open');
-    expect(html).toContain('Мини-турнир по настольному теннису');
-    expect(html).not.toContain('<b>Турнир по сквошу</b>');
-    expect(html).toContain('Гольф-клиника и мини-контесты');
-    expect(html).toContain('оборудование для пробы игры и участия в клинике предоставим');
-    expect(html).not.toContain('подбор клюшек');
-    expect(html).not.toContain('Welcome-box, клюшки, мячи и кар');
+  it('preserves the corporate event enquiry on the events page', () => {
+    expect(eventsPage).toContain('Хотите провести своё мероприятие на нашей площадке');
+    expect(eventsPage).toContain('to="/contacts#booking"');
+    expect(eventsPage).toContain('Обсудить мероприятие');
   });
 
-  it('describes the Yamaguchi recovery zone and clinic contest explicitly', () => {
-    expect(html).toContain('Yamaguchi · восстановительная зона');
-    expect(html).toContain('Массажные кресла, виброплатформа и подарки');
-    expect(html).toContain('самый точный удар, стоя на виброплатформе Yamaguchi');
-    expect(html).toContain('Победителей ждут подарки от бренда.');
-    expect(html).toContain('Мини-контест Yamaguchi на точность удара и подарки победителям');
+  it('replaces tournament rules with a noindex update notice', () => {
+    expect(rulesPage).toContain('Раздел обновляется');
+    expect(rulesPage).toContain('уточняем программу и площадку события');
+    expect(rulesPage).toContain("{ path: '/tournament-rules', noIndex: true }");
+    expectNoWithdrawnDetails(rulesPage);
   });
 
-  it('holds the detailed tournament schedule until it is confirmed', () => {
-    expect(html).toContain('Точное расписание появится немного позже');
-    expect(html).toContain('Следите за обновлениями.');
-    expect(html).not.toContain('<div class="w">Утро</div>');
-    expect(html).not.toContain('<div class="w">Старт</div>');
-    expect(html).not.toContain('<div class="w">День</div>');
-    expect(html).not.toContain('<div class="w">Вечер</div>');
-    expect(html).not.toContain('<div class="w">Финал</div>');
-  });
-
-  it('links every partner tile to an external site safely', () => {
-    expect(html.match(/class="partnerLink/g)).toHaveLength(8);
-    expect(html.match(/rel="noopener noreferrer"/g)).toHaveLength(8);
-    expect(html).toContain('https://www.centersvet.ru/');
-    expect(html).toContain('https://bonafidemed.ru/');
-    expect(html).toContain('https://squashclub.moscow/');
+  it('removes paused tournament URLs from discovery and noindexes generated rules metadata', () => {
+    expect(sitemap).not.toContain('/invitational/');
+    expect(sitemap).not.toContain('/tournament-rules');
+    expect(sitemap).toContain('https://indoor-golf.ru/events');
+    expect(postbuild).toContain("'/consent', '/legal', '/tournament-rules'");
+    expect(postbuild).toContain('Турнирные документы обновляются | Indoor Golf Moscow');
+    expectNoWithdrawnDetails(postbuild);
   });
 });
