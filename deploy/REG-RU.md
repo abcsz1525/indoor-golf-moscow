@@ -43,7 +43,7 @@ npm run package:reg-ru
 1. ISPmanager → «Сайты» → `indoor-golf.ru` → «Файлы сайта».
 2. Загрузите `indoor-golf-reg-ru.zip` в корневую папку сайта.
 3. Извлеките архив непосредственно в корень, а не во вложенную директорию.
-4. Убедитесь, что рядом с `index.html` находятся `.htaccess`, `404.html`, `assets/` и `api/`.
+4. Убедитесь, что рядом с `index.html` находятся `.htaccess`, `404.html`, `assets/` и `api/`. В `api/` должно быть семь файлов: `lead.php`, `leads-admin.php`, `notify-retry.php`, `yclients-webhook.php`, `_lead-storage.php`, `_server-config.php`, `_telegram.php`.
 5. Для файлов должны подойти права `644`, для каталогов — `755`.
 
 PHP на текущем production уже исполняется. В настройках сайта выберите PHP 8.2 или новее в режиме FastCGI; нужны расширения `curl` и `mbstring`. Если после загрузки PHP начнёт скачиваться или отображаться текстом, сначала проверьте эти настройки.
@@ -72,6 +72,28 @@ curl https://indoor-golf.ru/api/yclients-webhook.php
 ```text
 https://indoor-golf.ru/api/yclients-webhook.php?key=<НОВЫЙ_YCLIENTS_WEBHOOK_KEY>
 ```
+
+## Досылка уведомлений
+
+С российского хостинга канал до `api.telegram.org` рвётся: 27.08.2026 из трёх заявок одна
+потерялась на единственной попытке отправки, клиент при этом увидел «заявка отправлена».
+Теперь отправка идёт в три попытки, а недоставленное складывается в очередь
+`/var/www/<логин>/data/indoor-golf-private/telegram-queue.ndjson` и досылается.
+
+Очередь разбирается сама при следующей заявке или событии YClients. Чтобы уведомление
+не ждало этого события, добавьте задачу в планировщик ISPmanager — раз в 5 минут:
+
+```bash
+curl -s -u indoor-golf:<LEADS_ADMIN_PASSWORD> https://indoor-golf.ru/api/notify-retry.php
+```
+
+Ответ `{"ok":true,"sent":N,"pending":M}`: `sent` — досланные, `pending` — оставшиеся в очереди.
+Если `pending` держится больше нуля дольше получаса, канал до Telegram недоступен целиком —
+смотрите причину в `error_log` и в поле `last_error` внутри очереди.
+
+Входящие обращения YClients пишутся в `indoor-golf-private/yclients-webhook.log`: там видно,
+дёргал ли сервис вебхук вообще, и по какой причине событие было пропущено (`company_id`,
+`status`, отсутствие ключа). Без этого журнала молчание YClients неотличимо от исправной работы.
 
 ## Откат
 

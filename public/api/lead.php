@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/_server-config.php';
 require_once __DIR__ . '/_lead-storage.php';
+require_once __DIR__ . '/_telegram.php';
 
 const CURRENT_CONSENT_VERSION = '2026-08-11';
 
@@ -22,42 +23,23 @@ function clean_field(mixed $value, int $maxLength, bool $allowNewlines = false):
   return mb_substr($text, 0, $maxLength);
 }
 
-function send_telegram_notice(string $botToken, string $chatId, array $record): bool {
+function lead_notice_text(array $record): string {
+  // Контакты в уведомлении — решение владельца от 20.08.2026. Полная запись
+  // с согласием по-прежнему хранится на российском сервере (152-ФЗ), карточка ниже.
   $lines = [
     '🏌️ Новая заявка с indoor-golf.ru',
     '',
-    '🔐 Контактные данные сохранены на российском сервере и не отправлены в Telegram.',
-    '🆔 Заявка: ' . $record['id'],
+    '👤 Имя: ' . $record['name'],
+    '📞 Телефон: ' . $record['phone'],
   ];
+  if (($record['email'] ?? '') !== '') $lines[] = '✉️ E-mail: ' . $record['email'];
   if ($record['interest'] !== '') $lines[] = '🎯 Интерес: ' . $record['interest'];
+  if ($record['comment'] !== '') $lines[] = '💬 Комментарий: ' . $record['comment'];
   if ($record['page'] !== '') $lines[] = '📄 Страница: ' . $record['page'];
   $lines[] = '🕒 Получена: ' . date('d.m.Y H:i', strtotime($record['received_at']));
   $lines[] = '🔎 Карточка: https://indoor-golf.ru/api/leads-admin.php#' . rawurlencode($record['id']);
 
-  $ch = curl_init('https://api.telegram.org/bot' . rawurlencode($botToken) . '/sendMessage');
-  curl_setopt_array($ch, [
-    CURLOPT_POST => true,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_CONNECTTIMEOUT => 5,
-    CURLOPT_TIMEOUT => 10,
-    CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
-    CURLOPT_POSTFIELDS => json_encode([
-      'chat_id' => $chatId,
-      'text' => implode("\n", $lines),
-      'disable_web_page_preview' => true,
-    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
-  ]);
-
-  $telegramResponse = curl_exec($ch);
-  $curlError = curl_error($ch);
-  $httpCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
-  curl_close($ch);
-
-  $telegramData = is_string($telegramResponse) ? json_decode($telegramResponse, true) : null;
-  if ($httpCode === 200 && is_array($telegramData) && !empty($telegramData['ok'])) return true;
-
-  error_log('lead.php: Telegram delivery failed: ' . ($curlError !== '' ? $curlError : 'HTTP ' . $httpCode));
-  return false;
+  return implode("\n", $lines);
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -90,9 +72,14 @@ if (!$consentAccepted || $consentVersion !== CURRENT_CONSENT_VERSION || strtotim
 
 $name = clean_field($data['name'] ?? '', 100);
 $phone = clean_field($data['phone'] ?? '', 30);
+$email = clean_field($data['email'] ?? '', 150);
 $phoneDigits = preg_replace('/\D+/', '', $phone) ?? '';
 if (mb_strlen($name) < 2 || strlen($phoneDigits) < 10 || strlen($phoneDigits) > 11) {
   json_response(422, ['ok' => false, 'error' => 'validation_failed']);
+}
+// Форма турнира требует адрес, форма на главной его не собирает: проверяем только присланный.
+if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+  json_response(422, ['ok' => false, 'error' => 'invalid_email']);
 }
 
 $receivedAt = gmdate('c');
@@ -102,6 +89,7 @@ $record = [
   'retention_until' => gmdate('c', time() + 90 * 86400),
   'name' => $name,
   'phone' => $phone,
+  'email' => $email,
   'interest' => clean_field($data['interest'] ?? '', 100),
   'channel' => clean_field($data['channel'] ?? '', 30),
   'comment' => clean_field($data['comment'] ?? '', 500, true),
@@ -124,10 +112,23 @@ if (!store_lead($record)) {
 
 $botToken = server_secret('TG_BOT_TOKEN');
 $chatId = server_secret('TG_CHAT_ID');
-if ($botToken !== '' && $chatId !== '' && !send_telegram_notice($botToken, $chatId, $record)) {
-  // Заявка уже безопасно сохранена. Сбой уведомления не должен заставлять клиента
-  // отправлять персональные данные повторно.
-  error_log('lead.php: lead stored, but notification was not delivered');
+
+// Клиент получает ответ сразу: заявка уже сохранена, и ждать Telegram он не должен.
+// Отправка идёт после закрытия соединения, поэтому попытки ничего не тормозят.
+$payload = json_encode(['ok' => true, 'leadId' => $record['id']], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+http_response_code(200);
+// Точная длина тела позволяет браузеру закончить запрос, не дожидаясь конца скрипта:
+// на этом хостинге (cgi-fcgi) функции fastcgi_finish_request нет.
+header('Content-Length: ' . strlen((string)$payload));
+header('Connection: close');
+echo $payload;
+$released = release_client();
+$attempts = TELEGRAM_SEND_ATTEMPTS;
+
+if (!telegram_deliver($botToken, $chatId, lead_notice_text($record), 'lead', $record['id'], $attempts)) {
+  error_log('lead.php: заявка ' . $record['id'] . ' сохранена, уведомление отложено в очередь');
 }
 
-json_response(200, ['ok' => true, 'leadId' => $record['id']]);
+// Заодно досылаем всё, что не ушло раньше.
+telegram_flush_queue($botToken, $chatId, $released ? 10 : 2);
+exit;

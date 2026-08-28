@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/_server-config.php';
+require_once __DIR__ . '/_telegram.php';
 
 const COMPANY_ID = 1466424;
 
@@ -31,29 +32,30 @@ function format_when(mixed $value): string {
   return $timestamp === false ? clean_field($value, 50) : date('d.m.Y H:i', $timestamp);
 }
 
-function send_telegram(string $botToken, string $chatId, string $text): bool {
-  $ch = curl_init('https://api.telegram.org/bot' . rawurlencode($botToken) . '/sendMessage');
-  curl_setopt_array($ch, [
-    CURLOPT_POST => true,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_CONNECTTIMEOUT => 5,
-    CURLOPT_TIMEOUT => 10,
-    CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
-    CURLOPT_POSTFIELDS => json_encode([
-      'chat_id' => $chatId,
-      'text' => $text,
-    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
-  ]);
-  $response = curl_exec($ch);
-  $curlError = curl_error($ch);
-  $httpCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
-  curl_close($ch);
+/**
+ * Журнал входящих обращений. Без него молчание YClients неотличимо от исправной
+ * работы: 26.08.2026 две записи не дошли до Telegram, и по логам сервера нельзя
+ * было понять, вызывал ли YClients вебхук вообще.
+ */
+function yclients_log(string $message): void {
+  $documentRoot = realpath((string)($_SERVER['DOCUMENT_ROOT'] ?? ''));
+  if (!is_string($documentRoot) || $documentRoot === '') return;
 
-  $data = is_string($response) ? json_decode($response, true) : null;
-  if ($httpCode === 200 && is_array($data) && !empty($data['ok'])) return true;
+  $directory = dirname($documentRoot, 2) . DIRECTORY_SEPARATOR . 'indoor-golf-private';
+  if (!is_dir($directory) && !mkdir($directory, 0700, true) && !is_dir($directory)) return;
+  @chmod($directory, 0700);
 
-  error_log('yclients-webhook.php: Telegram delivery failed: ' . ($curlError !== '' ? $curlError : 'HTTP ' . $httpCode));
-  return false;
+  $path = $directory . DIRECTORY_SEPARATOR . 'yclients-webhook.log';
+  $line = sprintf(
+    "%s\t%s\t%s\t%s\n",
+    gmdate('c'),
+    clean_field($_SERVER['REQUEST_METHOD'] ?? '', 10),
+    clean_field($_SERVER['REMOTE_ADDR'] ?? '', 64),
+    $message
+  );
+
+  @file_put_contents($path, $line, FILE_APPEND | LOCK_EX);
+  @chmod($path, 0600);
 }
 
 $botToken = server_secret('TG_BOT_TOKEN');
@@ -75,11 +77,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 if (!$configured) {
   error_log('yclients-webhook.php: server environment is not configured');
+  yclients_log('ОТКАЗ: сервер не сконфигурирован');
   json_response(503, ['ok' => false, 'error' => 'service_unavailable']);
 }
 
 $providedKey = (string)($_GET['key'] ?? '');
 if ($providedKey === '' || !hash_equals($webhookKey, $providedKey)) {
+  yclients_log($providedKey === '' ? 'ОТКАЗ 403: запрос без ключа' : 'ОТКАЗ 403: неверный ключ');
   json_response(403, ['ok' => false, 'error' => 'forbidden']);
 }
 
@@ -96,17 +100,36 @@ if (!is_array($payload)) {
 
 $events = isset($payload['resource']) || isset($payload['data']) ? [$payload] : $payload;
 $sent = 0;
+$queued = 0;
+$skipped = 0;
+yclients_log('ПРИНЯТО: событий ' . (is_array($events) ? count($events) : 0));
 
 foreach ($events as $event) {
-  if (!is_array($event)) continue;
-  if (($event['resource'] ?? null) !== 'record') continue;
-  if (!isset($event['company_id']) || (int)$event['company_id'] !== COMPANY_ID) continue;
+  if (!is_array($event)) { $skipped++; yclients_log('ПРОПУЩЕНО: событие не является объектом'); continue; }
+  if (($event['resource'] ?? null) !== 'record') {
+    $skipped++;
+    yclients_log('ПРОПУЩЕНО: resource=' . clean_field($event['resource'] ?? 'нет', 40));
+    continue;
+  }
+  if (!isset($event['company_id']) || (int)$event['company_id'] !== COMPANY_ID) {
+    $skipped++;
+    yclients_log('ПРОПУЩЕНО: company_id=' . clean_field($event['company_id'] ?? 'нет', 40) . ', ожидался ' . COMPANY_ID);
+    continue;
+  }
 
   $status = $event['status'] ?? null;
-  if (!in_array($status, ['create', 'delete'], true)) continue;
+  if (!in_array($status, ['create', 'delete'], true)) {
+    $skipped++;
+    yclients_log('ПРОПУЩЕНО: status=' . clean_field($status ?? 'нет', 40));
+    continue;
+  }
 
   $record = $event['data'] ?? null;
-  if (!is_array($record) || empty($event['resource_id'])) continue;
+  if (!is_array($record) || empty($event['resource_id'])) {
+    $skipped++;
+    yclients_log('ПРОПУЩЕНО: пустые data или resource_id');
+    continue;
+  }
 
   $serviceTitles = [];
   $total = 0.0;
@@ -134,10 +157,18 @@ foreach ($events as $event) {
   if ($staff !== '') $lines[] = "🎾 Ресурс: $staff";
   $lines[] = !empty($record['online']) ? '🌐 Источник: онлайн-запись' : '🏢 Источник: YClients';
 
-  if (!send_telegram($botToken, $chatId, implode("\n", $lines))) {
-    json_response(502, ['ok' => false, 'error' => 'delivery_failed']);
+  $reference = clean_field($event['resource_id'], 100);
+  if (telegram_deliver($botToken, $chatId, implode("\n", $lines), 'yclients', $reference, 1)) {
+    $sent++;
+    yclients_log('ОТПРАВЛЕНО: запись ' . $reference);
+  } else {
+    $queued++;
+    yclients_log('ОТЛОЖЕНО В ОЧЕРЕДЬ: запись ' . $reference);
   }
-  $sent++;
 }
 
-json_response(200, ['ok' => true, 'sent' => $sent]);
+// Досылаем всё, что не ушло раньше, и отвечаем 200: ответственность за доставку
+// теперь на нас, повторная присылка события от YClients создала бы дубль.
+telegram_flush_queue($botToken, $chatId, 3);
+
+json_response(200, ['ok' => true, 'sent' => $sent, 'queued' => $queued, 'skipped' => $skipped]);

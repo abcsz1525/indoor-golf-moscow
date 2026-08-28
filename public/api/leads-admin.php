@@ -86,6 +86,7 @@ $records = array_slice(load_leads(), 0, 200);
       <div class="top"><div><div class="name"><?= h($record['name'] ?? '') ?></div><a href="tel:<?= h($record['phone'] ?? '') ?>"><?= h($record['phone'] ?? '') ?></a></div><div class="id"><?= h($id) ?></div></div>
       <div class="grid">
         <div class="label">Получена</div><div><?= h($record['received_at'] ?? '') ?></div>
+        <div class="label">E-mail</div><div><?php $email = (string)($record['email'] ?? ''); ?><?php if ($email !== ''): ?><a href="mailto:<?= h($email) ?>"><?= h($email) ?></a><?php else: ?>—<?php endif; ?></div>
         <div class="label">Интерес</div><div><?= h($record['interest'] ?? '') ?></div>
         <div class="label">Канал</div><div><?= h($record['channel'] ?? '') ?></div>
         <div class="label">Страница</div><div><?= h($record['page'] ?? '') ?></div>
