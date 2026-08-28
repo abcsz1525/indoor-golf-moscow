@@ -2,35 +2,34 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
 
-const WITHDRAWN_PUBLIC_DETAILS = [
-  'ID Golf Invitational 2026',
-  '4 сентября',
-  '04.09.26',
+// Детали, которые не должны просачиваться на нейтральные страницы сайта
+// (сам турнирный лендинг теперь публичен и легитимно содержит дату и цены).
+const STALE_TOURNAMENT_DETAILS = [
   'Нахабино',
   'Moscow Country Club',
   '37 000 ₽',
   '55 000 ₽',
-  '17 000 ₽',
   'Приём заявок открыт',
-  'Оставить заявку',
 ];
 
-function expectNoWithdrawnDetails(content: string) {
-  for (const detail of WITHDRAWN_PUBLIC_DETAILS) {
+function expectNoStaleDetails(content: string) {
+  for (const detail of STALE_TOURNAMENT_DETAILS) {
     expect(content).not.toContain(detail);
   }
 }
 
-describe('temporary tournament publication pause', () => {
+describe('public tournament section', () => {
   let invitational = '';
+  let robots = '';
   let eventsPage = '';
   let rulesPage = '';
   let sitemap = '';
   let postbuild = '';
 
   beforeAll(async () => {
-    [invitational, eventsPage, rulesPage, sitemap, postbuild] = await Promise.all([
+    [invitational, robots, eventsPage, rulesPage, sitemap, postbuild] = await Promise.all([
       readFile(resolve(process.cwd(), 'public/invitational/index.html'), 'utf8'),
+      readFile(resolve(process.cwd(), 'public/robots.txt'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/EventsPage.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/TournamentRulesPage.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'public/sitemap.xml'), 'utf8'),
@@ -38,24 +37,33 @@ describe('temporary tournament publication pause', () => {
     ]);
   });
 
-  it('serves a branded noindex maintenance page at the direct invitational URL', () => {
-    expect(invitational).toContain('<meta name="robots" content="noindex, nofollow">');
-    expect(invitational).toContain('Indoor Golf Moscow');
-    expect(invitational).toContain('Раздел обновляется');
-    expect(invitational).toContain('уточняем программу, календарь и площадку события');
-    expect(invitational).toContain('class="backSite"');
-    expect(invitational).toContain('href="/"');
-    expect(invitational).not.toMatch(/<form\b/i);
-    expect(invitational).not.toMatch(/<(?:input|select|textarea)\b/i);
-    expect(invitational).not.toContain('/api/lead.php');
-    expectNoWithdrawnDetails(invitational);
+  it('serves the full public landing with current venue, schedule and tariffs', () => {
+    expect(invitational).toContain('Пестово');
+    expect(invitational).toContain('44 000 ₽');
+    expect(invitational).toContain('60 000 ₽');
+    expect(invitational).toContain('27 000 ₽');
+    expect(invitational).toContain('Shotgun-старт');
+    expect(invitational).toContain('11:00');
+    expect(invitational).toContain('BOSCO');
+    expect(invitational).toContain('/api/lead.php');
+    expect(invitational).toContain('consent');
+    expect(invitational).not.toContain('noindex');
+    expectNoStaleDetails(invitational);
+  });
+
+  it('keeps rebranded and withdrawn names out of the landing', () => {
+    expect(invitational).not.toMatch(/tursunov|турсунов/i);
+    expect(invitational).not.toContain('клиник');
+  });
+
+  it('opens the section for discovery', () => {
+    expect(robots).not.toContain('Disallow: /invitational/');
+    expect(sitemap).toContain('https://indoor-golf.ru/invitational/');
   });
 
   it('shows only a neutral update notice in the public events calendar', () => {
     expect(eventsPage).toContain('Готовим обновлённый календарь');
-    expect(eventsPage).toContain('уточняем календарь, программу и площадки ближайших событий');
-    expect(eventsPage).not.toContain('/invitational/');
-    expectNoWithdrawnDetails(eventsPage);
+    expectNoStaleDetails(eventsPage);
   });
 
   it('preserves the corporate event enquiry on the events page', () => {
@@ -64,19 +72,28 @@ describe('temporary tournament publication pause', () => {
     expect(eventsPage).toContain('Обсудить мероприятие');
   });
 
-  it('replaces tournament rules with a noindex update notice', () => {
-    expect(rulesPage).toContain('Раздел обновляется');
-    expect(rulesPage).toContain('уточняем программу и площадку события');
+  it('keeps tournament rules page as a noindex notice until the regulations are confirmed', () => {
     expect(rulesPage).toContain("{ path: '/tournament-rules', noIndex: true }");
-    expectNoWithdrawnDetails(rulesPage);
+    expectNoStaleDetails(rulesPage);
   });
 
-  it('removes paused tournament URLs from discovery and noindexes generated rules metadata', () => {
-    expect(sitemap).not.toContain('/invitational/');
-    expect(sitemap).not.toContain('/tournament-rules');
-    expect(sitemap).toContain('https://indoor-golf.ru/events');
+  it('keeps rules metadata noindexed in the prerender script', () => {
     expect(postbuild).toContain("'/consent', '/legal', '/tournament-rules'");
-    expect(postbuild).toContain('Турнирные документы обновляются | Indoor Golf Moscow');
-    expectNoWithdrawnDetails(postbuild);
+    expectNoStaleDetails(postbuild);
+  });
+
+  it('требует имя с фамилией, телефон и e-mail в заявке на турнир', () => {
+    // Стартовый лист собирается по фамилиям, а подтверждение уходит на почту:
+    // одного имени и телефона для этого мало.
+    expect(invitational).toContain('<label for="n">Имя и фамилия</label>');
+    expect(invitational).toContain('name="email"');
+    expect(invitational).toContain('function hasSurname(');
+    expect(invitational).toContain('function validEmail(');
+    expect(invitational).toContain('email:email');
+
+    for (const field of ['name="name"', 'name="phone"', 'name="email"']) {
+      const tag = invitational.slice(invitational.indexOf(field));
+      expect(tag.slice(0, tag.indexOf('>'))).toContain('required');
+    }
   });
 });

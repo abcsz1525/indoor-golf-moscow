@@ -16,7 +16,6 @@ describe('partner placement', () => {
 
     expect(homePartners).not.toContain('YMEL Group');
     expect(homePartners).not.toContain('golfstore.by');
-    expect(invitational).not.toContain('YMEL Group');
     expect(invitational).not.toContain('golfstore.by');
   });
 
