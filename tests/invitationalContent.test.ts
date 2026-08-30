@@ -96,4 +96,20 @@ describe('public tournament section', () => {
       expect(tag.slice(0, tag.indexOf('>'))).toContain('required');
     }
   });
+
+  it('открывает регламент турнира публично — страницей и файлом', async () => {
+    // Регламент нужен участникам до оплаты: формат зачёта и расчёт гандикапа
+    // нельзя прятать в переписку.
+    expect(invitational).toContain('href="/invitational/reglament/"');
+
+    const reglament = await readFile(
+      resolve(process.cwd(), 'public', 'invitational', 'reglament', 'index.html'),
+      'utf8',
+    );
+    expect(reglament).toContain('два лучших результата из четырёх');
+    expect(reglament).toContain('Виктор Вадимович Мочалов');
+    expect(reglament).toContain('href="/invitational/reglament.pdf"');
+    expect(reglament).toContain('href="/invitational/#zayavka"');
+    expectNoStaleDetails(reglament);
+  });
 });
