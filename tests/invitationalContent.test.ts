@@ -114,6 +114,13 @@ describe('public tournament section', () => {
     expectNoStaleDetails(reglament);
   });
 
+  it('ведёт на лайвскоринг турнира из шапки и hero', () => {
+    const live = 'https://live.indoor-golf.ru/t/id-golf-invitational-2026';
+    const count = invitational.split(`href="${live}"`).length - 1;
+    expect(count).toBeGreaterThanOrEqual(2);
+    expect(invitational).toContain('Лайвскоринг');
+  });
+
   it('лендинг и регламент не расходятся по формату и времени', async () => {
     // Участник читает обе страницы подряд: разные время сбора или формат старта
     // означают, что кто-то приедет не к тому часу.
