@@ -42,9 +42,9 @@ describe('public tournament section', () => {
     expect(invitational).toContain('44 000 ₽');
     expect(invitational).toContain('60 000 ₽');
     expect(invitational).toContain('27 000 ₽');
-    // Формат старта приведён к регламенту 30.08.2026: последовательный вместо shotgun.
-    expect(invitational).toContain('Старт с 1-й и 10-й лунок');
-    expect(invitational).toContain('10:00');
+    // Финальная программа дня от 04.09.2026: сбор в 09:00, старты с 09:50.
+    expect(invitational).toContain('Оглашение регламента и старт');
+    expect(invitational).toContain('09:50');
     expect(invitational).toContain('BOSCO');
     expect(invitational).toContain('/api/lead.php');
     expect(invitational).toContain('consent');
@@ -130,10 +130,16 @@ describe('public tournament section', () => {
     );
 
     for (const page of [invitational, reglament]) {
-      expect(page).toContain('08:30');
-      expect(page).toContain('10:00');
-      expect(page).toContain('18:00');
+      expect(page).toContain('09:00');
+      expect(page).toContain('09:50');
+      expect(page).toContain('13:30');
+      expect(page).toContain('19:00');
       expect(page).not.toContain('Shotgun');
+    }
+
+    // Стартовый лист доступен с обеих страниц.
+    for (const page of [invitational, reglament]) {
+      expect(page).toContain('/invitational/start-list.pdf');
     }
 
     // Ограничение поля снято регламентом — на лендинге его тоже быть не должно.
