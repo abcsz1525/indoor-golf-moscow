@@ -146,4 +146,12 @@ describe('public tournament section', () => {
     expect(invitational).not.toContain('двадцатью двумя');
     expect(invitational).not.toContain('22 команды');
   });
+
+  it('держит кнопку живого счёта на всех страницах сайта', async () => {
+    // Кнопка живёт в шаблоне вне #root: React её не перерисовывает, поэтому
+    // после турнира достаточно удалить блок из index.html и пересобрать.
+    const template = await readFile(resolve(process.cwd(), 'index.html'), 'utf8');
+    expect(template).toContain('id="ig-live-badge"');
+    expect(template).toContain('https://live.indoor-golf.ru/t/id-golf-invitational-2026');
+  });
 });
