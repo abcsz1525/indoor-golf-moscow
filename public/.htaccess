@@ -14,7 +14,11 @@ SetEnvIf Authorization "(.+)" HTTP_AUTHORIZATION=$1
   # Вспомогательные PHP-модули никогда не доступны из браузера.
   RewriteRule ^api/_.*\.php$ - [R=404,L,NC]
 
-  # Существующие файлы и каталоги, включая assets и /invitational/, отдаём как есть.
+  # Турнир ID Golf Invitational прошёл 04.09.2026: лендинг, регламент и заявки закрыты.
+  # Старые адреса ведём в раздел «События», где лежит карточка с итогами.
+  RewriteRule ^invitational(/.*)?$ /events [R=301,L,NC]
+
+  # Существующие файлы и каталоги, включая assets, отдаём как есть.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]

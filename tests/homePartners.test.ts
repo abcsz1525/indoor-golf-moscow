@@ -8,15 +8,14 @@ import { describe, expect, it } from 'vitest';
 const execFileAsync = promisify(execFile);
 
 describe('partner placement', () => {
-  it('keeps YMEL Group off public pages while the tournament section is paused', async () => {
-    const [homePartners, invitational] = await Promise.all([
-      readFile(resolve(process.cwd(), 'src', 'components', 'Partners.tsx'), 'utf8'),
-      readFile(resolve(process.cwd(), 'public', 'invitational', 'index.html'), 'utf8'),
-    ]);
+  it('keeps YMEL Group off public pages', async () => {
+    const homePartners = await readFile(
+      resolve(process.cwd(), 'src', 'components', 'Partners.tsx'),
+      'utf8',
+    );
 
     expect(homePartners).not.toContain('YMEL Group');
     expect(homePartners).not.toContain('golfstore.by');
-    expect(invitational).not.toContain('golfstore.by');
   });
 
   it('removes the restored YMEL card without leaving an extra closing token', async () => {

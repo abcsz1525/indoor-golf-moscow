@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Create the print-ready ID Golf Invitational team scorecard."""
+"""Create the print-ready ID Golf Invitational team scorecard.
+
+Архивный скрипт: турнир прошёл 04.09.2026, лендинг /invitational/ удалён из репозитория.
+Логотипы партнёров, которые он читает из public/invitational/img/, остались только в истории git
+(последний коммит с ними — eccf7a8): `git checkout eccf7a8 -- public/invitational/img`.
+"""
 
 from __future__ import annotations
 

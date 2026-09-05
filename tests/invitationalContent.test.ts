@@ -1,9 +1,10 @@
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
 
-// Детали, которые не должны просачиваться на нейтральные страницы сайта
-// (сам турнирный лендинг теперь публичен и легитимно содержит дату и цены).
+// Турнир ID Golf Invitational прошёл 04.09.2026. Лендинг /invitational/ с формой заявки
+// удалён: сайт больше не собирает заявки на прошедшее событие. На сайте остаётся только
+// карточка с итогами в разделе «События».
 const STALE_TOURNAMENT_DETAILS = [
   'Нахабино',
   'Moscow Country Club',
@@ -18,57 +19,51 @@ function expectNoStaleDetails(content: string) {
   }
 }
 
-describe('public tournament section', () => {
-  let invitational = '';
-  let robots = '';
+describe('tournament section after the event', () => {
+  let htaccess = '';
+  let sitemap = '';
   let eventsPage = '';
   let rulesPage = '';
-  let sitemap = '';
   let postbuild = '';
+  let template = '';
 
   beforeAll(async () => {
-    [invitational, robots, eventsPage, rulesPage, sitemap, postbuild] = await Promise.all([
-      readFile(resolve(process.cwd(), 'public/invitational/index.html'), 'utf8'),
-      readFile(resolve(process.cwd(), 'public/robots.txt'), 'utf8'),
+    [htaccess, sitemap, eventsPage, rulesPage, postbuild, template] = await Promise.all([
+      readFile(resolve(process.cwd(), 'public/.htaccess'), 'utf8'),
+      readFile(resolve(process.cwd(), 'public/sitemap.xml'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/EventsPage.tsx'), 'utf8'),
       readFile(resolve(process.cwd(), 'src/pages/TournamentRulesPage.tsx'), 'utf8'),
-      readFile(resolve(process.cwd(), 'public/sitemap.xml'), 'utf8'),
       readFile(resolve(process.cwd(), 'scripts/postbuild.mjs'), 'utf8'),
+      readFile(resolve(process.cwd(), 'index.html'), 'utf8'),
     ]);
   });
 
-  it('serves the full public landing with current venue, schedule and tariffs', () => {
-    expect(invitational).toContain('Пестово');
-    expect(invitational).toContain('44 000 ₽');
-    expect(invitational).toContain('60 000 ₽');
-    expect(invitational).toContain('27 000 ₽');
-    // Финальная программа дня от 04.09.2026: сбор в 09:00, старты с 09:50.
-    expect(invitational).toContain('Оглашение регламента и старт');
-    expect(invitational).toContain('09:50');
-    expect(invitational).toContain('BOSCO');
-    expect(invitational).toContain('/api/lead.php');
-    expect(invitational).toContain('consent');
-    expect(invitational).not.toContain('noindex');
-    expectNoStaleDetails(invitational);
+  it('лендинг турнира удалён из публичной статики', async () => {
+    await expect(access(resolve(process.cwd(), 'public/invitational'))).rejects.toThrow();
   });
 
-  it('keeps rebranded and withdrawn names out of the landing', () => {
-    expect(invitational).not.toMatch(/tursunov|турсунов/i);
-    expect(invitational).not.toContain('клиник');
+  it('старые адреса турнира ведут в «События», а не в 404', () => {
+    expect(htaccess).toContain('RewriteRule ^invitational(/.*)?$ /events [R=301,L,NC]');
+    // Редирект должен стоять раньше правила «существующие файлы отдаём как есть»,
+    // иначе на сервере с оставшейся папкой он не сработает.
+    expect(htaccess.indexOf('^invitational')).toBeLessThan(htaccess.indexOf('%{REQUEST_FILENAME} -f'));
   });
 
-  it('opens the section for discovery', () => {
-    expect(robots).not.toContain('Disallow: /invitational/');
-    expect(sitemap).toContain('https://indoor-golf.ru/invitational/');
+  it('карта сайта больше не ведёт на лендинг и регламент', () => {
+    expect(sitemap).not.toContain('/invitational');
   });
 
-  it('показывает турнир в календаре как прошедшее событие', () => {
-    // После 04.09.2026 карточка не должна вести на лендинг: заявки закрыты вместе с турниром.
+  it('показывает турнир в календаре как прошедшее событие без ссылки на лендинг', () => {
     expect(eventsPage).toContain('Турнир завершён');
     expect(eventsPage).toContain('30 команд');
-    expect(eventsPage).not.toContain('to="/invitational/"');
+    expect(eventsPage).not.toContain('/invitational');
     expect(eventsPage).not.toContain('Открыта запись');
+    expect(eventsPage).toContain('src="/img/pestovo-course.jpg"');
     expectNoStaleDetails(eventsPage);
+  });
+
+  it('фото карточки турнира лежит вне удалённого раздела', async () => {
+    await expect(access(resolve(process.cwd(), 'public/img/pestovo-course.jpg'))).resolves.toBeUndefined();
   });
 
   it('preserves the corporate event enquiry on the events page', () => {
@@ -87,76 +82,7 @@ describe('public tournament section', () => {
     expectNoStaleDetails(postbuild);
   });
 
-  it('требует имя с фамилией, телефон и e-mail в заявке на турнир', () => {
-    // Стартовый лист собирается по фамилиям, а подтверждение уходит на почту:
-    // одного имени и телефона для этого мало.
-    expect(invitational).toContain('<label for="n">Имя и фамилия</label>');
-    expect(invitational).toContain('name="email"');
-    expect(invitational).toContain('function hasSurname(');
-    expect(invitational).toContain('function validEmail(');
-    expect(invitational).toContain('email:email');
-
-    for (const field of ['name="name"', 'name="phone"', 'name="email"']) {
-      const tag = invitational.slice(invitational.indexOf(field));
-      expect(tag.slice(0, tag.indexOf('>'))).toContain('required');
-    }
-  });
-
-  it('открывает регламент турнира публично — страницей и файлом', async () => {
-    // Регламент нужен участникам до оплаты: формат зачёта и расчёт гандикапа
-    // нельзя прятать в переписку.
-    expect(invitational).toContain('href="/invitational/reglament/"');
-
-    const reglament = await readFile(
-      resolve(process.cwd(), 'public', 'invitational', 'reglament', 'index.html'),
-      'utf8',
-    );
-    expect(reglament).toContain('два лучших результата из четырёх');
-    expect(reglament).toContain('Виктор Вадимович Мочалов');
-    expect(reglament).toContain('href="/invitational/reglament.pdf"');
-    expect(reglament).toContain('href="/invitational/#zayavka"');
-    expectNoStaleDetails(reglament);
-  });
-
-  it('ведёт на итоги турнира из шапки и hero, не обещая живую трансляцию', () => {
-    const live = 'https://live.indoor-golf.ru/t/id-golf-invitational-2026';
-    const count = invitational.split(`href="${live}"`).length - 1;
-    expect(count).toBeGreaterThanOrEqual(2);
-    expect(invitational).toContain('Результаты турнира');
-    expect(invitational).not.toContain('Лайвскоринг');
-    expect(invitational).not.toContain('Следить за счётом');
-  });
-
-  it('лендинг и регламент не расходятся по формату и времени', async () => {
-    // Участник читает обе страницы подряд: разные время сбора или формат старта
-    // означают, что кто-то приедет не к тому часу.
-    const reglament = await readFile(
-      resolve(process.cwd(), 'public', 'invitational', 'reglament', 'index.html'),
-      'utf8',
-    );
-
-    for (const page of [invitational, reglament]) {
-      expect(page).toContain('09:00');
-      expect(page).toContain('09:50');
-      expect(page).toContain('13:30');
-      expect(page).toContain('19:00');
-      expect(page).not.toContain('Shotgun');
-    }
-
-    // Стартовый лист доступен с обеих страниц.
-    for (const page of [invitational, reglament]) {
-      expect(page).toContain('/invitational/start-list.pdf');
-    }
-
-    // Ограничение поля снято регламентом — на лендинге его тоже быть не должно.
-    expect(invitational).not.toContain('двадцатью двумя');
-    expect(invitational).not.toContain('22 команды');
-  });
-
-  it('после турнира на сайте нет плашки живого счёта', async () => {
-    // Турнир завершён 2026-09-04: плавающий LIVE-бейдж из шаблона удалён,
-    // чтобы сайт не обещал трансляцию, которой нет.
-    const template = await readFile(resolve(process.cwd(), 'index.html'), 'utf8');
+  it('после турнира на сайте нет плашки живого счёта', () => {
     expect(template).not.toContain('ig-live-badge');
     expect(template).not.toContain('LIVE');
   });

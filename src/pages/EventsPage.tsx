@@ -32,7 +32,7 @@ export function EventsPage() {
                 alt="ID Golf Invitational"
                 loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover"
-                src="/invitational/img/pestovo-course.jpg"
+                src="/img/pestovo-course.jpg"
               />
               <span className="absolute left-4 top-4 bg-black/80 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white">
                 Турнир завершён
