@@ -62,15 +62,19 @@ describe('public tournament section', () => {
     expect(sitemap).toContain('https://indoor-golf.ru/invitational/');
   });
 
-  it('shows only a neutral update notice in the public events calendar', () => {
-    expect(eventsPage).toContain('Готовим обновлённый календарь');
+  it('показывает турнир в календаре как прошедшее событие', () => {
+    // После 04.09.2026 карточка не должна вести на лендинг: заявки закрыты вместе с турниром.
+    expect(eventsPage).toContain('Турнир завершён');
+    expect(eventsPage).toContain('30 команд');
+    expect(eventsPage).not.toContain('to="/invitational/"');
+    expect(eventsPage).not.toContain('Открыта запись');
     expectNoStaleDetails(eventsPage);
   });
 
   it('preserves the corporate event enquiry on the events page', () => {
     expect(eventsPage).toContain('Хотите провести своё мероприятие на нашей площадке');
     expect(eventsPage).toContain('to="/contacts#booking"');
-    expect(eventsPage).toContain('Обсудить мероприятие');
+    expect(eventsPage).toContain('Оставить заявку');
   });
 
   it('keeps tournament rules page as a noindex notice until the regulations are confirmed', () => {
