@@ -49,38 +49,5 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <!-- LIVE-БЕЙДЖ ТУРНИРА. Автономный блок вне #root: React его не перерисовывает,
-         поэтому бандл пересобирать не нужно. Убрать после турнира — удалить этот блок. -->
-    <style id="ig-live-badge-style">
-      #ig-live-badge{position:fixed;right:16px;bottom:16px;z-index:2147483000;
-        display:inline-flex;align-items:center;gap:10px;padding:13px 20px 13px 17px;border-radius:999px;
-        background:#0A0A0A;color:#fff;border:1.5px solid #E35B27;text-decoration:none;
-        font-family:Inter,-apple-system,"Helvetica Neue",Arial,sans-serif;font-weight:800;font-size:14px;
-        letter-spacing:.04em;line-height:1;box-shadow:0 10px 30px rgba(0,0,0,.35);
-        transition:transform .18s ease,background .18s ease}
-      #ig-live-badge:hover,#ig-live-badge:focus-visible{background:#141414;transform:translateY(-2px);outline:none}
-      #ig-live-badge .ig-dot{position:relative;display:block;width:9px;height:9px;border-radius:50%;background:#E35B27;flex:none}
-      #ig-live-badge .ig-dot::after{content:"";position:absolute;inset:-5px;border-radius:50%;
-        border:2px solid rgba(227,91,39,.85);animation:ig-live-pulse 1.8s ease-out infinite}
-      #ig-live-badge .ig-live{color:#F0713D;letter-spacing:.16em}
-      #ig-live-badge .ig-txt{font-weight:700;color:rgba(255,255,255,.92)}
-      @keyframes ig-live-pulse{0%{transform:scale(.65);opacity:1}100%{transform:scale(1.5);opacity:0}}
-      @media (max-width:560px){
-        #ig-live-badge{right:12px;bottom:12px;padding:12px 17px 12px 14px;font-size:13px;gap:8px}
-        #ig-live-badge .ig-txt{display:none}
-      }
-      @supports (padding:env(safe-area-inset-bottom)){
-        #ig-live-badge{bottom:calc(16px + env(safe-area-inset-bottom))}
-        @media (max-width:560px){#ig-live-badge{bottom:calc(12px + env(safe-area-inset-bottom))}}
-      }
-      @media (prefers-reduced-motion:reduce){#ig-live-badge .ig-dot::after{animation:none}}
-    </style>
-    <a id="ig-live-badge" href="https://live.indoor-golf.ru/t/id-golf-invitational-2026"
-       target="_blank" rel="noopener" aria-label="Живой счёт турнира ID Golf Invitational">
-      <span class="ig-dot" aria-hidden="true"></span>
-      <span class="ig-live">LIVE</span>
-      <span class="ig-txt">Счёт турнира</span>
-    </a>
-
   </body>
 </html>

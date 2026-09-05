@@ -118,11 +118,13 @@ describe('public tournament section', () => {
     expectNoStaleDetails(reglament);
   });
 
-  it('ведёт на лайвскоринг турнира из шапки и hero', () => {
+  it('ведёт на итоги турнира из шапки и hero, не обещая живую трансляцию', () => {
     const live = 'https://live.indoor-golf.ru/t/id-golf-invitational-2026';
     const count = invitational.split(`href="${live}"`).length - 1;
     expect(count).toBeGreaterThanOrEqual(2);
-    expect(invitational).toContain('Лайвскоринг');
+    expect(invitational).toContain('Результаты турнира');
+    expect(invitational).not.toContain('Лайвскоринг');
+    expect(invitational).not.toContain('Следить за счётом');
   });
 
   it('лендинг и регламент не расходятся по формату и времени', async () => {
@@ -151,11 +153,11 @@ describe('public tournament section', () => {
     expect(invitational).not.toContain('22 команды');
   });
 
-  it('держит кнопку живого счёта на всех страницах сайта', async () => {
-    // Кнопка живёт в шаблоне вне #root: React её не перерисовывает, поэтому
-    // после турнира достаточно удалить блок из index.html и пересобрать.
+  it('после турнира на сайте нет плашки живого счёта', async () => {
+    // Турнир завершён 2026-09-04: плавающий LIVE-бейдж из шаблона удалён,
+    // чтобы сайт не обещал трансляцию, которой нет.
     const template = await readFile(resolve(process.cwd(), 'index.html'), 'utf8');
-    expect(template).toContain('id="ig-live-badge"');
-    expect(template).toContain('https://live.indoor-golf.ru/t/id-golf-invitational-2026');
+    expect(template).not.toContain('ig-live-badge');
+    expect(template).not.toContain('LIVE');
   });
 });
