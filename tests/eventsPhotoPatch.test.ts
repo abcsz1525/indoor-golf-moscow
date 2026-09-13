@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import { access } from 'node:fs/promises';
 import { beforeAll, describe, expect, it } from 'vitest';
 import {
-  INVITATIONAL_2026_ALBUM_URL,
+  INVITATIONAL_2026_ALBUMS,
   INVITATIONAL_2026_COVER,
   INVITATIONAL_2026_PHOTOS,
 } from '../src/data/invitational2026Photos';
@@ -20,15 +20,18 @@ describe('production DOM patch for the tournament photo report', () => {
   });
 
   it('lists exactly the photos from the data module, in the same order', () => {
-    const inPatch = [...patch.matchAll(/^\s*\['(pi[12]-\d{4})',/gm)].map((m) => m[1]);
-    const inData = INVITATIONAL_2026_PHOTOS.map((p) => p.src.replace(/^.*\/(pi[12]-\d{4})\.webp$/, '$1'));
+    const inPatch = [...patch.matchAll(/^\s*\['((?:pi[12]|nv)-\d{4})',/gm)].map((m) => m[1]);
+    const inData = INVITATIONAL_2026_PHOTOS.map((p) => p.src.replace(/^.*\/((?:pi[12]|nv)-\d{4})\.webp$/, '$1'));
     expect(inPatch).toEqual(inData);
   });
 
-  it('uses the same cover and album link, no photographer credit', () => {
+  it('uses the same cover and both album links, no photographer credit', () => {
     const coverFile = INVITATIONAL_2026_COVER.src.replace(/^.*\/(pi[12]-\d{4})\.webp$/, '$1');
     expect(patch).toContain(`file: '${coverFile}'`);
-    expect(patch).toContain(INVITATIONAL_2026_ALBUM_URL);
+    for (const album of INVITATIONAL_2026_ALBUMS) {
+      expect(patch).toContain(album.url);
+      expect(patch).toContain(`'${album.label}'`);
+    }
     expect(patch).not.toMatch(/Фото:/);
     expect(patch).toContain("BASE = '/img/invitational-2026/'");
   });

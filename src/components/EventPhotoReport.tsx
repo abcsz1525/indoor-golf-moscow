@@ -1,25 +1,23 @@
 import { useId, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { Lightbox } from './Lightbox';
-import type { EventPhoto } from '../data/invitational2026Photos';
+import type { EventAlbum, EventPhoto } from '../data/invitational2026Photos';
 
 interface EventPhotoReportProps {
   photos: EventPhoto[];
-  albumUrl: string;
-  albumLabel: string;
+  albums: EventAlbum[];
   title?: string;
   description?: string;
 }
 
 /**
  * Фотоотчёт прошедшего события: сетка отобранных кадров с лайтбоксом,
- * и ссылка на полный архив. Переиспользуется для
+ * и ссылки на полные архивы фотографов. Переиспользуется для
  * следующих событий — данные приходят пропсами.
  */
 export function EventPhotoReport({
   photos,
-  albumUrl,
-  albumLabel,
+  albums,
   title = 'Как это было',
   description,
 }: EventPhotoReportProps) {
@@ -64,15 +62,18 @@ export function EventPhotoReport({
         ))}
       </ul>
 
-      <div className="mt-6 flex justify-end border-t border-line pt-5 text-sm">
-        <a
-          href={albumUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-11 items-center gap-1.5 font-medium text-brand-orange transition-colors hover:text-brand-orange-hover"
-        >
-          {albumLabel} <ArrowUpRight size={15} aria-hidden="true" />
-        </a>
+      <div className="mt-6 flex flex-wrap justify-end gap-x-8 gap-y-2 border-t border-line pt-5 text-sm">
+        {albums.map((album) => (
+          <a
+            key={album.url}
+            href={album.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center gap-1.5 font-medium text-brand-orange transition-colors hover:text-brand-orange-hover"
+          >
+            {album.label} <ArrowUpRight size={15} aria-hidden="true" />
+          </a>
+        ))}
       </div>
 
       {current !== null && (

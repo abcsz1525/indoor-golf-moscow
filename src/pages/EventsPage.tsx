@@ -4,7 +4,7 @@ import { Section } from '../components/Section';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { EventPhotoReport } from '../components/EventPhotoReport';
 import {
-  INVITATIONAL_2026_ALBUM_URL,
+  INVITATIONAL_2026_ALBUMS,
   INVITATIONAL_2026_COVER,
   INVITATIONAL_2026_PHOTOS,
 } from '../data/invitational2026Photos';
@@ -84,9 +84,8 @@ export function EventsPage() {
 
         <EventPhotoReport
           photos={INVITATIONAL_2026_PHOTOS}
-          albumUrl={INVITATIONAL_2026_ALBUM_URL}
-          albumLabel="Все фотографии турнира"
-          description="Шестнадцать кадров из турнирного дня: регистрация, поле «Пестово», команды, церемония награждения и вечер в клубном доме."
+          albums={INVITATIONAL_2026_ALBUMS}
+          description="Двадцать четыре кадра из турнирного дня: разминка, поле «Пестово», команды, церемония награждения и вечер в клубном доме. Полные архивы обоих фотографов — по ссылкам под сеткой."
         />
 
         <div className="mt-10 grid gap-5 border-t border-line pt-7 text-sm text-[var(--text-subtle)] md:grid-cols-[1fr_auto] md:items-center">

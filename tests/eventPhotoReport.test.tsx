@@ -3,11 +3,11 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { EventsPage } from '../src/pages/EventsPage';
-import { INVITATIONAL_2026_PHOTOS, INVITATIONAL_2026_ALBUM_URL } from '../src/data/invitational2026Photos';
+import { INVITATIONAL_2026_ALBUMS, INVITATIONAL_2026_PHOTOS } from '../src/data/invitational2026Photos';
 
 // Фотоотчёт с Pro-Am турнира 04.09.2026 живёт на странице «События» под карточкой
-// прошедшего события. Отобранные кадры хостятся на сайте (внешние галереи временные),
-// полный архив — по ссылке на Яндекс Диск.
+// прошедшего события. Микс двух фотографов, отобранные кадры хостятся на сайте (внешние
+// галереи временные), полные архивы — по двум ссылкам под сеткой.
 
 function renderEventsPage() {
   return render(
@@ -18,10 +18,12 @@ function renderEventsPage() {
 }
 
 describe('tournament photo report on the events page', () => {
-  it('has 16 curated photos with unique hosted files and alt texts', () => {
-    expect(INVITATIONAL_2026_PHOTOS).toHaveLength(16);
+  it('has 24 curated photos from both photographers with unique hosted files', () => {
+    expect(INVITATIONAL_2026_PHOTOS).toHaveLength(24);
+    expect(INVITATIONAL_2026_PHOTOS.filter((p) => p.src.includes('/nv-')).length).toBeGreaterThanOrEqual(8);
+    expect(INVITATIONAL_2026_PHOTOS.filter((p) => p.src.includes('/pi')).length).toBeGreaterThanOrEqual(8);
     const files = new Set(INVITATIONAL_2026_PHOTOS.map((photo) => photo.src));
-    expect(files.size).toBe(16);
+    expect(files.size).toBe(24);
     for (const photo of INVITATIONAL_2026_PHOTOS) {
       expect(photo.src).toMatch(/^\/img\/invitational-2026\/[a-z0-9-]+\.webp$/);
       expect(photo.thumb).toMatch(/^\/img\/invitational-2026\/[a-z0-9-]+-thumb\.webp$/);
@@ -35,18 +37,21 @@ describe('tournament photo report on the events page', () => {
     renderEventsPage();
     const report = screen.getByRole('region', { name: /фотоотчёт/i });
     const buttons = within(report).getAllByRole('button', { name: /открыть фото/i });
-    expect(buttons).toHaveLength(16);
-    expect(within(report).getAllByRole('img')).toHaveLength(16);
+    expect(buttons).toHaveLength(24);
+    expect(within(report).getAllByRole('img')).toHaveLength(24);
   });
 
-  it('links to the full archive without a photographer credit', () => {
+  it('links to both photo archives without a photographer credit', () => {
     renderEventsPage();
     const report = screen.getByRole('region', { name: /фотоотчёт/i });
     expect(within(report).queryByText(/фото:/i)).not.toBeInTheDocument();
-    const link = within(report).getByRole('link', { name: /все фотографии/i });
-    expect(link).toHaveAttribute('href', INVITATIONAL_2026_ALBUM_URL);
-    expect(link).toHaveAttribute('target', '_blank');
-    expect(link.getAttribute('rel')).toContain('noopener');
+    expect(INVITATIONAL_2026_ALBUMS).toHaveLength(2);
+    for (const album of INVITATIONAL_2026_ALBUMS) {
+      const link = within(report).getByRole('link', { name: new RegExp(album.label) });
+      expect(link).toHaveAttribute('href', album.url);
+      expect(link).toHaveAttribute('target', '_blank');
+      expect(link.getAttribute('rel')).toContain('noopener');
+    }
   });
 
   it('opens a lightbox on click, navigates with arrows and closes with Escape', async () => {
@@ -58,7 +63,7 @@ describe('tournament photo report on the events page', () => {
     await user.click(within(report).getAllByRole('button', { name: /открыть фото/i })[0]);
     const dialog = screen.getByRole('dialog');
     expect(within(dialog).getByRole('img')).toHaveAttribute('src', INVITATIONAL_2026_PHOTOS[0].src);
-    expect(within(dialog).getByText(/1\/16/)).toBeInTheDocument();
+    expect(within(dialog).getByText(/1\/24/)).toBeInTheDocument();
 
     await user.keyboard('{ArrowRight}');
     expect(within(screen.getByRole('dialog')).getByRole('img')).toHaveAttribute(
