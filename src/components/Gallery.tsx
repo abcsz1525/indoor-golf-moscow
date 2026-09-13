@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { useState } from 'react';
 import { Section } from './Section';
+import { Lightbox } from './Lightbox';
 
 import img1 from '../assets/gallery/1.webp';
 import img6 from '../assets/gallery/6.webp';
@@ -30,33 +30,6 @@ const IMAGES = [
 
 export function Gallery({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   const [current, setCurrent] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (current === null) return;
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setCurrent(null);
-      if (event.key === 'ArrowRight') setCurrent((current + 1) % IMAGES.length);
-      if (event.key === 'ArrowLeft') setCurrent((current - 1 + IMAGES.length) % IMAGES.length);
-    };
-
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', onKeyDown);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', onKeyDown);
-    };
-  }, [current]);
-
-  const openPrevious = () => {
-    if (current === null) return;
-    setCurrent((current - 1 + IMAGES.length) % IMAGES.length);
-  };
-
-  const openNext = () => {
-    if (current === null) return;
-    setCurrent((current + 1) % IMAGES.length);
-  };
 
   return (
     <Section id="gallery" eyebrow="Галерея" title="Пространство и люди" headingLevel={headingLevel}>
@@ -108,55 +81,7 @@ export function Gallery({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
       </div>
 
       {current !== null && (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 md:p-8"
-          role="dialog"
-          aria-modal="true"
-          aria-label={`Фото ${current + 1} из ${IMAGES.length}`}
-          onMouseDown={(event) => {
-            if (event.currentTarget === event.target) setCurrent(null);
-          }}
-        >
-          <button
-            type="button"
-            onClick={() => setCurrent(null)}
-            className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center border border-white/30 text-white transition-colors hover:border-white md:right-8 md:top-8"
-            aria-label="Закрыть галерею"
-          >
-            <X size={22} />
-          </button>
-
-          <button
-            type="button"
-            onClick={openPrevious}
-            className="absolute left-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-white/30 text-white transition-colors hover:border-white md:left-8"
-            aria-label="Предыдущее фото"
-          >
-            <ChevronLeft size={24} />
-          </button>
-
-          <figure className="flex max-h-full max-w-[min(88rem,calc(100vw-7rem))] flex-col items-center gap-4">
-            <img
-              src={IMAGES[current].src}
-              alt={IMAGES[current].alt}
-              width={IMAGES[current].width}
-              height={IMAGES[current].height}
-              className="block max-h-[calc(100dvh-7rem)] max-w-full object-contain"
-            />
-            <figcaption className="text-center text-sm text-white/70">
-              {IMAGES[current].alt} · {current + 1}/{IMAGES.length}
-            </figcaption>
-          </figure>
-
-          <button
-            type="button"
-            onClick={openNext}
-            className="absolute right-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-white/30 text-white transition-colors hover:border-white md:right-8"
-            aria-label="Следующее фото"
-          >
-            <ChevronRight size={24} />
-          </button>
-        </div>
+        <Lightbox images={IMAGES} current={current} onChange={setCurrent} onClose={() => setCurrent(null)} />
       )}
     </Section>
   );

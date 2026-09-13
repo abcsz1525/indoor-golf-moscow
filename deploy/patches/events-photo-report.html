@@ -1,0 +1,168 @@
+
+    <!-- ПАТЧ «ФОТООТЧЁТ ТУРНИРА» (сентябрь 2026). На бою лежит сборка от 20.08 (граф -IDG9),
+         пересобирать её нельзя, поэтому блок добавляется в DOM. Вставляется в events.html
+         ПЕРЕД </body>, после патча #ig-events-archive. Картинки: /img/invitational-2026/.
+         В репозитории тот же блок сделан по-настоящему: src/components/EventPhotoReport.tsx
+         и src/data/invitational2026Photos.ts — при следующей полной сборке патч убрать. -->
+    <style id="ig-photo-report-css">
+      #ig-photo-report{margin-top:3.5rem}
+      @media (min-width:768px){#ig-photo-report{margin-top:5rem}}
+      #ig-photo-report .ig-pr-head{margin-bottom:2rem}
+      #ig-photo-report .ig-pr-title{margin:0;font-size:1.875rem;line-height:1;text-transform:uppercase;letter-spacing:.025em;color:var(--text-primary)}
+      @media (min-width:768px){#ig-photo-report .ig-pr-title{font-size:2.25rem}}
+      #ig-photo-report .ig-pr-desc{margin:1rem 0 0;max-width:42rem;font-size:.875rem;color:var(--text-muted)}
+      @media (min-width:768px){#ig-photo-report .ig-pr-desc{font-size:1rem}}
+      #ig-photo-report .ig-pr-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}
+      @media (min-width:640px){#ig-photo-report .ig-pr-grid{gap:.75rem}}
+      @media (min-width:1024px){#ig-photo-report .ig-pr-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}}
+      #ig-photo-report .ig-pr-tile{display:block;width:100%;padding:0;margin:0;border:1px solid var(--line);background:var(--bg-card);cursor:pointer;overflow:hidden}
+      #ig-photo-report .ig-pr-tile:focus-visible{outline:2px solid var(--ig-orange);outline-offset:4px}
+      #ig-photo-report .ig-pr-tile img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;transition:transform .5s}
+      #ig-photo-report .ig-pr-tile:hover img{transform:scale(1.03)}
+      #ig-photo-report .ig-pr-foot{margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--line);display:flex;justify-content:flex-end;font-size:.875rem}
+      #ig-photo-report .ig-pr-link{display:inline-flex;min-height:2.75rem;align-items:center;gap:.375rem;font-weight:500;color:var(--ig-orange);text-decoration:none}
+      #ig-photo-report .ig-pr-link:hover{opacity:.85}
+      #ig-pr-lightbox{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.9);padding:1rem}
+      @media (min-width:768px){#ig-pr-lightbox{padding:2rem}}
+      #ig-pr-lightbox figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:1rem;max-height:100%;max-width:min(88rem,calc(100vw - 7rem))}
+      #ig-pr-lightbox img{display:block;max-width:100%;max-height:calc(100dvh - 7rem);object-fit:contain}
+      #ig-pr-lightbox figcaption{text-align:center;font-size:.875rem;color:rgba(255,255,255,.7)}
+      #ig-pr-lightbox button{position:absolute;display:flex;align-items:center;justify-content:center;width:2.75rem;height:2.75rem;padding:0;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;cursor:pointer;transition:border-color .2s}
+      #ig-pr-lightbox button:hover{border-color:#fff}
+      #ig-pr-lightbox .ig-pr-close{right:1rem;top:1rem}
+      #ig-pr-lightbox .ig-pr-prev{left:.75rem;top:50%;transform:translateY(-50%)}
+      #ig-pr-lightbox .ig-pr-next{right:.75rem;top:50%;transform:translateY(-50%)}
+      @media (min-width:768px){#ig-pr-lightbox .ig-pr-close{right:2rem;top:2rem}#ig-pr-lightbox .ig-pr-prev{left:2rem}#ig-pr-lightbox .ig-pr-next{right:2rem}}
+    </style>
+    <script id="ig-photo-report-js">
+    (function () {
+      var BASE = '/img/invitational-2026/';
+      var ALBUM_URL = 'https://disk.yandex.ru/d/GsO574EGL1z4uQ';
+      var COVER = { file: 'pi2-0529', alt: 'Победители турнира ID Golf Invitational 2026 с призами «Матрёшка» от ЦЕНТРСВЕТ', w: 1600, h: 960 };
+      var PHOTOS = [
+        ['pi1-5434', 'Скоркарта ID Golf Invitational 2026 и карта гостя турнира', 1600, 1067],
+        ['pi1-5457', 'Регистрация участников в клубном доме «Пестово»', 1600, 1067],
+        ['pi1-9852', 'Клубный дом гольф- и яхт-клуба «Пестово» на закате', 1600, 1067],
+        ['pi1-5634', 'Удар с ти у клубного дома', 1600, 1067],
+        ['pi1-5864', 'Свинг драйвером на первой лунке', 1600, 1067],
+        ['pi1-7570', 'Выход из бункера', 1600, 1067],
+        ['pi1-5986', 'Команды идут по фервею вдоль озера', 1600, 1067],
+        ['pi1-5876', 'Команда в оранжевой форме перед стартом', 1600, 1067],
+        ['pi1-7656', 'Команда Pro-Am у озера: профессионал и три любителя', 1600, 1143],
+        ['pi1-6959', 'Эмоции после удачного удара', 958, 1600],
+        ['pi1-8564', 'Хай-файв на фервее после удачного патта', 1600, 1067],
+        ['pi1-6093', 'Команда у лунки партнёра турнира Wintecare — BonaFide Medicine', 1600, 1067],
+        ['pi2-0409', 'Церемония награждения: приветствие участников', 1600, 1069],
+        ['pi2-0529', COVER.alt, 1600, 960],
+        ['pi2-0569', 'Награждение команд-призёров турнира', 1600, 1135],
+        ['pi2-0628', 'Вечер после турнира в клубном доме', 1460, 1600]
+      ];
+
+      var ICON_ARROW = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>';
+      var ICON_X = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+      var ICON_L = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>';
+      var ICON_R = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>';
+
+      function el(tag, attrs, children) {
+        var node = document.createElement(tag);
+        Object.keys(attrs || {}).forEach(function (k) {
+          if (k === 'text') node.textContent = attrs[k];
+          else if (k === 'html') node.innerHTML = attrs[k];
+          else node.setAttribute(k, attrs[k]);
+        });
+        (children || []).forEach(function (c) { node.appendChild(c); });
+        return node;
+      }
+
+      // ---------- лайтбокс ----------
+      var current = null, box = null, imgEl = null, capEl = null;
+      function show(i) {
+        current = (i + PHOTOS.length) % PHOTOS.length;
+        var p = PHOTOS[current];
+        imgEl.src = BASE + p[0] + '.webp'; imgEl.alt = p[1]; imgEl.width = p[2]; imgEl.height = p[3];
+        capEl.textContent = p[1] + ' · ' + (current + 1) + '/' + PHOTOS.length;
+        box.setAttribute('aria-label', 'Фото ' + (current + 1) + ' из ' + PHOTOS.length);
+      }
+      function onKey(e) {
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowRight') show(current + 1);
+        if (e.key === 'ArrowLeft') show(current - 1);
+      }
+      function open(i) {
+        if (box) return show(i);
+        imgEl = el('img'); capEl = el('figcaption');
+        box = el('div', { id: 'ig-pr-lightbox', role: 'dialog', 'aria-modal': 'true' }, [
+          el('button', { type: 'button', 'class': 'ig-pr-close', 'aria-label': 'Закрыть фотоотчёт', html: ICON_X }),
+          el('button', { type: 'button', 'class': 'ig-pr-prev', 'aria-label': 'Предыдущее фото', html: ICON_L }),
+          el('figure', {}, [imgEl, capEl]),
+          el('button', { type: 'button', 'class': 'ig-pr-next', 'aria-label': 'Следующее фото', html: ICON_R })
+        ]);
+        box.querySelector('.ig-pr-close').onclick = close;
+        box.querySelector('.ig-pr-prev').onclick = function () { show(current - 1); };
+        box.querySelector('.ig-pr-next').onclick = function () { show(current + 1); };
+        box.addEventListener('mousedown', function (e) { if (e.target === box) close(); });
+        document.body.appendChild(box);
+        document.body.style.overflow = 'hidden';
+        window.addEventListener('keydown', onKey);
+        show(i);
+      }
+      function close() {
+        if (!box) return;
+        box.remove(); box = null;
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', onKey);
+      }
+
+      // ---------- блок фотоотчёта ----------
+      function build() {
+        var tiles = PHOTOS.map(function (p, i) {
+          var btn = el('button', {
+            type: 'button', 'class': 'ig-pr-tile', 'aria-haspopup': 'dialog',
+            'aria-label': 'Открыть фото ' + (i + 1) + ': ' + p[1]
+          }, [el('img', { src: BASE + p[0] + '-thumb.webp', alt: p[1], width: p[2], height: p[3], loading: i < 4 ? 'eager' : 'lazy', decoding: 'async' })]);
+          btn.onclick = function () { open(i); };
+          return el('li', {}, [btn]);
+        });
+        var section = el('section', { id: 'ig-photo-report', 'aria-labelledby': 'ig-pr-eyebrow ig-pr-title' }, [
+          el('div', { 'class': 'ig-pr-head' }, [
+            el('div', { id: 'ig-pr-eyebrow', 'class': 'eyebrow', style: 'margin-bottom:.75rem;color:var(--ig-orange)', text: 'Фотоотчёт' }),
+            el('h3', { id: 'ig-pr-title', 'class': 'font-display ig-pr-title', text: 'Как это было' }),
+            el('p', { 'class': 'ig-pr-desc', text: 'Шестнадцать кадров из турнирного дня: регистрация, поле «Пестово», команды, церемония награждения и вечер в клубном доме.' })
+          ]),
+          el('ul', { 'class': 'ig-pr-grid', 'aria-label': 'Фотографии события' }, tiles),
+          el('div', { 'class': 'ig-pr-foot' }, [
+            el('a', { 'class': 'ig-pr-link', href: ALBUM_URL, target: '_blank', rel: 'noopener noreferrer', html: 'Все фотографии турнира ' + ICON_ARROW })
+          ])
+        ]);
+        // Оранжевый берём у сайта, чтобы не расходиться с темой.
+        var sample = document.querySelector('.text-brand-orange');
+        var orange = sample ? getComputedStyle(sample).color : '#e35b27';
+        section.style.setProperty('--ig-orange', orange);
+        return section;
+      }
+
+      function patch() {
+        // Секция получает id ig-photo-report; у самого скрипта id другой, иначе проверка сработала бы на нём.
+        if (document.getElementById('ig-photo-report')) return;
+        // Карточка турнира: после патча #ig-events-archive это div[data-ig-archived], до него — ссылка.
+        var card = document.querySelector('[data-ig-archived="1"], a[href="/invitational/"]');
+        if (!card) return;
+        var wrap = card.parentNode;              // div.flex.flex-col.gap-6
+        if (!wrap || !wrap.parentNode) return;
+        // Обложка карточки — живой кадр с награждения вместо стокового поля.
+        var cover = card.querySelector('img');
+        if (cover && cover.src.indexOf(BASE) === -1) {
+          cover.src = BASE + COVER.file + '.webp'; cover.alt = COVER.alt;
+          cover.width = COVER.w; cover.height = COVER.h;
+        }
+        wrap.parentNode.insertBefore(build(), wrap.nextSibling);
+      }
+
+      function boot() {
+        patch();
+        new MutationObserver(patch).observe(document.body, { childList: true, subtree: true });
+      }
+      if (document.readyState === 'loading') addEventListener('DOMContentLoaded', boot);
+      else boot();
+    })();
+    </script>

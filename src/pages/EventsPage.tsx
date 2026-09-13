@@ -2,11 +2,17 @@ import { ArrowRight, CalendarDays, MapPin, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Section } from '../components/Section';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { EventPhotoReport } from '../components/EventPhotoReport';
+import {
+  INVITATIONAL_2026_ALBUM_URL,
+  INVITATIONAL_2026_COVER,
+  INVITATIONAL_2026_PHOTOS,
+} from '../data/invitational2026Photos';
 
 export function EventsPage() {
   usePageMeta(
     'События Indoor Golf Moscow — календарь клуба',
-    'Первый Pro-Am турнир ID Golf Invitational прошёл 4 сентября 2026 в гольф- и яхт-клубе «Пестово». Даты следующего сезона объявим здесь.',
+    'Первый Pro-Am турнир ID Golf Invitational прошёл 4 сентября 2026 в гольф- и яхт-клубе «Пестово»: фотоотчёт, итоги и ссылка на полный архив. Даты следующего сезона объявим здесь.',
   );
 
   return (
@@ -29,10 +35,11 @@ export function EventsPage() {
           <div className="grid grid-cols-1 overflow-hidden border border-line bg-bg-card md:grid-cols-[minmax(0,42%)_1fr]">
             <div className="relative aspect-[16/10] overflow-hidden md:aspect-auto md:min-h-[300px]">
               <img
-                alt="ID Golf Invitational"
-                loading="lazy"
+                alt={INVITATIONAL_2026_COVER.alt}
+                width={INVITATIONAL_2026_COVER.width}
+                height={INVITATIONAL_2026_COVER.height}
                 className="absolute inset-0 h-full w-full object-cover"
-                src="/img/pestovo-course.jpg"
+                src={INVITATIONAL_2026_COVER.src}
               />
               <span className="absolute left-4 top-4 bg-black/80 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white">
                 Турнир завершён
@@ -74,6 +81,13 @@ export function EventsPage() {
             </div>
           </div>
         </div>
+
+        <EventPhotoReport
+          photos={INVITATIONAL_2026_PHOTOS}
+          albumUrl={INVITATIONAL_2026_ALBUM_URL}
+          albumLabel="Все фотографии турнира"
+          description="Шестнадцать кадров из турнирного дня: регистрация, поле «Пестово», команды, церемония награждения и вечер в клубном доме."
+        />
 
         <div className="mt-10 grid gap-5 border-t border-line pt-7 text-sm text-[var(--text-subtle)] md:grid-cols-[1fr_auto] md:items-center">
           <p className="max-w-3xl leading-relaxed">

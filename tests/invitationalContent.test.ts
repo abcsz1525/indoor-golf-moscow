@@ -56,9 +56,12 @@ describe('tournament section after the event', () => {
   it('показывает турнир в календаре как прошедшее событие без ссылки на лендинг', () => {
     expect(eventsPage).toContain('Турнир завершён');
     expect(eventsPage).toContain('30 команд');
-    expect(eventsPage).not.toContain('/invitational');
+    // Ссылок на закрытый лендинг нет (импорт данных фотоотчёта из ../data/invitational… не в счёт).
+    expect(eventsPage).not.toMatch(/["'`]\/invitational/);
     expect(eventsPage).not.toContain('Открыта запись');
-    expect(eventsPage).toContain('src="/img/pestovo-course.jpg"');
+    expect(eventsPage).not.toContain('/img/pestovo-course.jpg');
+    expect(eventsPage).toContain('INVITATIONAL_2026_COVER');
+    expect(eventsPage).toContain('<EventPhotoReport');
     expectNoStaleDetails(eventsPage);
   });
 
