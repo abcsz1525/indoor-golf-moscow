@@ -19,7 +19,7 @@ PATCH = HERE / 'metrika.html'
 MARKER = 'id="ig-metrika"'
 
 
-def main(counter_id: str, targets: list[str]) -> int:
+def main(counter_id, targets):
     if not counter_id.isdigit():
         print(f'номер счётчика должен быть числом, получено: {counter_id}', file=sys.stderr)
         return 2

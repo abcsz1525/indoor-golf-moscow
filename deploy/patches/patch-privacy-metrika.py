@@ -28,7 +28,7 @@ NEW = ('Сайт использует Яндекс Метрику — серви
        'Сторонняя карта не загружается до отдельного действия посетителя.')
 
 
-def main(target: str) -> int:
+def main(target):
     p = Path(target)
     s = p.read_text(encoding='utf-8')
     if NEW in s:
