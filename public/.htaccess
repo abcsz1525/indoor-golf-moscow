@@ -18,6 +18,9 @@ SetEnvIf Authorization "(.+)" HTTP_AUTHORIZATION=$1
   # Старые адреса ведём в раздел «События», где лежит карточка с итогами.
   RewriteRule ^invitational(/.*)?$ /events [R=301,L,NC]
 
+  # Одна ссылка на все посты в Threads: indoor-golf.ru/threads
+  RewriteRule ^threads/?$ /?utm_source=threads&utm_medium=social&utm_campaign=founder [R=302,L,NE]
+
   # Короткие ссылки для соцсетей: indoor-golf.ru/t/<метка> ведёт на сайт с UTM-метками.
   # Нужны потому, что Threads и Instagram открывают ссылки во встроенном браузере
   # и теряют источник перехода: метка в адресе — единственный надёжный признак.
