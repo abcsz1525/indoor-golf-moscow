@@ -1,0 +1,85 @@
+
+    <!-- ЯНДЕКС.МЕТРИКА (сентябрь 2026). Ставится DOM-патчем во все *.html на сервере,
+         потому что боевой бандл (граф -IDG9) пересобирать нельзя. В репозитории тот же
+         счётчик нужно будет внести в index.html при следующей полной сборке.
+         Требует разрешения mc.yandex.ru в Content-Security-Policy (.htaccess).
+         Номер счётчика подставляет deploy/patches/insert-metrika.py. -->
+    <script id="ig-metrika">
+    (function () {
+      var ID = __METRIKA_ID__;
+
+      // ---------- стандартный счётчик ----------
+      (function (m, e, t, r, i, k, a) {
+        m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
+        m[i].l = 1 * new Date();
+        for (var j = 0; j < e.scripts.length; j++) { if (e.scripts[j].src === r) { return; } }
+        k = e.createElement(t); a = e.getElementsByTagName(t)[0];
+        k.async = 1; k.src = r; a.parentNode.insertBefore(k, a);
+      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+      ym(ID, 'init', {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true
+      });
+
+      // ---------- переходы внутри сайта ----------
+      // Сайт на React Router: адрес меняется без перезагрузки страницы, и без этого
+      // блока Метрика засчитала бы один просмотр за весь визит.
+      var last = location.href;
+      function hit() {
+        if (location.href === last) return;
+        var from = last; last = location.href;
+        ym(ID, 'hit', location.href, { referer: from, title: document.title });
+      }
+      ['pushState', 'replaceState'].forEach(function (name) {
+        var orig = history[name];
+        history[name] = function () {
+          var out = orig.apply(this, arguments);
+          setTimeout(hit, 0);
+          return out;
+        };
+      });
+      addEventListener('popstate', function () { setTimeout(hit, 0); });
+
+      // ---------- цель «оставил заявку» ----------
+      // Форма отправляется из бандла через fetch на /api/lead.php. Оборачиваем fetch,
+      // чтобы засчитать цель только при успешном ответе сервера.
+      var origFetch = window.fetch;
+      if (typeof origFetch === 'function') {
+        window.fetch = function (input, init) {
+          var url = '';
+          try { url = typeof input === 'string' ? input : (input && input.url) || ''; } catch (e) {}
+          var promise = origFetch.apply(this, arguments);
+          if (url.indexOf('/api/lead.php') !== -1) {
+            promise.then(function (res) {
+              if (res && res.ok) ym(ID, 'reachGoal', 'lead');
+            }).catch(function () {});
+          }
+          return promise;
+        };
+      }
+
+      // ---------- цель «открыл окно записи» ----------
+      // Модалка YClients появляется в DOM как iframe на их домен.
+      var booked = false;
+      new MutationObserver(function (records) {
+        if (booked) return;
+        for (var i = 0; i < records.length; i++) {
+          var added = records[i].addedNodes;
+          for (var j = 0; j < added.length; j++) {
+            var node = added[j];
+            if (!node || node.nodeType !== 1) continue;
+            var frame = node.tagName === 'IFRAME' ? node : (node.querySelector && node.querySelector('iframe'));
+            if (frame && /yclients/i.test(frame.src || '')) {
+              booked = true;
+              ym(ID, 'reachGoal', 'booking_open');
+              return;
+            }
+          }
+        }
+      }).observe(document.documentElement, { childList: true, subtree: true });
+    })();
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/__METRIKA_ID__" style="position:absolute;left:-9999px" alt="" /></div></noscript>
